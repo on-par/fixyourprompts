@@ -78,7 +78,7 @@ export function validatePromptInput(prompt: string): ValidationResult {
  * ```
  */
 export function validatePromptLength(prompt: string, minLength: number, maxLength: number): boolean {
-  if (typeof prompt !== 'string') return false;
+  if (typeof prompt !== 'string') {return false;}
   const length = prompt.trim().length;
   return length >= minLength && length <= maxLength;
 }
@@ -94,7 +94,7 @@ export function validatePromptLength(prompt: string, minLength: number, maxLengt
  * ```
  */
 export function validateUUID(id: string): boolean {
-  if (typeof id !== 'string') return false;
+  if (typeof id !== 'string') {return false;}
   return UUID_V4_REGEX.test(id);
 }
 
@@ -109,7 +109,7 @@ export function validateUUID(id: string): boolean {
  * ```
  */
 export function validateRelevanceScore(score: number): boolean {
-  if (typeof score !== 'number' || isNaN(score)) return false;
+  if (typeof score !== 'number' || isNaN(score)) {return false;}
   return score >= MIN_RELEVANCE_SCORE && score <= MAX_RELEVANCE_SCORE;
 }
 
@@ -126,28 +126,28 @@ export function validateRelevanceScore(score: number): boolean {
  * ```
  */
 export function validateSession(session: unknown): session is PromptRefinementSession {
-  if (!session || typeof session !== 'object') return false;
+  if (!session || typeof session !== 'object') {return false;}
   
   const s = session as any;
 
   // Validate required string fields
-  if (!validateUUID(s.id)) return false;
-  if (typeof s.originalPrompt !== 'string') return false;
-  if (!validatePromptInput(s.originalPrompt).valid) return false;
+  if (!validateUUID(s.id)) {return false;}
+  if (typeof s.originalPrompt !== 'string') {return false;}
+  if (!validatePromptInput(s.originalPrompt).valid) {return false;}
   
   // Validate refinedPrompt (can be null or string)
-  if (s.refinedPrompt !== null && typeof s.refinedPrompt !== 'string') return false;
+  if (s.refinedPrompt !== null && typeof s.refinedPrompt !== 'string') {return false;}
   
   // Validate createdAt as Date
-  if (!(s.createdAt instanceof Date) && !isValidDateString(s.createdAt)) return false;
+  if (!(s.createdAt instanceof Date) && !isValidDateString(s.createdAt)) {return false;}
   
   // Validate status
-  if (!isValidRefinementStatus(s.status)) return false;
+  if (!isValidRefinementStatus(s.status)) {return false;}
   
   // Validate arrays
-  if (!Array.isArray(s.analysisResults) || !s.analysisResults.every(isPromptAnalysis)) return false;
-  if (!Array.isArray(s.improvements) || !s.improvements.every(isPromptImprovement)) return false;
-  if (!Array.isArray(s.educationTips) || !s.educationTips.every(isEducationTip)) return false;
+  if (!Array.isArray(s.analysisResults) || !s.analysisResults.every(isPromptAnalysis)) {return false;}
+  if (!Array.isArray(s.improvements) || !s.improvements.every(isPromptImprovement)) {return false;}
+  if (!Array.isArray(s.educationTips) || !s.educationTips.every(isEducationTip)) {return false;}
 
   return true;
 }
@@ -160,7 +160,7 @@ export function validateSession(session: unknown): session is PromptRefinementSe
  * @returns true if value is PromptAnalysis, false otherwise
  */
 export function isPromptAnalysis(value: unknown): value is PromptAnalysis {
-  if (!value || typeof value !== 'object') return false;
+  if (!value || typeof value !== 'object') {return false;}
   
   const analysis = value as any;
   
@@ -181,7 +181,7 @@ export function isPromptAnalysis(value: unknown): value is PromptAnalysis {
  * @returns true if value is PromptImprovement, false otherwise
  */
 export function isPromptImprovement(value: unknown): value is PromptImprovement {
-  if (!value || typeof value !== 'object') return false;
+  if (!value || typeof value !== 'object') {return false;}
   
   const improvement = value as any;
   
@@ -201,7 +201,7 @@ export function isPromptImprovement(value: unknown): value is PromptImprovement 
  * @returns true if value is EducationTip, false otherwise
  */
 export function isEducationTip(value: unknown): value is EducationTip {
-  if (!value || typeof value !== 'object') return false;
+  if (!value || typeof value !== 'object') {return false;}
   
   const tip = value as any;
   
@@ -243,7 +243,7 @@ function isValidSeverity(value: unknown): value is 'low' | 'medium' | 'high' {
 }
 
 function isValidPosition(value: unknown): value is { start: number; end: number } {
-  if (!value || typeof value !== 'object') return false;
+  if (!value || typeof value !== 'object') {return false;}
   const pos = value as any;
   return typeof pos.start === 'number' && 
          typeof pos.end === 'number' && 
@@ -252,7 +252,7 @@ function isValidPosition(value: unknown): value is { start: number; end: number 
 }
 
 function isValidDateString(value: unknown): boolean {
-  if (typeof value !== 'string') return false;
+  if (typeof value !== 'string') {return false;}
   const date = new Date(value);
   return !isNaN(date.getTime());
 }

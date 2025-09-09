@@ -635,7 +635,7 @@ describe('Complete Refinement Workflow Integration Tests', () => {
       
       await expect(async () => {
         // Start workflow
-        let session = await orchestrator.executeCompleteWorkflow(inputPrompt);
+        const session = await orchestrator.executeCompleteWorkflow(inputPrompt);
         
         // Simulate system interruption by creating incomplete session
         const incompleteSession: PromptRefinementSession = {

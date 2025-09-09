@@ -43,12 +43,12 @@ Based on TypeScript + React + Vite + Vitest + Playwright architecture:
 - [x] T019 [P] Integration test for complete refinement workflow in frontend/tests/integration/refinement-workflow.test.ts
 - [x] T020 [P] E2E test for user prompt refinement journey in frontend/tests/e2e/prompt-refinement.spec.ts
 
-## Phase 3.4: Core Services Implementation (ONLY after tests are failing)
-- [ ] T021 [P] PromptAnalyzer service implementation in frontend/src/services/PromptAnalyzer.ts
-- [ ] T022 [P] PromptRefiner service implementation in frontend/src/services/PromptRefiner.ts
-- [ ] T023 [P] EducationContent service implementation in frontend/src/services/EducationContent.ts
-- [ ] T024 [P] Local storage utilities in frontend/src/utils/storage.ts
-- [ ] T025 [P] Session management utilities in frontend/src/utils/sessionManager.ts
+## Phase 3.4: Core Services Implementation (ONLY after tests are failing) ✅
+- [x] T021 [P] PromptAnalyzer service implementation in frontend/src/services/PromptAnalyzer.ts
+- [x] T022 [P] PromptRefiner service implementation in frontend/src/services/PromptRefiner.ts
+- [x] T023 [P] EducationContent service implementation in frontend/src/services/EducationContent.ts
+- [x] T024 [P] Local storage utilities in frontend/src/utils/storage.ts
+- [x] T025 [P] Session management utilities in frontend/src/utils/sessionManager.ts
 
 ## Phase 3.5: React Components (ONLY after services tests pass)
 - [ ] T026 [P] PromptInput component in frontend/src/components/PromptInput/PromptInput.tsx

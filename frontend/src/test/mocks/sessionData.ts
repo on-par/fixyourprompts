@@ -194,8 +194,8 @@ export const mockSessionScenarios = {
    * Session with long prompts (performance testing)
    */
   longPrompts: (): PromptRefinementSession => {
-    const longOriginal = 'Write a detailed analysis of ' + 'machine learning algorithms '.repeat(100);
-    const longRefined = 'Write a comprehensive, structured analysis of ' + 'modern machine learning algorithms including their applications, limitations, and future potential. '.repeat(50);
+    const longOriginal = `Write a detailed analysis of ${  'machine learning algorithms '.repeat(100)}`;
+    const longRefined = `Write a comprehensive, structured analysis of ${  'modern machine learning algorithms including their applications, limitations, and future potential. '.repeat(50)}`;
     
     return createMockSession({
       originalPrompt: longOriginal,

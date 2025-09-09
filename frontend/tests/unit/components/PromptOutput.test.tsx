@@ -409,7 +409,7 @@ describe('PromptOutput Component', () => {
       const longPrompt = 'A'.repeat(5000);
       const sessionWithLongPrompt = createMockSession({
         originalPrompt: longPrompt,
-        refinedPrompt: longPrompt + ' with improvements'
+        refinedPrompt: `${longPrompt  } with improvements`
       });
       const props = createDefaultProps({ session: sessionWithLongPrompt });
 
@@ -424,7 +424,7 @@ describe('PromptOutput Component', () => {
       const promptWithSpecialChars = 'Test prompt with\n\nline breaks\n\n• bullet points\n• more bullets\n\nAnd **markdown** formatting';
       const sessionWithFormatting = createMockSession({
         originalPrompt: promptWithSpecialChars,
-        refinedPrompt: promptWithSpecialChars + '\n\nWith additional improvements'
+        refinedPrompt: `${promptWithSpecialChars  }\n\nWith additional improvements`
       });
       const props = createDefaultProps({ session: sessionWithFormatting });
 
