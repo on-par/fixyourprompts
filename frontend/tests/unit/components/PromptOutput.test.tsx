@@ -16,15 +16,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-// Import the component and types (these imports will FAIL initially - that's expected in RED phase)
-// import { PromptOutput } from '../../../src/components/PromptOutput';
+// Import the component and types
+import { PromptOutput } from '../../../src/components/PromptOutput';
 import { PromptOutputProps } from '../../../src/types/components';
 import { PromptRefinementSession } from '../../../src/types/core';
-
-// Temporary mock component for RED phase - this will be replaced with actual component
-const PromptOutput = ({ session, onCopyRefined, onStartNewSession }: PromptOutputProps) => {
-  throw new Error('PromptOutput component not implemented yet');
-};
 
 // Mock test data utilities
 const createMockSession = (overrides?: Partial<PromptRefinementSession>): PromptRefinementSession => ({
@@ -278,6 +273,13 @@ describe('PromptOutput Component', () => {
       const newSessionButton = screen.getByRole('button', { name: /start new session/i });
       await user.click(newSessionButton);
 
+      // Should show confirmation dialog first
+      expect(screen.getByText(/Start a new session?/)).toBeInTheDocument();
+      
+      // Click confirm to actually trigger the handler
+      const confirmButton = screen.getByRole('button', { name: /confirm/i });
+      await user.click(confirmButton);
+
       expect(mockOnStartNewSession).toHaveBeenCalledTimes(1);
     });
 
@@ -335,7 +337,8 @@ describe('PromptOutput Component', () => {
       expect(additions.length).toBeGreaterThan(0);
       
       // Check for specific highlighted text
-      expect(screen.getByText('comprehensive, well-structured')).toHaveClass('diff-addition');
+      expect(screen.getByText('comprehensive,')).toHaveClass('diff-addition');
+      expect(screen.getByText('well-structured')).toHaveClass('diff-addition');
     });
   });
 
@@ -433,7 +436,7 @@ describe('PromptOutput Component', () => {
       // Should preserve formatting
       expect(screen.getByText(/line breaks/)).toBeInTheDocument();
       expect(screen.getByText(/bullet points/)).toBeInTheDocument();
-      expect(screen.getByText(/markdown/)).toBeInTheDocument();
+      expect(screen.getAllByText(/markdown/)).toHaveLength(2); // One in original, one in refined
     });
   });
 
@@ -459,7 +462,7 @@ describe('PromptOutput Component', () => {
       expect(document.activeElement).toBe(copyButton);
 
       // Should be able to activate with Enter
-      fireEvent.keyDown(copyButton, { key: 'Enter', code: 'Enter' });
+      await user.keyboard('{Enter}');
       expect(props.onCopyRefined).toHaveBeenCalled();
 
       // Should be able to navigate between buttons

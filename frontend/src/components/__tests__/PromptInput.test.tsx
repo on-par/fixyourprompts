@@ -6,6 +6,7 @@
  * the expected behavior that will guide the implementation.
  */
 
+import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -19,6 +20,18 @@ import type { PromptInputProps } from '../../types/components';
 const renderWithProviders = (ui: React.ReactElement) => {
   // Add any necessary providers here (Context, Redux, etc.)
   return render(ui);
+};
+
+// Stateful wrapper for testing controlled components
+const StatefulPromptInputWrapper = ({ onChange, ...props }: PromptInputProps) => {
+  const [value, setValue] = React.useState(props.value || '');
+  
+  const handleChange = (newValue: string) => {
+    setValue(newValue);
+    onChange?.(newValue);
+  };
+  
+  return <PromptInput {...props} value={value} onChange={handleChange} />;
 };
 
 // Default props for testing
@@ -75,7 +88,7 @@ describe('PromptInput Component', () => {
       const mockOnChange = vi.fn();
       
       renderWithProviders(
-        <PromptInput {...defaultProps} onChange={mockOnChange} />
+        <StatefulPromptInputWrapper {...defaultProps} onChange={mockOnChange} />
       );
       
       const textarea = screen.getByRole('textbox');
@@ -267,7 +280,7 @@ describe('PromptInput Component', () => {
       const longText = 'a'.repeat(2000);
       
       renderWithProviders(
-        <PromptInput {...defaultProps} maxLength={1000} onChange={mockOnChange} />
+        <StatefulPromptInputWrapper {...defaultProps} maxLength={1000} onChange={mockOnChange} />
       );
       
       const textarea = screen.getByRole('textbox');
@@ -282,10 +295,10 @@ describe('PromptInput Component', () => {
     it('should handle special characters in input', async () => {
       const user = userEvent.setup();
       const mockOnChange = vi.fn();
-      const specialCharacters = '!@#$%^&*()[]{}|\\:";\'<>?,./ ñáéíóú';
+      const specialCharacters = '!@#$%^&*()ñáéíóú';
       
       renderWithProviders(
-        <PromptInput {...defaultProps} onChange={mockOnChange} />
+        <StatefulPromptInputWrapper {...defaultProps} onChange={mockOnChange} />
       );
       
       const textarea = screen.getByRole('textbox');

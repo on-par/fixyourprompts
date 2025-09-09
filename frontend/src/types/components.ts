@@ -216,3 +216,29 @@ export interface PreferenceEventHandlers {
   /** Handler for changing user experience level */
   onLevelChange: (level: 'beginner' | 'intermediate' | 'advanced') => void;
 }
+
+/**
+ * Header component props for the main navigation header
+ */
+export interface HeaderProps {
+  /** Optional className for custom styling */
+  className?: string;
+  /** Whether to show the mobile menu by default */
+  mobileMenuOpen?: boolean;
+  /** Callback when navigation item is clicked */
+  onNavigate?: (path: string) => void;
+}
+
+/**
+ * Footer component props for the main site footer
+ */
+export interface FooterProps {
+  /** Optional className for custom styling */
+  className?: string;
+  /** Callback when footer link is clicked */
+  onNavigate?: (path: string) => void;
+  /** Copyright year (defaults to current year) */
+  copyrightYear?: number;
+  /** Optional custom tagline */
+  tagline?: string;
+}

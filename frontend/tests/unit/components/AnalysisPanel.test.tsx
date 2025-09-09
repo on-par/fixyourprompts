@@ -19,15 +19,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-// Import the component and types (these imports will FAIL initially - that's expected in RED phase)
-// import { AnalysisPanel } from '../../../src/components/AnalysisPanel';
+// Import the component and types
+import { AnalysisPanel } from '../../../src/components/AnalysisPanel';
 import { AnalysisPanelProps } from '../../../src/types/components';
 import { PromptAnalysis } from '../../../src/types/core';
-
-// Temporary mock component for RED phase - this will be replaced with actual component
-const AnalysisPanel = ({ analyses, onAnalysisSelect, compact }: AnalysisPanelProps) => {
-  throw new Error('AnalysisPanel component not implemented yet');
-};
 
 // Mock test data utilities
 const createMockAnalysis = (overrides?: Partial<PromptAnalysis>): PromptAnalysis => ({
