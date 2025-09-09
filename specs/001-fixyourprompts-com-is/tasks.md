@@ -33,15 +33,15 @@ Based on TypeScript + React + Vite + Vitest + Playwright architecture:
 
 ## Phase 3.3: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.4
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
-- [ ] T012 [P] Unit test for PromptAnalyzer service in frontend/tests/unit/PromptAnalyzer.test.ts
-- [ ] T013 [P] Unit test for PromptRefiner service in frontend/tests/unit/PromptRefiner.test.ts
-- [ ] T014 [P] Unit test for EducationContent service in frontend/tests/unit/EducationContent.test.ts
-- [ ] T015 [P] Component test for PromptInput in frontend/tests/unit/components/PromptInput.test.tsx
-- [ ] T016 [P] Component test for PromptOutput in frontend/tests/unit/components/PromptOutput.test.tsx
-- [ ] T017 [P] Component test for AnalysisPanel in frontend/tests/unit/components/AnalysisPanel.test.tsx
-- [ ] T018 [P] Component test for EducationPanel in frontend/tests/unit/components/EducationPanel.test.tsx
-- [ ] T019 [P] Integration test for complete refinement workflow in frontend/tests/integration/refinement-workflow.test.ts
-- [ ] T020 [P] E2E test for user prompt refinement journey in frontend/tests/e2e/prompt-refinement.spec.ts
+- [x] T012 [P] Unit test for PromptAnalyzer service in frontend/tests/unit/PromptAnalyzer.test.ts
+- [x] T013 [P] Unit test for PromptRefiner service in frontend/tests/unit/PromptRefiner.test.ts
+- [x] T014 [P] Unit test for EducationContent service in frontend/tests/unit/EducationContent.test.ts
+- [x] T015 [P] Component test for PromptInput in frontend/tests/unit/components/PromptInput.test.tsx
+- [x] T016 [P] Component test for PromptOutput in frontend/tests/unit/components/PromptOutput.test.tsx
+- [x] T017 [P] Component test for AnalysisPanel in frontend/tests/unit/components/AnalysisPanel.test.tsx
+- [x] T018 [P] Component test for EducationPanel in frontend/tests/unit/components/EducationPanel.test.tsx
+- [x] T019 [P] Integration test for complete refinement workflow in frontend/tests/integration/refinement-workflow.test.ts
+- [x] T020 [P] E2E test for user prompt refinement journey in frontend/tests/e2e/prompt-refinement.spec.ts
 
 ## Phase 3.4: Core Services Implementation (ONLY after tests are failing)
 - [ ] T021 [P] PromptAnalyzer service implementation in frontend/src/services/PromptAnalyzer.ts

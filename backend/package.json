@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:prepare && vitest --testTimeout 120000 --hookTimeout 120000",
+    "test:prepare": "node src/database/schema.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^12.2.0",
+    "fastify": "^5.6.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
+  }
+}
