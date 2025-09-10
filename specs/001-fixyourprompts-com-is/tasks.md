@@ -79,20 +79,20 @@ Based on TypeScript + React + Vite + Vitest + Playwright architecture:
 - [x] T045 [P] E2E test for error handling scenarios in frontend/tests/e2e/error-handling.spec.ts
 - [x] T046 [P] E2E performance testing in frontend/tests/e2e/performance.spec.ts
 
-## Phase 3.9: Build & Deployment
-- [ ] T047 [P] Production build optimization in frontend/vite.config.ts
-- [ ] T048 [P] Environment configuration management in frontend/src/config/env.ts
-- [ ] T049 [P] Bundle analysis and optimization
-- [ ] T050 [P] Create deployment scripts in frontend/scripts/deploy.sh
-- [ ] T051 [P] Configure CI/CD workflow in .github/workflows/frontend.yml
+## Phase 3.9: Build & Deployment ✅
+- [x] T047 [P] Production build optimization in frontend/vite.config.ts
+- [x] T048 [P] Environment configuration management in frontend/src/config/env.ts
+- [x] T049 [P] Bundle analysis and optimization
+- [x] T050 [P] Create deployment scripts in frontend/scripts/deploy.sh
+- [x] T051 [P] Configure CI/CD workflow in .github/workflows/frontend.yml
 
-## Phase 3.10: Polish & Documentation
-- [ ] T052 [P] Code splitting and lazy loading implementation
-- [ ] T053 [P] Performance monitoring and error tracking setup
-- [ ] T054 [P] Update README.md with TypeScript setup instructions
-- [ ] T055 [P] Create component documentation with Storybook
-- [ ] T056 Run comprehensive test suite and fix any failures
-- [ ] T057 Manual testing following quickstart.md scenarios
+## Phase 3.10: Polish & Documentation ✅
+- [x] T052 [P] Code splitting and lazy loading implementation
+- [x] T053 [P] Performance monitoring and error tracking setup
+- [x] T054 [P] Update README.md with TypeScript setup instructions
+- [x] T055 [P] Create component documentation with Storybook
+- [x] T056 Run comprehensive test suite and fix any failures
+- [x] T057 Manual testing following quickstart.md scenarios
 
 ## Dependencies
 - Setup tasks (T001-T007) must complete before all others

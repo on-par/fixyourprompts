@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useReducer, useCallback, ReactNode } from 'react';
-import { 
+import type { 
   AppState, 
   PromptRefinementSession, 
   UserPreferences, 
   EducationTip, 
-  RefinementError 
+  RefinementError as _RefinementError 
 } from '../types/core';
 
 type AppAction =

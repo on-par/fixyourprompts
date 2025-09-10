@@ -1,0 +1,210 @@
+/**
+ * Lazy Error Boundary styles
+ * Provides consistent error display for lazy-loaded components
+ */
+
+.lazy-error-boundary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 200px;
+  background: var(--bg-error, #fef2f2);
+  border: 1px solid var(--border-error, #fecaca);
+  border-radius: 0.75rem;
+  color: var(--text-error, #991b1b);
+}
+
+.lazy-error-boundary__content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.lazy-error-boundary__icon {
+  margin: 0 auto 1rem;
+  color: var(--text-error, #dc2626);
+}
+
+.lazy-error-boundary__title {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-error, #991b1b);
+}
+
+.lazy-error-boundary__message {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-error-secondary, #b91c1c);
+}
+
+.lazy-error-boundary__details {
+  margin: 1rem 0;
+  text-align: left;
+  background: var(--bg-error-dark, #fee2e2);
+  border: 1px solid var(--border-error-dark, #fca5a5);
+  border-radius: 0.5rem;
+  padding: 0;
+}
+
+.lazy-error-boundary__details summary {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-error, #991b1b);
+  user-select: none;
+}
+
+.lazy-error-boundary__details summary:hover {
+  background: var(--bg-error-hover, #fde8e8);
+}
+
+.lazy-error-boundary__error-text {
+  margin: 0;
+  padding: 1rem;
+  background: var(--bg-code, #1f2937);
+  color: var(--text-code, #f3f4f6);
+  font-size: 0.8rem;
+  font-family: 'Monaco', 'Consolas', 'Ubuntu Mono', monospace;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.lazy-error-boundary__actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.lazy-error-boundary__button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.lazy-error-boundary__button--primary {
+  background: var(--primary-color, #646cff);
+  color: white;
+}
+
+.lazy-error-boundary__button--primary:hover {
+  background: var(--primary-hover, #5145cd);
+  transform: translateY(-1px);
+}
+
+.lazy-error-boundary__button--primary:active {
+  transform: translateY(0);
+}
+
+.lazy-error-boundary__button--secondary {
+  background: var(--bg-secondary, #f3f4f6);
+  color: var(--text-secondary, #374151);
+  border: 1px solid var(--border-color, #d1d5db);
+}
+
+.lazy-error-boundary__button--secondary:hover {
+  background: var(--bg-secondary-hover, #e5e7eb);
+  border-color: var(--border-hover, #9ca3af);
+}
+
+.lazy-error-boundary__help {
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-error, #fecaca);
+}
+
+.lazy-error-boundary__help-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-error-muted, #dc2626);
+  font-style: italic;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .lazy-error-boundary {
+    background: var(--bg-error, #1f1f23);
+    border-color: var(--border-error, #3f3f46);
+    color: var(--text-error, #fca5a5);
+  }
+  
+  .lazy-error-boundary__icon {
+    color: var(--text-error, #f87171);
+  }
+  
+  .lazy-error-boundary__title {
+    color: var(--text-error, #fca5a5);
+  }
+  
+  .lazy-error-boundary__message {
+    color: var(--text-error-secondary, #f87171);
+  }
+  
+  .lazy-error-boundary__details {
+    background: var(--bg-error-dark, #2d1b1b);
+    border-color: var(--border-error-dark, #4c2626);
+  }
+  
+  .lazy-error-boundary__details summary {
+    color: var(--text-error, #fca5a5);
+  }
+  
+  .lazy-error-boundary__details summary:hover {
+    background: var(--bg-error-hover, #3d2222);
+  }
+  
+  .lazy-error-boundary__button--secondary {
+    background: var(--bg-secondary, #374151);
+    color: var(--text-secondary, #d1d5db);
+    border-color: var(--border-color, #4b5563);
+  }
+  
+  .lazy-error-boundary__button--secondary:hover {
+    background: var(--bg-secondary-hover, #4b5563);
+    border-color: var(--border-hover, #6b7280);
+  }
+  
+  .lazy-error-boundary__help {
+    border-color: var(--border-error, #3f3f46);
+  }
+  
+  .lazy-error-boundary__help-text {
+    color: var(--text-error-muted, #f87171);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .lazy-error-boundary {
+    padding: 1.5rem 1rem;
+    margin: 0 1rem;
+  }
+  
+  .lazy-error-boundary__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .lazy-error-boundary__button {
+    width: 100%;
+  }
+}
+
+/* Focus styles for accessibility */
+.lazy-error-boundary__button:focus {
+  outline: 2px solid var(--focus-ring, #646cff);
+  outline-offset: 2px;
+}
+
+.lazy-error-boundary__details summary:focus {
+  outline: 2px solid var(--focus-ring, #646cff);
+  outline-offset: 2px;
+}

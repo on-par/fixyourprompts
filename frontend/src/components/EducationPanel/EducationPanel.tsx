@@ -148,4 +148,5 @@ const EducationPanel: React.FC<EducationPanelProps> = ({
   );
 };
 
+export { EducationPanel };
 export default EducationPanel;

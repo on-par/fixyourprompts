@@ -2,8 +2,8 @@ import { useState, useCallback, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 import { 
   PromptRefinementSession, 
-  PromptAnalysis, 
-  RefinementStatus, 
+  PromptAnalysis as _PromptAnalysis, 
+  RefinementStatus as _RefinementStatus, 
   RefinementError,
   EducationTip
 } from '../types/core';
@@ -268,7 +268,7 @@ export function useSessionHistory(): UseSessionHistoryResult {
 /**
  * Hook for managing user preferences
  */
-export function usePreferences() {
+export function usePreferences(): { toggleDarkMode: () => void; toggleEducationTips: () => void; updateLanguage: (lang: string) => void } {
   const { state, updatePreferences } = useAppContext();
 
   const toggleDarkMode = useCallback((): void => {
@@ -295,7 +295,7 @@ export function usePreferences() {
 /**
  * Hook for handling workflow orchestration and error recovery
  */
-export function useWorkflow() {
+export function useWorkflow(): { startNewRefinement: (prompt: string) => Promise<void>; retryWithOptions: (options: any) => Promise<void>; canRetry: boolean; workflowState: string } {
   const refinement = useRefinement();
   const sessionHistory = useSessionHistory();
 

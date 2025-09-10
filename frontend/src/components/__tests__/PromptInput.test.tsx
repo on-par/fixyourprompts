@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
@@ -17,16 +17,16 @@ import { PromptInput } from '../PromptInput';
 import type { PromptInputProps } from '../../types/components';
 
 // Test utilities
-const renderWithProviders = (ui: React.ReactElement) => {
+const renderWithProviders = (ui: React.ReactElement): RenderResult => {
   // Add any necessary providers here (Context, Redux, etc.)
   return render(ui);
 };
 
 // Stateful wrapper for testing controlled components
-const StatefulPromptInputWrapper = ({ onChange, ...props }: PromptInputProps) => {
+const StatefulPromptInputWrapper = ({ onChange, ...props }: PromptInputProps): JSX.Element => {
   const [value, setValue] = React.useState(props.value || '');
   
-  const handleChange = (newValue: string) => {
+  const handleChange = (newValue: string): void => {
     setValue(newValue);
     onChange?.(newValue);
   };

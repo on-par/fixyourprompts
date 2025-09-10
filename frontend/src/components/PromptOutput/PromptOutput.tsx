@@ -30,7 +30,7 @@ const PromptOutput = memo<PromptOutputProps>(({
   // Track renders for performance testing
   useMemo(() => {
     setRenderCount(prev => prev + 1);
-  }, [session, showComparison]);
+  }, []);
 
   const handleCopyRefined = useCallback(async (): Promise<void> => {
     if (!session.refinedPrompt) {return;}

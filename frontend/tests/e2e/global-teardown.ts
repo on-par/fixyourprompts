@@ -5,7 +5,7 @@
  * Used for cleanup of test resources, databases, servers, etc.
  */
 
-export default async function globalTeardown() {
+export default async function globalTeardown(): Promise<void> {
   console.log('🧹 Running global E2E test teardown...')
   
   // Clear any test data or temporary files

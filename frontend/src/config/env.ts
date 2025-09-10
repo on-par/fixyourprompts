@@ -256,7 +256,7 @@ function validateUrl(url: string, variableName: string): string {
  * @returns API configuration object
  */
 function createApiConfig(environment: Environment): ApiConfig {
-  const baseUrl = (() => {
+  const baseUrl = ((): string => {
     switch (environment) {
       case 'production':
         return validateUrl(
@@ -318,12 +318,12 @@ function createDebugConfig(environment: Environment): DebugConfig {
   const isDevelopment = environment === 'development';
   const defaultLogLevel: LogLevel = isDevelopment ? 'debug' : 'warn';
   
-  const logLevel = (() => {
+  const logLevel = ((): LogLevel => {
     const level = getEnvVar('VITE_LOG_LEVEL', defaultLogLevel) as LogLevel;
     const validLevels: LogLevel[] = ['debug', 'info', 'warn', 'error'];
     
     if (!validLevels.includes(level)) {
-      console.warn(`Invalid log level '${level}', using default '${defaultLogLevel}'`);
+      // console.warn(`Invalid log level '${level}', using default '${defaultLogLevel}'`);
       return defaultLogLevel;
     }
     
@@ -366,7 +366,7 @@ function createEnvConfig(): EnvConfig {
   const buildMode = getBuildMode();
   
   // Determine application URL based on environment
-  const appUrl = (() => {
+  const appUrl = ((): string => {
     switch (environment) {
       case 'production':
         return validateUrl(
@@ -398,17 +398,17 @@ function createEnvConfig(): EnvConfig {
 
   // Log configuration in development mode (non-sensitive info only)
   if (config.debug.enabled && config.environment === 'development') {
-    console.group('🔧 Environment Configuration');
-    console.log('Environment:', config.environment);
-    console.log('Build Mode:', config.buildMode);
-    console.log('App URL:', config.appUrl);
-    console.log('API Base URL:', config.api.baseUrl);
-    console.log('Features:', Object.entries(config.features)
-      .filter(([, enabled]) => enabled)
-      .map(([feature]) => feature)
-    );
-    console.log('Debug Level:', config.debug.logLevel);
-    console.groupEnd();
+    // console.group('🔧 Environment Configuration');
+    // console.log('Environment:', config.environment);
+    // console.log('Build Mode:', config.buildMode);
+    // console.log('App URL:', config.appUrl);
+    // console.log('API Base URL:', config.api.baseUrl);
+    // console.log('Features:', Object.entries(config.features)
+    //   .filter(([, enabled]) => enabled)
+    //   .map(([feature]) => feature)
+    // );
+    // console.log('Debug Level:', config.debug.logLevel);
+    // console.groupEnd();
   }
 
   return config;
@@ -452,7 +452,7 @@ try {
   validateEnvConfig(envConfig);
 } catch (error) {
   if (error instanceof EnvValidationError) {
-    console.error('❌ Environment Configuration Error:', error.message);
+    // console.error('❌ Environment Configuration Error:', error.message);
     
     // In production, we should fail fast
     if (import.meta.env.PROD) {
@@ -460,8 +460,8 @@ try {
     }
     
     // In development, we can provide more helpful error information
-    console.error('🔧 Please check your environment variables and try again.');
-    console.error('💡 Refer to the .env.example file for required variables.');
+    // console.error('🔧 Please check your environment variables and try again.');
+    // console.error('💡 Refer to the .env.example file for required variables.');
   }
   
   throw error;

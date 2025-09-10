@@ -30,7 +30,7 @@ class AccessibilityTestPage {
   readonly educationPanel: Locator
   readonly interactiveElements: Locator
 
-  constructor(page: Page) {
+  constructor(_page: Page) {
     this.page = page
     this.header = page.locator('header, [role="banner"]')
     this.main = page.locator('main, [role="main"]')
@@ -226,7 +226,7 @@ test.describe('Accessibility Tests', () => {
   })
 
   test.describe('Focus Management', () => {
-    test('should have visible focus indicators on all interactive elements', async ({ page }) => {
+    test('should have visible focus indicators on all interactive elements', async ({ page: _page }) => {
       const focusableElements = await accessibilityPage.getAllFocusableElements()
       
       for (const element of focusableElements.slice(0, 10)) { // Test first 10 elements
@@ -542,7 +542,7 @@ test.describe('Accessibility Tests', () => {
       }
     })
 
-    test('should provide error messages in accessible way', async ({ page }) => {
+    test('should provide error messages in accessible way', async ({ page: _page }) => {
       // Try to submit empty form to trigger validation
       const submitButton = accessibilityPage.submitButton
       

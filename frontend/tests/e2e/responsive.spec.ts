@@ -76,7 +76,7 @@ class ResponsiveTestPage {
   readonly loadingSpinner: Locator
   readonly characterCounter: Locator
 
-  constructor(page: Page) {
+  constructor(_page: Page) {
     this.page = page
     this.header = page.locator('header[role="banner"]')
     this.logo = page.locator('.logo, [data-testid="logo"]')
@@ -129,17 +129,17 @@ class ResponsiveTestPage {
 test.describe('Responsive Design - Mobile Devices', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
     await responsivePage.navigateToHome()
   })
 
   test.describe('Mobile Portrait Mode', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await page.setViewportSize(viewports.mobile.portrait)
     })
 
-    test('should adapt header layout for mobile screens', async ({ page }) => {
+    test('should adapt header layout for mobile screens', async ({ page: _page }) => {
       // Header should be visible and properly sized
       await expect(responsivePage.header).toBeVisible()
       
@@ -164,7 +164,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       expect(menuButtonBox?.height).toBeGreaterThan(40)
     })
 
-    test('should show mobile navigation menu when hamburger button is clicked', async ({ page }) => {
+    test('should show mobile navigation menu when hamburger button is clicked', async ({ page: _page }) => {
       // Mobile nav should initially be hidden
       if (await responsivePage.isElementVisible(responsivePage.mobileNav)) {
         const mobileNavStyles = await responsivePage.mobileNav.evaluate(el => 
@@ -191,7 +191,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       }
     })
 
-    test('should close mobile menu when navigation item is clicked', async ({ page }) => {
+    test('should close mobile menu when navigation item is clicked', async ({ page: _page }) => {
       // Open mobile menu
       await responsivePage.toggleMobileMenu()
       await expect(responsivePage.mobileNav).toBeVisible()
@@ -204,7 +204,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       await expect(responsivePage.mobileNav).toBeHidden()
     })
 
-    test('should ensure prompt input is fully accessible on mobile', async ({ page }) => {
+    test('should ensure prompt input is fully accessible on mobile', async ({ page: _page }) => {
       // Input should be visible and properly sized
       await expect(responsivePage.promptInput).toBeVisible()
       
@@ -227,7 +227,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       expect(buttonBox?.height).toBeGreaterThan(44) // Touch-friendly height
     })
 
-    test('should handle long text content without horizontal scrolling', async ({ page }) => {
+    test('should handle long text content without horizontal scrolling', async ({ page: _page }) => {
       // Fill with long content
       await responsivePage.promptInput.fill(testContent.long)
       await responsivePage.submitButton.click()
@@ -246,7 +246,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       expect(resultsBox?.width).toBeLessThanOrEqual(viewportWidth)
     })
 
-    test('should maintain readability with proper font sizes and spacing', async ({ page }) => {
+    test('should maintain readability with proper font sizes and spacing', async ({ page: _page }) => {
       // Submit a prompt to get content to analyze
       await responsivePage.promptInput.fill(testContent.medium)
       await responsivePage.submitButton.click()
@@ -284,11 +284,11 @@ test.describe('Responsive Design - Mobile Devices', () => {
   })
 
   test.describe('Mobile Landscape Mode', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await page.setViewportSize(viewports.mobile.landscape)
     })
 
-    test('should adapt to landscape orientation', async ({ page }) => {
+    test('should adapt to landscape orientation', async ({ page: _page }) => {
       // Header should still be accessible
       await expect(responsivePage.header).toBeVisible()
       
@@ -305,7 +305,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       await expect(responsivePage.submitButton).toBeVisible()
     })
 
-    test('should maintain functionality in landscape mode', async ({ page }) => {
+    test('should maintain functionality in landscape mode', async ({ page: _page }) => {
       // Test complete workflow in landscape
       await responsivePage.promptInput.fill(testContent.medium)
       await responsivePage.submitButton.click()
@@ -321,11 +321,11 @@ test.describe('Responsive Design - Mobile Devices', () => {
   })
 
   test.describe('Touch Interactions', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await page.setViewportSize(viewports.mobile.portrait)
     })
 
-    test('should support touch gestures for scrolling', async ({ page }) => {
+    test('should support touch gestures for scrolling', async ({ page: _page }) => {
       // Fill content to make page scrollable
       await responsivePage.promptInput.fill(testContent.long)
       await responsivePage.submitButton.click()
@@ -341,7 +341,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       expect(scrollY).toBeGreaterThan(50)
     })
 
-    test('should handle touch events on interactive elements', async ({ page }) => {
+    test('should handle touch events on interactive elements', async ({ page: _page }) => {
       // Test touch on submit button
       await responsivePage.promptInput.fill(testContent.short)
       
@@ -354,7 +354,7 @@ test.describe('Responsive Design - Mobile Devices', () => {
       await expect(responsivePage.loadingSpinner).toBeVisible({ timeout: 1000 })
     })
 
-    test('should prevent accidental touches with proper spacing', async ({ page }) => {
+    test('should prevent accidental touches with proper spacing', async ({ page: _page }) => {
       // Ensure buttons are spaced adequately to prevent fat-finger errors
       await responsivePage.promptInput.fill(testContent.short)
       await responsivePage.submitButton.click()
@@ -379,17 +379,17 @@ test.describe('Responsive Design - Mobile Devices', () => {
 test.describe('Responsive Design - Tablet Devices', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
     await responsivePage.navigateToHome()
   })
 
   test.describe('Tablet Portrait Mode', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await page.setViewportSize(viewports.tablet.portrait)
     })
 
-    test('should utilize tablet screen space effectively', async ({ page }) => {
+    test('should utilize tablet screen space effectively', async ({ page: _page }) => {
       // Header should scale appropriately
       await expect(responsivePage.header).toBeVisible()
       
@@ -406,7 +406,7 @@ test.describe('Responsive Design - Tablet Devices', () => {
       expect(inputBox?.width).toBeLessThan(700) // But not full desktop width
     })
 
-    test('should handle two-column layout if implemented', async ({ page }) => {
+    test('should handle two-column layout if implemented', async ({ page: _page }) => {
       await responsivePage.promptInput.fill(testContent.medium)
       await responsivePage.submitButton.click()
       await responsivePage.waitForAnalysisComplete()
@@ -427,11 +427,11 @@ test.describe('Responsive Design - Tablet Devices', () => {
   })
 
   test.describe('Tablet Landscape Mode', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await page.setViewportSize(viewports.tablet.landscape)
     })
 
-    test('should approach desktop layout in tablet landscape', async ({ page }) => {
+    test('should approach desktop layout in tablet landscape', async ({ page: _page }) => {
       // Desktop navigation might be visible in landscape
       const desktopNavVisible = await responsivePage.isElementVisible(responsivePage.desktopNav)
       
@@ -446,7 +446,7 @@ test.describe('Responsive Design - Tablet Devices', () => {
       expect(inputBox?.width).toBeGreaterThan(500)
     })
 
-    test('should maintain usability in landscape mode', async ({ page }) => {
+    test('should maintain usability in landscape mode', async ({ page: _page }) => {
       // Complete workflow should work smoothly
       await responsivePage.promptInput.fill(testContent.medium)
       await responsivePage.submitButton.click()
@@ -465,13 +465,13 @@ test.describe('Responsive Design - Tablet Devices', () => {
 test.describe('Responsive Design - Desktop Viewports', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
     await responsivePage.navigateToHome()
   })
 
   test.describe('Standard Desktop Sizes', () => {
-    test('should provide optimal desktop experience at 1366x768', async ({ page }) => {
+    test('should provide optimal desktop experience at 1366x768', async ({ page: _page }) => {
       await page.setViewportSize(viewports.desktop.small)
       
       // Desktop navigation should be visible
@@ -498,7 +498,7 @@ test.describe('Responsive Design - Desktop Viewports', () => {
       await expect(responsivePage.analysisResults).toBeVisible()
     })
 
-    test('should scale content appropriately for larger screens', async ({ page }) => {
+    test('should scale content appropriately for larger screens', async ({ page: _page }) => {
       await page.setViewportSize(viewports.desktop.large)
       
       // Content should be centered and not excessively wide
@@ -516,7 +516,7 @@ test.describe('Responsive Design - Desktop Viewports', () => {
   })
 
   test.describe('Ultra-wide Desktop Support', () => {
-    test('should handle ultra-wide viewports gracefully', async ({ page }) => {
+    test('should handle ultra-wide viewports gracefully', async ({ page: _page }) => {
       await page.setViewportSize(viewports.desktop.ultrawide)
       
       // Content should not stretch across entire ultra-wide screen
@@ -537,12 +537,12 @@ test.describe('Responsive Design - Desktop Viewports', () => {
 test.describe('Cross-Viewport Consistency', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
     await responsivePage.navigateToHome()
   })
 
-  test('should maintain functionality across all viewport changes', async ({ page }) => {
+  test('should maintain functionality across all viewport changes', async ({ page: _page }) => {
     const testViewports = [
       viewports.mobile.portrait,
       viewports.tablet.portrait,
@@ -568,7 +568,7 @@ test.describe('Cross-Viewport Consistency', () => {
     }
   })
 
-  test('should prevent content overflow at all viewport sizes', async ({ page }) => {
+  test('should prevent content overflow at all viewport sizes', async ({ page: _page }) => {
     const testViewports = [
       viewports.mobile.portrait,
       viewports.mobile.landscape,
@@ -600,7 +600,7 @@ test.describe('Cross-Viewport Consistency', () => {
     }
   })
 
-  test('should maintain consistent typography scale', async ({ page }) => {
+  test('should maintain consistent typography scale', async ({ page: _page }) => {
     // Test font scaling consistency
     const viewports = [
       { size: viewports.mobile.portrait, name: 'mobile' },
@@ -637,12 +637,12 @@ test.describe('Cross-Viewport Consistency', () => {
 test.describe('Responsive Navigation', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
     await responsivePage.navigateToHome()
   })
 
-  test('should switch between mobile and desktop navigation appropriately', async ({ page }) => {
+  test('should switch between mobile and desktop navigation appropriately', async ({ page: _page }) => {
     // Start with desktop view
     await page.setViewportSize(viewports.desktop.medium)
     await expect(responsivePage.desktopNav).toBeVisible()
@@ -664,7 +664,7 @@ test.describe('Responsive Navigation', () => {
     await expect(responsivePage.desktopNav).toBeVisible()
   })
 
-  test('should maintain navigation state during viewport changes', async ({ page }) => {
+  test('should maintain navigation state during viewport changes', async ({ page: _page }) => {
     // Start in mobile view and open menu
     await page.setViewportSize(viewports.mobile.portrait)
     await responsivePage.toggleMobileMenu()
@@ -680,7 +680,7 @@ test.describe('Responsive Navigation', () => {
     expect(isDesktopNavVisible || isMobileMenuVisible).toBe(true)
   })
 
-  test('should support keyboard navigation on all viewports', async ({ page }) => {
+  test('should support keyboard navigation on all viewports', async ({ page: _page }) => {
     const testViewports = [viewports.mobile.portrait, viewports.desktop.medium]
     
     for (const viewport of testViewports) {
@@ -709,12 +709,12 @@ test.describe('Responsive Navigation', () => {
 test.describe('Content Adaptation', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
     await responsivePage.navigateToHome()
   })
 
-  test('should handle multiline content gracefully on all screen sizes', async ({ page }) => {
+  test('should handle multiline content gracefully on all screen sizes', async ({ page: _page }) => {
     const testViewports = [
       viewports.mobile.portrait,
       viewports.tablet.portrait,
@@ -742,7 +742,7 @@ test.describe('Content Adaptation', () => {
     }
   })
 
-  test('should adapt character counter for different screen sizes', async ({ page }) => {
+  test('should adapt character counter for different screen sizes', async ({ page: _page }) => {
     const testViewports = [viewports.mobile.portrait, viewports.desktop.medium]
     
     for (const viewport of testViewports) {
@@ -764,7 +764,7 @@ test.describe('Content Adaptation', () => {
     }
   })
 
-  test('should maintain accessibility across viewport changes', async ({ page }) => {
+  test('should maintain accessibility across viewport changes', async ({ page: _page }) => {
     const testViewports = [viewports.mobile.portrait, viewports.desktop.medium]
     
     for (const viewport of testViewports) {
@@ -791,11 +791,11 @@ test.describe('Content Adaptation', () => {
 test.describe('Performance on Different Viewports', () => {
   let responsivePage: ResponsiveTestPage
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page: _page }) => {
     responsivePage = new ResponsiveTestPage(page)
   })
 
-  test('should maintain smooth interactions across viewport sizes', async ({ page }) => {
+  test('should maintain smooth interactions across viewport sizes', async ({ page: _page }) => {
     const testViewports = [viewports.mobile.portrait, viewports.desktop.medium]
     
     for (const viewport of testViewports) {
@@ -823,7 +823,7 @@ test.describe('Performance on Different Viewports', () => {
     }
   })
 
-  test('should handle viewport changes without breaking layout', async ({ page }) => {
+  test('should handle viewport changes without breaking layout', async ({ page: _page }) => {
     await responsivePage.navigateToHome()
     
     // Start with desktop

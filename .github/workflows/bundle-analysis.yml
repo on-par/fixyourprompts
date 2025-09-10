@@ -1,0 +1,412 @@
+name: Bundle Analysis and Performance
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ 'frontend/**' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'frontend/**' ]
+  workflow_dispatch:
+    inputs:
+      deep_analysis:
+        description: 'Run deep bundle analysis'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  NODE_VERSION: '18'
+  CACHE_VERSION: 'v1'
+
+jobs:
+  bundle-analysis:
+    name: Bundle Analysis
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    
+    outputs:
+      bundle-size: ${{ steps.bundle-info.outputs.size }}
+      status: ${{ steps.bundle-check.outputs.status }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for bundle monitoring
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+          
+      - name: Install dependencies
+        run: |
+          npm ci --prefer-offline --no-audit
+          
+      - name: Build application
+        run: |
+          npm run build
+        env:
+          NODE_ENV: production
+          
+      - name: Run bundle size check
+        id: bundle-check
+        run: |
+          echo "Running bundle size validation..."
+          if npm run bundle:size; then
+            echo "status=passed" >> $GITHUB_OUTPUT
+            echo "✅ Bundle size check passed"
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            echo "❌ Bundle size check failed"
+            exit 1
+          fi
+          
+      - name: Generate bundle statistics
+        run: |
+          npm run bundle:stats
+          
+      - name: Get bundle information
+        id: bundle-info
+        run: |
+          # Extract bundle size from stats
+          BUNDLE_SIZE=$(node -e "
+            const fs = require('fs');
+            const stats = JSON.parse(fs.readFileSync('dist/bundle-stats.json', 'utf8'));
+            console.log(Math.round(stats.stats.summary.total.gzipSize / 1024) + 'KB');
+          ")
+          echo "size=$BUNDLE_SIZE" >> $GITHUB_OUTPUT
+          echo "Bundle Size: $BUNDLE_SIZE"
+          
+      - name: Performance budget check
+        run: |
+          echo "Checking performance budgets..."
+          npm run performance:budget
+          
+      - name: Bundle monitoring
+        run: |
+          echo "Running bundle monitor..."
+          npm run bundle:monitor
+          
+      - name: Generate visual analysis
+        if: github.event_name == 'pull_request' || github.event.inputs.deep_analysis == 'true'
+        run: |
+          ANALYZE=true npm run build
+          
+      - name: Upload bundle reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis-reports
+          path: |
+            frontend/dist/bundle-stats.json
+            frontend/dist/size-check-report.json
+            frontend/dist/performance-budget-report.json
+            frontend/dist/stats.html
+          retention-days: 30
+          
+      - name: Create bundle size badge
+        if: github.ref == 'refs/heads/main'
+        run: |
+          BUNDLE_SIZE="${{ steps.bundle-info.outputs.size }}"
+          # Create simple badge data
+          echo "{\"schemaVersion\": 1, \"label\": \"bundle size\", \"message\": \"$BUNDLE_SIZE\", \"color\": \"blue\"}" > dist/bundle-badge.json
+          
+      - name: Upload badge data
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-badge
+          path: frontend/dist/bundle-badge.json
+
+  bundle-comment:
+    name: Bundle Analysis Comment
+    runs-on: ubuntu-latest
+    needs: bundle-analysis
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+      
+    steps:
+      - name: Download bundle reports
+        uses: actions/download-artifact@v4
+        with:
+          name: bundle-analysis-reports
+          path: ./reports
+          
+      - name: Create bundle analysis comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read reports
+            const bundleStats = JSON.parse(fs.readFileSync('./reports/bundle-stats.json', 'utf8'));
+            const sizeCheck = JSON.parse(fs.readFileSync('./reports/size-check-report.json', 'utf8'));
+            const perfBudget = JSON.parse(fs.readFileSync('./reports/performance-budget-report.json', 'utf8'));
+            
+            // Format bundle size
+            const formatBytes = (bytes) => {
+              const kb = bytes / 1024;
+              return kb < 1024 ? `${kb.toFixed(1)}KB` : `${(kb/1024).toFixed(1)}MB`;
+            };
+            
+            // Create comment content
+            const comment = `## 📊 Bundle Analysis Report
+            
+            ### Bundle Size Summary
+            - **Total Bundle**: ${formatBytes(bundleStats.stats.summary.total.gzipSize)} (gzipped)
+            - **JavaScript**: ${formatBytes(bundleStats.stats.summary.javascript.gzipSize)}
+            - **CSS**: ${formatBytes(bundleStats.stats.summary.stylesheets.gzipSize)}
+            - **Compression**: ${bundleStats.stats.summary.total.compressionRatio}
+            
+            ### Size Check Results
+            - ✅ **Passed**: ${sizeCheck.results.passed.length} checks
+            - ⚠️ **Warnings**: ${sizeCheck.results.warnings.length} checks  
+            - ❌ **Failed**: ${sizeCheck.results.failures.length} checks
+            
+            ### Performance Budget
+            - **Checks**: ${perfBudget.summary.passed}/${perfBudget.summary.total} passed
+            - **Status**: ${perfBudget.summary.failed > 0 ? '❌ Failed' : '✅ Passed'}
+            
+            ### Performance Insights
+            ${bundleStats.insights.recommendations.slice(0, 3).map(r => `- ${r}`).join('\n')}
+            
+            <details>
+            <summary>📈 Detailed Analysis</summary>
+            
+            #### Top JavaScript Files
+            ${bundleStats.stats.chunks.js.slice(0, 5).map(f => 
+              `- \`${f.name}\`: ${formatBytes(f.gzipSize)}`
+            ).join('\n')}
+            
+            #### Load Time Estimates
+            - **3G**: ${bundleStats.insights.performance.loadTime['3G']}
+            - **4G**: ${bundleStats.insights.performance.loadTime['4G']}
+            - **Broadband**: ${bundleStats.insights.performance.loadTime.broadband}
+            
+            </details>
+            
+            ---
+            *Bundle analysis generated on ${new Date().toISOString()}*
+            `;
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            
+            const existingComment = comments.find(comment => 
+              comment.body.includes('📊 Bundle Analysis Report')
+            );
+            
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body: comment
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
+
+  lighthouse-audit:
+    name: Lighthouse Performance Audit
+    runs-on: ubuntu-latest
+    needs: bundle-analysis
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    defaults:
+      run:
+        working-directory: ./frontend
+        
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+          
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+        
+      - name: Build application
+        run: npm run build
+        
+      - name: Start preview server
+        run: |
+          npm run preview &
+          sleep 5
+          
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          configPath: './frontend/lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+  size-regression-check:
+    name: Bundle Size Regression Check
+    runs-on: ubuntu-latest
+    needs: bundle-analysis
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+          
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci --prefer-offline --no-audit
+        
+      - name: Build current branch
+        working-directory: ./frontend
+        run: |
+          npm run build
+          npm run bundle:stats
+          cp dist/bundle-stats.json /tmp/current-stats.json
+          
+      - name: Build main branch
+        working-directory: ./frontend
+        run: |
+          git checkout origin/main
+          npm ci --prefer-offline --no-audit
+          npm run build
+          npm run bundle:stats
+          cp dist/bundle-stats.json /tmp/main-stats.json
+          
+      - name: Compare bundle sizes
+        run: |
+          node -e "
+            const fs = require('fs');
+            const current = JSON.parse(fs.readFileSync('/tmp/current-stats.json', 'utf8'));
+            const main = JSON.parse(fs.readFileSync('/tmp/main-stats.json', 'utf8'));
+            
+            const currentSize = current.stats.summary.total.gzipSize;
+            const mainSize = main.stats.summary.total.gzipSize;
+            const diff = currentSize - mainSize;
+            const diffPercent = (diff / mainSize * 100).toFixed(2);
+            
+            const formatBytes = (bytes) => (bytes / 1024).toFixed(1) + 'KB';
+            
+            console.log('Bundle Size Comparison:');
+            console.log('Main branch:', formatBytes(mainSize));
+            console.log('Current branch:', formatBytes(currentSize));
+            console.log('Difference:', (diff > 0 ? '+' : '') + formatBytes(diff), '(' + (diff > 0 ? '+' : '') + diffPercent + '%)');
+            
+            // Set threshold for regression (5% increase)
+            if (diffPercent > 5) {
+              console.log('❌ Bundle size increased significantly!');
+              process.exit(1);
+            } else if (diffPercent > 2) {
+              console.log('⚠️ Bundle size increased moderately');
+            } else if (diffPercent < -2) {
+              console.log('✅ Bundle size decreased - great optimization!');
+            } else {
+              console.log('✅ Bundle size change is within acceptable limits');
+            }
+          "
+
+  deploy-reports:
+    name: Deploy Bundle Reports
+    runs-on: ubuntu-latest
+    needs: [bundle-analysis, lighthouse-audit]
+    if: github.ref == 'refs/heads/main' && always()
+    permissions:
+      pages: write
+      id-token: write
+      
+    environment:
+      name: bundle-reports
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    steps:
+      - name: Download bundle reports
+        uses: actions/download-artifact@v4
+        with:
+          name: bundle-analysis-reports
+          path: ./reports
+          
+      - name: Create index page
+        run: |
+          mkdir -p public
+          cat > public/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+              <title>Bundle Analysis Reports</title>
+              <style>
+                  body { font-family: system-ui; margin: 40px; }
+                  .card { border: 1px solid #ddd; padding: 20px; margin: 20px 0; border-radius: 8px; }
+                  .metric { display: inline-block; margin: 10px 20px 10px 0; }
+                  .metric-value { font-size: 1.2em; font-weight: bold; color: #0066cc; }
+              </style>
+          </head>
+          <body>
+              <h1>📊 Bundle Analysis Dashboard</h1>
+              <div class="card">
+                  <h2>Latest Build</h2>
+                  <div class="metric">
+                      <div>Bundle Size</div>
+                      <div class="metric-value" id="bundle-size">Loading...</div>
+                  </div>
+                  <div class="metric">
+                      <div>Last Updated</div>
+                      <div class="metric-value" id="last-updated">Loading...</div>
+                  </div>
+              </div>
+              <div class="card">
+                  <h2>📈 Reports</h2>
+                  <ul>
+                      <li><a href="./stats.html">Visual Bundle Analysis</a></li>
+                      <li><a href="./bundle-stats.json">Bundle Statistics (JSON)</a></li>
+                      <li><a href="./performance-budget-report.json">Performance Budget Report</a></li>
+                      <li><a href="./size-check-report.json">Size Check Report</a></li>
+                  </ul>
+              </div>
+          </body>
+          </html>
+          EOF
+          
+          # Copy reports to public directory
+          cp -r reports/* public/
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

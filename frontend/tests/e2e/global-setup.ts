@@ -4,7 +4,7 @@ import { FullConfig } from '@playwright/test'
  * Global setup for Playwright E2E tests
  * Runs once before all tests
  */
-async function globalSetup(config: FullConfig) {
+async function globalSetup(_config: FullConfig): Promise<void> {
   console.log('Starting global setup for E2E tests...')
   
   // You can add global setup logic here, such as:

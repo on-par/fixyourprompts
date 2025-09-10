@@ -45,7 +45,7 @@ class ErrorHandlingPage {
   readonly errorAlert: Locator
   readonly errorDetails: Locator
 
-  constructor(page: Page) {
+  constructor(_page: Page) {
     this.page = page
     this.promptInput = page.locator('[data-testid="prompt-input"]')
     this.submitButton = page.locator('[data-testid="submit-button"]')

@@ -178,11 +178,13 @@ export interface ImprovementsListProps {
  */
 export interface ErrorBoundaryProps {
   /** Fallback component to render when an error occurs */
-  fallback?: React.ComponentType<{ error: Error; resetError: () => void }>;
+  fallback?: React.ComponentType<{ error: Error; resetError: () => void; errorId?: string; retryCount?: number }>;
   /** Handler called when an error is caught */
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
   /** Child components to wrap with error boundary */
   children: React.ReactNode;
+  /** Optional name for the error boundary (used for tracking) */
+  name?: string;
 }
 
 // ============================================

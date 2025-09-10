@@ -5,4 +5,3 @@
  */
 
 export { AnalysisPanel, default } from './AnalysisPanel';
-export type { AnalysisPanelProps } from '../../types/components';

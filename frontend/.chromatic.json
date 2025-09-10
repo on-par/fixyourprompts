@@ -1,0 +1,16 @@
+{
+  "projectToken": "PROJECT_TOKEN_PLACEHOLDER",
+  "buildScriptName": "build-storybook",
+  "externals": ["public/**"],
+  "autoAcceptChanges": false,
+  "exitZeroOnChanges": true,
+  "exitOnceUploaded": true,
+  "storybookBuildDir": "storybook-static",
+  "ignoreLastBuildOnBranch": "main",
+  "skip": "dependabot/**",
+  "diagnostics": true,
+  "debug": false,
+  "zip": true,
+  "fileHashing": true,
+  "onlyChanged": false
+}

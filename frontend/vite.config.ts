@@ -80,11 +80,11 @@ export default defineConfig(({ mode }) => {
       // Optimize chunks with advanced strategies
       rollupOptions: {
         output: {
-          // Advanced chunking strategy
+          // Advanced chunking strategy optimized for lazy loading
           manualChunks: (id): string | undefined => {
             // Vendor chunks
             if (id.includes('node_modules')) {
-              // React ecosystem
+              // React ecosystem - critical for app initialization
               if (id.includes('react') || id.includes('react-dom')) {
                 return 'react-vendor'
               }
@@ -104,9 +104,44 @@ export default defineConfig(({ mode }) => {
               return 'vendor'
             }
             
+            // Lazy-loaded component chunks - separate for better caching
+            if (id.includes('/components/AnalysisPanel/')) {
+              return 'lazy-analysis-panel'
+            }
+            if (id.includes('/components/PromptOutput/')) {
+              return 'lazy-prompt-output'
+            }
+            if (id.includes('/components/EducationPanel/')) {
+              return 'lazy-education-panel'
+            }
+            if (id.includes('/components/Header/')) {
+              return 'lazy-header'
+            }
+            if (id.includes('/components/Footer/')) {
+              return 'lazy-footer'
+            }
+            
+            // Lazy loading infrastructure - shared utilities
+            if (id.includes('/components/LazyWrapper/') || 
+                id.includes('/components/LazyErrorBoundary/') || 
+                id.includes('/components/LoadingFallback/')) {
+              return 'lazy-infrastructure'
+            }
+            
+            // Router views - separate chunks for route-based splitting
+            if (id.includes('/router/views/')) {
+              const viewName = id.split('/router/views/')[1]?.split('.')[0]?.toLowerCase()
+              return viewName ? `route-${viewName}` : 'route-views'
+            }
+            
+            // Router infrastructure
+            if (id.includes('/router/')) {
+              return 'router'
+            }
+            
             // Application chunks based on folder structure
             if (id.includes('/components/')) {
-              return 'components'
+              return 'components-core'
             }
             if (id.includes('/services/')) {
               return 'services'
@@ -146,9 +181,12 @@ export default defineConfig(({ mode }) => {
         },
       },
       
-      // Performance optimizations
-      chunkSizeWarningLimit: 1000,
+      // Performance optimizations for lazy loading
+      chunkSizeWarningLimit: 1500, // Increased for lazy chunks
       assetsInlineLimit: 4096, // Inline assets smaller than 4KB
+      
+      // Enable experimental features for better lazy loading
+      experimentalMinChunkSize: 20000, // Min size for separate chunks
       
       // CSS code splitting
       cssCodeSplit: true,
@@ -192,6 +230,8 @@ export default defineConfig(({ mode }) => {
       ],
       // Pre-bundle dependencies for faster development
       force: false,
+      // Exclude lazy-loaded components from pre-bundling to allow dynamic loading
+      exclude: [],
     },
     
     // Path aliases for cleaner imports

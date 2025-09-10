@@ -1,4 +1,4 @@
-import { test, expect, type Page, type BrowserContext, type Locator } from '@playwright/test'
+import { test, expect, type Page, type Locator } from '@playwright/test'
 
 /**
  * E2E Performance Tests for FixYourPrompts.com
@@ -29,7 +29,7 @@ class PerformanceTracker {
   private metrics: Map<string, number> = new Map()
   private memorySnapshots: number[] = []
 
-  async measurePageLoad(page: Page, url: string): Promise<{
+  async measurePageLoad(_page: Page, url: string): Promise<{
     loadTime: number,
     fcp: number,
     lcp: number,
@@ -45,7 +45,7 @@ class PerformanceTracker {
     const loadTime = Date.now() - startTime
 
     // Get Web Vitals metrics
-    const webVitals = await page.evaluate(() => {
+    const webVitals = await _page.evaluate(() => {
       return new Promise((resolve) => {
         const metrics: any = {}
         
@@ -92,14 +92,14 @@ class PerformanceTracker {
     }
   }
 
-  async measureInteractionTime(page: Page, action: () => Promise<void>): Promise<number> {
+  async measureInteractionTime(_page: Page, action: () => Promise<void>): Promise<number> {
     const startTime = Date.now()
     await action()
     return Date.now() - startTime
   }
 
-  async captureMemorySnapshot(page: Page): Promise<number> {
-    const memoryInfo = await page.evaluate(() => {
+  async captureMemorySnapshot(_page: Page): Promise<number> {
+    const memoryInfo = await _page.evaluate(() => {
       if ('memory' in performance) {
         return (performance as any).memory.usedJSHeapSize
       }
@@ -122,8 +122,8 @@ class PerformanceTracker {
     return { trend: 'stable', percentage }
   }
 
-  async measureBundleSize(page: Page): Promise<{ totalSize: number, jsSize: number, cssSize: number }> {
-    const resourceSizes = await page.evaluate(() => {
+  async measureBundleSize(_page: Page): Promise<{ totalSize: number, jsSize: number, cssSize: number }> {
+    const resourceSizes = await _page.evaluate(() => {
       const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[]
       let totalSize = 0
       let jsSize = 0
@@ -156,7 +156,7 @@ class PerformanceTestPage {
   readonly resultsContainer: Locator
   readonly loadingSpinner: Locator
   
-  constructor(page: Page) {
+  constructor(_page: Page) {
     this.page = page
     this.tracker = new PerformanceTracker()
     this.promptInput = page.locator('[data-testid="prompt-input"]')
@@ -203,8 +203,8 @@ class PerformanceTestPage {
 test.describe('Performance Tests', () => {
   let performancePage: PerformanceTestPage
 
-  test.beforeEach(async ({ page }) => {
-    performancePage = new PerformanceTestPage(page)
+  test.beforeEach(async ({ page: _page }) => {
+    performancePage = new PerformanceTestPage(_page)
   })
 
   test.describe('Page Load Performance', () => {
@@ -265,7 +265,7 @@ test.describe('Performance Tests', () => {
       expect(responseTime).toBeLessThan(500)
     })
 
-    test('typing performance should be smooth', async ({ page }) => {
+    test('typing performance should be smooth', async ({ page: _page }) => {
       await performancePage.navigateAndMeasure('/')
       
       const typeStartTime = Date.now()
@@ -273,7 +273,7 @@ test.describe('Performance Tests', () => {
       // Simulate realistic typing with delays
       await performancePage.promptInput.click()
       for (const char of performanceTestData.mediumPrompt) {
-        await page.keyboard.type(char, { delay: 10 }) // 10ms between chars
+        await _page.keyboard.type(char, { delay: 10 }) // 10ms between chars
       }
       
       const typeEndTime = Date.now()
@@ -286,7 +286,7 @@ test.describe('Performance Tests', () => {
       expect(typingTime).toBeLessThan(expectedTime * 1.5)
     })
 
-    test('UI should remain responsive during processing', async ({ page }) => {
+    test('UI should remain responsive during processing', async ({ page: _page }) => {
       await performancePage.navigateAndMeasure('/')
       
       // Start a prompt submission
@@ -298,11 +298,11 @@ test.describe('Performance Tests', () => {
         async () => {
           // Try to click on input field
           await performancePage.promptInput.click()
-          await page.keyboard.type('test')
+          await _page.keyboard.type('test')
         },
         async () => {
           // Try to scroll page
-          await page.evaluate(() => window.scrollBy(0, 100))
+          await _page.evaluate(() => window.scrollBy(0, 100))
         }
       ]
       
@@ -334,7 +334,7 @@ test.describe('Performance Tests', () => {
       expect(responseTime).toBeLessThan(500)
     })
 
-    test('should handle very large input gracefully', async ({ page }) => {
+    test('should handle very large input gracefully', async ({ page: _page }) => {
       await performancePage.navigateAndMeasure('/')
       
       // Test with very large input
@@ -393,7 +393,7 @@ test.describe('Performance Tests', () => {
       expect(memoryTrend.percentage).toBeLessThan(50) // <50% increase allowed
     })
 
-    test('should handle rapid successive operations without memory issues', async ({ page }) => {
+    test('should handle rapid successive operations without memory issues', async ({ page: _page }) => {
       await performancePage.navigateAndMeasure('/')
       
       const initialMemory = await performancePage.measureMemory()
@@ -416,12 +416,12 @@ test.describe('Performance Tests', () => {
   })
 
   test.describe('Code Splitting and Lazy Loading', () => {
-    test('should load additional chunks only when needed', async ({ page }) => {
+    test('should load additional chunks only when needed', async ({ page: _page }) => {
       await performancePage.navigateAndMeasure('/')
       
       // Monitor network requests for additional chunks
       const networkRequests: string[] = []
-      page.on('request', (request) => {
+      _page.on('request', (request) => {
         if (request.url().includes('.js') || request.url().includes('.css')) {
           networkRequests.push(request.url())
         }
@@ -442,11 +442,11 @@ test.describe('Performance Tests', () => {
       expect(additionalRequests).toBeLessThan(10) // But not too many
     })
 
-    test('should prefetch critical resources', async ({ page }) => {
+    test('should prefetch critical resources', async ({ page: _page }) => {
       await performancePage.navigateAndMeasure('/')
       
       // Check for resource hints in the HTML
-      const resourceHints = await page.evaluate(() => {
+      const resourceHints = await _page.evaluate(() => {
         const hints = Array.from(document.querySelectorAll('link[rel="preload"], link[rel="prefetch"], link[rel="preconnect"]'))
         return hints.map(hint => ({
           rel: hint.getAttribute('rel'),
@@ -476,7 +476,7 @@ test.describe('Performance Tests', () => {
       try {
         // All users load the page simultaneously
         const loadPromises = pages.map(async (page, index) => {
-          const testPage = new PerformanceTestPage(page)
+          const testPage = new PerformanceTestPage(_page)
           const metrics = await testPage.navigateAndMeasure('/')
           
           console.log(`User ${index + 1} load time: ${metrics.loadTime}ms`)
@@ -500,8 +500,8 @@ test.describe('Performance Tests', () => {
       }
     })
 
-    test('should handle rapid navigation without degradation', async ({ page }) => {
-      const testPage = new PerformanceTestPage(page)
+    test('should handle rapid navigation without degradation', async ({ page: _page }) => {
+      const testPage = new PerformanceTestPage(_page)
       
       // Perform rapid navigation cycles
       const navigationTimes: number[] = []
@@ -531,14 +531,14 @@ test.describe('Performance Tests', () => {
   })
 
   test.describe('Performance Monitoring and Alerts', () => {
-    test('should report performance metrics for monitoring', async ({ page }) => {
-      const testPage = new PerformanceTestPage(page)
+    test('should report performance metrics for monitoring', async ({ page: _page }) => {
+      const testPage = new PerformanceTestPage(_page)
       const metrics = await testPage.navigateAndMeasure('/')
       
       // Log structured performance data for monitoring systems
       const performanceReport = {
         timestamp: new Date().toISOString(),
-        url: page.url(),
+        url: _page.url(),
         metrics: {
           loadTime: metrics.loadTime,
           fcp: metrics.fcp,
@@ -546,8 +546,8 @@ test.describe('Performance Tests', () => {
           tti: metrics.tti,
           cls: metrics.cls
         },
-        browser: await page.evaluate(() => navigator.userAgent),
-        viewport: await page.viewportSize()
+        browser: await _page.evaluate(() => navigator.userAgent),
+        viewport: await _page.viewportSize()
       }
       
       console.log('Performance Report:', JSON.stringify(performanceReport, null, 2))
@@ -558,8 +558,8 @@ test.describe('Performance Tests', () => {
       expect(performanceReport.url).toContain('localhost:5173')
     })
 
-    test('should identify performance regressions', async ({ page }) => {
-      const testPage = new PerformanceTestPage(page)
+    test('should identify performance regressions', async ({ page: _page }) => {
+      const testPage = new PerformanceTestPage(_page)
       
       // Baseline measurement
       const baseline = await testPage.navigateAndMeasure('/')
@@ -587,8 +587,8 @@ test.describe('Performance Tests', () => {
 
 // Performance utility tests
 test.describe('Performance Infrastructure', () => {
-  test('performance tracking utilities should work correctly', async ({ page }) => {
-    const testPage = new PerformanceTestPage(page)
+  test('performance tracking utilities should work correctly', async ({ page: _page }) => {
+    const testPage = new PerformanceTestPage(_page)
     
     // Test memory tracking
     const memory1 = await testPage.measureMemory()
@@ -606,8 +606,8 @@ test.describe('Performance Infrastructure', () => {
     expect(bundleSize.cssSize).toBeGreaterThanOrEqual(0)
   })
 
-  test('should have reliable performance measurement baseline', async ({ page }) => {
-    const testPage = new PerformanceTestPage(page)
+  test('should have reliable performance measurement baseline', async ({ page: _page }) => {
+    const testPage = new PerformanceTestPage(_page)
     
     // Take multiple measurements to check consistency
     const measurements = []

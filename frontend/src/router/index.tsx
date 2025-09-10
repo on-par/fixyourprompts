@@ -1,4 +1,11 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+// Import lazy-loaded route components
+import { 
+  LazyHistoryView, 
+  LazyAboutView, 
+  LazyHelpView, 
+  LazyNotFoundView 
+} from './LazyRoutes';
 
 export type Route = 
   | 'home'
@@ -86,7 +93,7 @@ export interface RouterProviderProps {
   initialRoute?: Route;
 }
 
-export function RouterProvider({ children, initialRoute }: RouterProviderProps) {
+export function RouterProvider({ children, initialRoute }: RouterProviderProps): JSX.Element {
   // Initialize route from URL or provided initial route
   const [currentRoute, setCurrentRoute] = useState<Route>(() => {
     if (initialRoute) {return initialRoute;}
@@ -108,16 +115,16 @@ export function RouterProvider({ children, initialRoute }: RouterProviderProps) 
   useEffect(() => {
     if (typeof window === 'undefined') {return;}
 
-    const handlePopState = () => {
+    const handlePopState = (): void => {
       const newRoute = getRouteFromPath(window.location.pathname);
       setCurrentRoute(newRoute);
     };
 
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    return (): void => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const navigate = useCallback((route: Route) => {
+  const navigate = useCallback((route: Route): void => {
     if (route === currentRoute) {return;}
 
     setCurrentRoute(route);
@@ -166,7 +173,7 @@ export interface RouteProps {
   fallback?: ReactNode;
 }
 
-export function Route({ route, children, fallback }: RouteProps) {
+export function Route({ route, children, fallback }: RouteProps): JSX.Element {
   const { currentRoute } = useRouter();
   
   if (currentRoute === route) {
@@ -186,10 +193,10 @@ export interface LinkProps {
   onClick?: () => void;
 }
 
-export function Link({ to, children, className = '', activeClassName = '', onClick }: LinkProps) {
+export function Link({ to, children, className = '', activeClassName = '', onClick }: LinkProps): JSX.Element {
   const { navigate, isActive } = useRouter();
 
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
     navigate(to);
     onClick?.();
@@ -216,7 +223,7 @@ interface RefinementViewProps {
   children: ReactNode;
 }
 
-export function RefinementView({ children }: RefinementViewProps) {
+export function RefinementView({ children }: RefinementViewProps): JSX.Element {
   return (
     <Route route="refinement" fallback={
       <Route route="home">
@@ -228,141 +235,11 @@ export function RefinementView({ children }: RefinementViewProps) {
   );
 }
 
-export function HistoryView({ children }: { children: ReactNode }) {
-  return (
-    <Route route="history">
-      <div className="history-view">
-        <div className="page-header">
-          <h1>Session History</h1>
-          <p>View and manage your previous prompt refinement sessions</p>
-        </div>
-        {children}
-      </div>
-    </Route>
-  );
-}
-
-export function AboutView({ children }: { children: ReactNode }) {
-  return (
-    <Route route="about">
-      <div className="about-view">
-        <div className="page-header">
-          <h1>About FixYourPrompts</h1>
-          <p>Learn more about our AI-powered prompt refinement tool</p>
-        </div>
-        <div className="about-content">
-          <section className="about-section">
-            <h2>What We Do</h2>
-            <p>
-              FixYourPrompts uses advanced AI analysis to identify issues in your prompts
-              and provides intelligent refinements to help you get better results from AI systems.
-            </p>
-          </section>
-          
-          <section className="about-section">
-            <h2>How It Works</h2>
-            <ol>
-              <li><strong>Analysis:</strong> Our system identifies vagueness, missing context, and structural issues</li>
-              <li><strong>Refinement:</strong> AI generates improved versions with clear explanations</li>
-              <li><strong>Learning:</strong> Get personalized educational tips to improve your prompting skills</li>
-            </ol>
-          </section>
-          
-          <section className="about-section">
-            <h2>Features</h2>
-            <ul>
-              <li>Real-time prompt analysis</li>
-              <li>AI-powered refinement suggestions</li>
-              <li>Educational content and best practices</li>
-              <li>Session history and management</li>
-              <li>Responsive design for all devices</li>
-            </ul>
-          </section>
-        </div>
-        {children}
-      </div>
-    </Route>
-  );
-}
-
-export function HelpView({ children }: { children: ReactNode }) {
-  return (
-    <Route route="help">
-      <div className="help-view">
-        <div className="page-header">
-          <h1>Help & Documentation</h1>
-          <p>Learn how to use FixYourPrompts effectively</p>
-        </div>
-        <div className="help-content">
-          <section className="help-section">
-            <h2>Getting Started</h2>
-            <p>
-              Enter your prompt in the text area and click "Analyze" to get started.
-              Our system will identify potential issues and suggest improvements.
-            </p>
-          </section>
-          
-          <section className="help-section">
-            <h2>Understanding Analysis Results</h2>
-            <dl>
-              <dt>Vagueness</dt>
-              <dd>Your prompt lacks specificity. Add more details about what you want.</dd>
-              
-              <dt>Missing Context</dt>
-              <dd>Provide background information to help the AI understand your needs.</dd>
-              
-              <dt>Poor Structure</dt>
-              <dd>Organize your prompt with clear sections and logical flow.</dd>
-              
-              <dt>Unclear Constraints</dt>
-              <dd>Specify limitations, format requirements, and scope.</dd>
-              
-              <dt>Tone Inconsistency</dt>
-              <dd>Maintain a consistent tone throughout your prompt.</dd>
-              
-              <dt>Missing Examples</dt>
-              <dd>Include concrete examples to clarify your expectations.</dd>
-            </dl>
-          </section>
-          
-          <section className="help-section">
-            <h2>Tips for Better Prompts</h2>
-            <ul>
-              <li>Be specific about what you want to achieve</li>
-              <li>Provide relevant context and background</li>
-              <li>Include examples when possible</li>
-              <li>Specify format and length requirements</li>
-              <li>Use clear, consistent language</li>
-              <li>Break complex requests into steps</li>
-            </ul>
-          </section>
-        </div>
-        {children}
-      </div>
-    </Route>
-  );
-}
-
-export function NotFoundView() {
-  const { navigate } = useRouter();
-  
-  return (
-    <Route route="404">
-      <div className="not-found-view">
-        <div className="not-found-content">
-          <h1>404 - Page Not Found</h1>
-          <p>The page you're looking for doesn't exist.</p>
-          <button 
-            onClick={() => navigate('home')}
-            className="back-home-button"
-          >
-            Go Back Home
-          </button>
-        </div>
-      </div>
-    </Route>
-  );
-}
+// Export lazy-loaded views with same names as original for backward compatibility
+export const HistoryView = LazyHistoryView;
+export const AboutView = LazyAboutView;
+export const HelpView = LazyHelpView;
+export const NotFoundView = LazyNotFoundView;
 
 export { routeConfig };
 export type { Route, RouteInfo };

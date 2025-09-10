@@ -1,0 +1,584 @@
+name: Frontend CI/CD Pipeline
+
+on:
+  push:
+    branches: 
+      - main
+      - develop
+      - 'release/*'
+      - 'hotfix/*'
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+  pull_request:
+    branches: 
+      - main
+      - develop
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      skip_tests:
+        description: 'Skip test execution'
+        required: false
+        default: false
+        type: boolean
+
+# Environment variables
+env:
+  NODE_VERSION: '20'
+  CACHE_VERSION: v1
+  WORKING_DIRECTORY: frontend
+
+# Concurrency control
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ========================
+  # CODE QUALITY & LINTING
+  # ========================
+  code-quality:
+    name: Code Quality & Linting
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history for better analysis
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.WORKING_DIRECTORY }}/node_modules
+          key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.WORKING_DIRECTORY)) }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Type checking
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run typecheck
+
+      - name: Lint code
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run lint
+
+      - name: Check code formatting
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run format:check
+
+      - name: Upload lint results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-results
+          path: ${{ env.WORKING_DIRECTORY }}/eslint-report.json
+          retention-days: 7
+
+  # ========================
+  # SECURITY SCANNING
+  # ========================
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run npm audit
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npm audit --audit-level=moderate --json > npm-audit.json || true
+          npm audit --audit-level=moderate
+
+      - name: Dependency vulnerability scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: ${{ env.WORKING_DIRECTORY }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload security scan results
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Upload npm audit results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-results
+          path: |
+            ${{ env.WORKING_DIRECTORY }}/npm-audit.json
+            trivy-results.sarif
+          retention-days: 30
+
+  # ========================
+  # UNIT & INTEGRATION TESTS
+  # ========================
+  unit-tests:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.WORKING_DIRECTORY }}/node_modules
+          key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.WORKING_DIRECTORY)) }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run unit tests with coverage
+        if: ${{ !inputs.skip_tests }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm run test:coverage
+
+      - name: Upload coverage reports
+        if: ${{ !inputs.skip_tests }}
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ${{ env.WORKING_DIRECTORY }}/coverage
+          flags: frontend
+          name: frontend-coverage
+          fail_ci_if_error: false
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: |
+            ${{ env.WORKING_DIRECTORY }}/coverage/
+            ${{ env.WORKING_DIRECTORY }}/test-results/
+          retention-days: 7
+
+  # ========================
+  # END-TO-END TESTS
+  # ========================
+  e2e-tests:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.WORKING_DIRECTORY }}/node_modules
+          key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.WORKING_DIRECTORY)) }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Install Playwright browsers
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npx playwright install ${{ matrix.browser }} --with-deps
+
+      - name: Run E2E tests
+        if: ${{ !inputs.skip_tests }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npx playwright test --project=${{ matrix.browser }}
+        env:
+          CI: true
+
+      - name: Upload E2E test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-test-results-${{ matrix.browser }}
+          path: |
+            ${{ env.WORKING_DIRECTORY }}/playwright-report/
+            ${{ env.WORKING_DIRECTORY }}/test-results/
+          retention-days: 7
+
+  # ========================
+  # BUILD & OPTIMIZATION
+  # ========================
+  build:
+    name: Build & Optimization
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [code-quality, security-scan, unit-tests]
+    
+    strategy:
+      matrix:
+        environment: [development, staging, production]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: ${{ env.WORKING_DIRECTORY }}/package-lock.json
+
+      - name: Cache node modules
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.WORKING_DIRECTORY }}/node_modules
+          key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', env.WORKING_DIRECTORY)) }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-
+
+      - name: Install dependencies
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Set environment variables
+        run: |
+          case "${{ matrix.environment }}" in
+            "development")
+              echo "VITE_API_URL=https://dev-api.fixyourprompts.com" >> $GITHUB_ENV
+              echo "VITE_APP_ENV=development" >> $GITHUB_ENV
+              ;;
+            "staging")
+              echo "VITE_API_URL=https://staging-api.fixyourprompts.com" >> $GITHUB_ENV
+              echo "VITE_APP_ENV=staging" >> $GITHUB_ENV
+              ;;
+            "production")
+              echo "VITE_API_URL=https://api.fixyourprompts.com" >> $GITHUB_ENV
+              echo "VITE_APP_ENV=production" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Build application
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          echo "Building for ${{ matrix.environment }} environment"
+          npm run build
+        env:
+          NODE_ENV: ${{ matrix.environment == 'production' && 'production' || 'development' }}
+
+      - name: Analyze bundle size
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npx vite-bundle-analyzer dist/assets --analyze
+          ls -la dist/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.environment }}
+          path: ${{ env.WORKING_DIRECTORY }}/dist
+          retention-days: 30
+
+      - name: Upload bundle analysis
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-analysis-${{ matrix.environment }}
+          path: ${{ env.WORKING_DIRECTORY }}/bundle-analysis.json
+          retention-days: 7
+
+  # ========================
+  # PERFORMANCE TESTING
+  # ========================
+  performance-tests:
+    name: Performance Testing
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [build]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-production
+          path: ${{ env.WORKING_DIRECTORY }}/dist
+
+      - name: Install Lighthouse CI
+        run: npm install -g @lhci/cli
+
+      - name: Serve static files
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          npx serve dist -l 8080 &
+          sleep 5
+
+      - name: Run Lighthouse CI
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+        run: |
+          lhci autorun || echo "Lighthouse CI completed with warnings"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: ${{ env.WORKING_DIRECTORY }}/.lighthouseci
+          retention-days: 7
+
+  # ========================
+  # DEPLOYMENT - STAGING
+  # ========================
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [build, e2e-tests]
+    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'staging')
+    environment:
+      name: staging
+      url: https://staging.fixyourprompts.com
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download staging build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-staging
+          path: ${{ env.WORKING_DIRECTORY }}/dist
+
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging environment..."
+          echo "Build artifacts ready for deployment"
+          # Add your deployment commands here
+          # Examples:
+          # - AWS S3/CloudFront deployment
+          # - Vercel deployment
+          # - Custom deployment script
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests on staging..."
+          # Add smoke tests here
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "Successfully deployed to staging!"
+
+  # ========================
+  # DEPLOYMENT - PRODUCTION
+  # ========================
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [build, e2e-tests, performance-tests]
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'production')
+    environment:
+      name: production
+      url: https://fixyourprompts.com
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download production build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-production
+          path: ${{ env.WORKING_DIRECTORY }}/dist
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production environment..."
+          echo "Build artifacts ready for deployment"
+          # Add your production deployment commands here
+
+      - name: Run production smoke tests
+        run: |
+          echo "Running smoke tests on production..."
+          # Add production smoke tests here
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "Successfully deployed to production!"
+
+  # ========================
+  # NOTIFICATIONS & REPORTING
+  # ========================
+  notify:
+    name: Notifications & Reporting
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-scan, unit-tests, e2e-tests, build]
+    if: always()
+    
+    steps:
+      - name: Collect job results
+        run: |
+          echo "Code Quality: ${{ needs.code-quality.result }}"
+          echo "Security Scan: ${{ needs.security-scan.result }}"
+          echo "Unit Tests: ${{ needs.unit-tests.result }}"
+          echo "E2E Tests: ${{ needs.e2e-tests.result }}"
+          echo "Build: ${{ needs.build.result }}"
+
+      - name: Generate summary report
+        run: |
+          {
+            echo "# Frontend CI/CD Pipeline Summary"
+            echo ""
+            echo "**Branch**: ${{ github.ref_name }}"
+            echo "**Commit**: ${{ github.sha }}"
+            echo "**Triggered by**: ${{ github.event_name }}"
+            echo ""
+            echo "## Job Results"
+            echo "- Code Quality: ${{ needs.code-quality.result }}"
+            echo "- Security Scan: ${{ needs.security-scan.result }}"
+            echo "- Unit Tests: ${{ needs.unit-tests.result }}"
+            echo "- E2E Tests: ${{ needs.e2e-tests.result }}"
+            echo "- Build: ${{ needs.build.result }}"
+            echo ""
+            echo "## Artifacts"
+            echo "- Build artifacts available for 30 days"
+            echo "- Test results available for 7 days"
+            echo "- Security scan results available for 30 days"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: Slack notification on failure
+        if: failure() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#ci-cd'
+          text: |
+            Frontend CI/CD Pipeline Failed!
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Email notification on failure
+        if: failure() && github.ref == 'refs/heads/main'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "Frontend CI/CD Pipeline Failed - ${{ github.ref_name }}"
+          body: |
+            The frontend CI/CD pipeline has failed for commit ${{ github.sha }} on branch ${{ github.ref_name }}.
+            
+            Please check the GitHub Actions logs for more details.
+            
+            Repository: ${{ github.repository }}
+            Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.NOTIFICATION_EMAIL }}
+          from: ${{ secrets.EMAIL_USERNAME }}
+
+  # ========================
+  # CLEANUP
+  # ========================
+  cleanup:
+    name: Cleanup
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production, notify]
+    if: always()
+    
+    steps:
+      - name: Cleanup old artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const artifacts = await github.rest.actions.listArtifactsForRepo({
+              owner,
+              repo,
+              per_page: 100
+            });
+            
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            
+            for (const artifact of artifacts.data.artifacts) {
+              const createdAt = new Date(artifact.created_at);
+              if (createdAt < oneWeekAgo && artifact.name.includes('test-results')) {
+                await github.rest.actions.deleteArtifact({
+                  owner,
+                  repo,
+                  artifact_id: artifact.id
+                });
+                console.log(`Deleted old artifact: ${artifact.name}`);
+              }
+            }

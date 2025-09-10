@@ -1,0 +1,133 @@
+/**
+ * Loading fallback styles for lazy-loaded components
+ */
+
+.loading-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--text-color, #333);
+  background: var(--bg-color, transparent);
+  border-radius: 0.5rem;
+}
+
+.loading-fallback--minimal {
+  padding: 1rem;
+}
+
+.loading-fallback__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.loading-fallback__spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--border-color, #e1e5e9);
+  border-top: 2px solid var(--primary-color, #646cff);
+  border-radius: 50%;
+  animation: loading-spin 1s linear infinite;
+}
+
+.loading-fallback__message {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #666);
+  font-weight: 500;
+}
+
+/* Size variations */
+.loading-fallback--small {
+  padding: 1rem;
+}
+
+.loading-fallback--small .loading-fallback__spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.loading-fallback--small .loading-fallback__message {
+  font-size: 0.8rem;
+}
+
+.loading-fallback--large {
+  padding: 3rem;
+}
+
+.loading-fallback--large .loading-fallback__spinner {
+  width: 3rem;
+  height: 3rem;
+  border-width: 3px;
+}
+
+.loading-fallback--large .loading-fallback__message {
+  font-size: 1.1rem;
+}
+
+/* Animation */
+@keyframes loading-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .loading-fallback {
+    color: var(--text-color, #e1e5e9);
+  }
+  
+  .loading-fallback__spinner {
+    border-color: var(--border-color, #444);
+    border-top-color: var(--primary-color, #646cff);
+  }
+  
+  .loading-fallback__message {
+    color: var(--text-secondary, #ccc);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .loading-fallback__spinner {
+    animation: none;
+    border: 2px solid var(--border-color, #e1e5e9);
+    border-left-color: var(--primary-color, #646cff);
+    position: relative;
+  }
+  
+  .loading-fallback__spinner::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 6px;
+    height: 6px;
+    background: var(--primary-color, #646cff);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.8;
+    animation: loading-pulse 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes loading-pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 0.3; }
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .loading-fallback__spinner {
+    border-color: transparent;
+    border-top-color: currentColor;
+    border-width: 3px;
+  }
+  
+  .loading-fallback__message {
+    font-weight: 600;
+  }
+}

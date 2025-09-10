@@ -122,6 +122,7 @@ export type EducationCategory =
 // Application State Types
 // ============================================
 
+// Main application state interface
 export interface AppState {
   currentSession: PromptRefinementSession | null;
   sessionHistory: PromptRefinementSession[]; // Stored in localStorage

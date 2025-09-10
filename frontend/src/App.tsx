@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { Profiler, useState, useEffect } from 'react';
 import { AppProvider } from './context/AppContext';
 import { useWorkflow } from './hooks/useRefinement';
-import { Header } from './components/Header';
-import { Footer } from './components/Footer';
+import { useComponentPerformance, useProfiler } from './hooks/usePerformanceMonitoring';
 import { PromptInput } from './components/PromptInput';
-import { PromptOutput } from './components/PromptOutput';
-import { AnalysisPanel } from './components/AnalysisPanel';
-import { EducationPanel } from './components/EducationPanel';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { LoadingFallback } from './components/LoadingFallback';
+import { PerformanceWidget } from './components/PerformanceWidget';
+// Import lazy-loaded components
+import { 
+  LazyAnalysisPanel,
+  LazyPromptOutput,
+  LazyEducationPanel,
+  LazyHeader,
+  LazyFooter
+} from './components/LazyComponents';
 import './styles/global.css';
 
 function AppContent(): JSX.Element {
@@ -24,12 +30,18 @@ function AppContent(): JSX.Element {
     clearError
   } = useWorkflow();
 
+  // Performance monitoring hooks
+  const { measureRender, measureRenderAsync } = useComponentPerformance('AppContent');
+  
+  // Performance widget state
+  const [showPerformanceWidget, setShowPerformanceWidget] = useState(process.env.NODE_ENV === 'development');
+
   const handlePromptSubmit = async (prompt: string): Promise<void> => {
-    await startNewRefinement(prompt);
+    await measureRenderAsync('prompt-submission', () => startNewRefinement(prompt));
   };
 
   const handleRefinePrompt = async (): Promise<void> => {
-    await completeRefinement();
+    await measureRenderAsync('prompt-refinement', () => completeRefinement());
   };
 
   const handleRetry = (): void => {
@@ -37,12 +49,33 @@ function AppContent(): JSX.Element {
   };
 
   const handleNewSession = (): void => {
+    measureRender('new-session');
     setCurrentPrompt('');
   };
 
+  // Keyboard shortcuts for performance monitoring (development only)
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'development') {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      // Ctrl/Cmd + Shift + P to toggle performance widget
+      if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'P') {
+        event.preventDefault();
+        setShowPerformanceWidget(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return (): void => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="app">
-      <Header />
+      <LazyHeader />
       
       <main className="app-main">
         <div className="app-container">
@@ -92,14 +125,14 @@ function AppContent(): JSX.Element {
               <div className="results-grid">
                 {/* Analysis Panel */}
                 <aside className="analysis-panel">
-                  <AnalysisPanel 
+                  <LazyAnalysisPanel 
                     analyses={currentSession.analysisResults}
                     compact={false}
                   />
                   
                   {/* Education Panel */}
                   {currentSession.educationTips.length > 0 && (
-                    <EducationPanel
+                    <LazyEducationPanel
                       tips={currentSession.educationTips}
                       userLevel="intermediate"
                     />
@@ -108,7 +141,7 @@ function AppContent(): JSX.Element {
 
                 {/* Output Panel */}
                 <main className="output-panel">
-                  <PromptOutput
+                  <LazyPromptOutput
                     session={currentSession}
                     onCopyRefined={(text) => {
                       navigator.clipboard.writeText(text);
@@ -137,19 +170,19 @@ function AppContent(): JSX.Element {
           {/* Loading States */}
           {isAnalyzing && (
             <section className="loading-section">
-              <div className="loading-spinner">
-                <div className="spinner"></div>
-                <p>Analyzing your prompt...</p>
-              </div>
+              <LoadingFallback 
+                message="Analyzing your prompt..."
+                size="large"
+              />
             </section>
           )}
 
           {isRefining && (
             <section className="loading-section">
-              <div className="loading-spinner">
-                <div className="spinner"></div>
-                <p>Refining your prompt...</p>
-              </div>
+              <LoadingFallback 
+                message="Refining your prompt..."
+                size="large"
+              />
             </section>
           )}
 
@@ -180,17 +213,29 @@ function AppContent(): JSX.Element {
         </div>
       </main>
 
-      <Footer />
+      <LazyFooter />
+      
+      {/* Performance Widget for Development */}
+      {showPerformanceWidget && (
+        <PerformanceWidget 
+          position="bottom-right" 
+          showInProduction={false} 
+        />
+      )}
     </div>
   );
 }
 
 function App(): JSX.Element {
+  const handleProfilerRender = useProfiler('App');
+
   return (
-    <ErrorBoundary>
-      <AppProvider>
-        <AppContent />
-      </AppProvider>
+    <ErrorBoundary name="App">
+      <Profiler id="App" onRender={handleProfilerRender}>
+        <AppProvider>
+          <AppContent />
+        </AppProvider>
+      </Profiler>
     </ErrorBoundary>
   );
 }

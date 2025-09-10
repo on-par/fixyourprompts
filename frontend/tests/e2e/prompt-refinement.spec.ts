@@ -40,7 +40,7 @@ class PromptRefinementPage {
   readonly errorMessage: Locator
   readonly loadingSpinner: Locator
 
-  constructor(page: Page) {
+  constructor(_page: Page) {
     this.page = page
     this.promptInput = page.locator('[data-testid="prompt-input"]')
     this.submitButton = page.locator('[data-testid="submit-button"]')
@@ -85,27 +85,27 @@ class PromptRefinementPage {
 test.describe('Prompt Refinement Journey', () => {
   let promptPage: PromptRefinementPage
 
-  test.beforeEach(async ({ page }) => {
-    promptPage = new PromptRefinementPage(page)
+  test.beforeEach(async ({ page: _page }) => {
+    promptPage = new PromptRefinementPage(_page)
     await promptPage.navigateToHome()
   })
 
   test.describe('Homepage and Initial Load', () => {
-    test('should display homepage with proper title and meta information', async ({ page }) => {
+    test('should display homepage with proper title and meta information', async ({ page: _page }) => {
       // Validate page loads correctly
-      await expect(page).toHaveTitle(/Fix Your Prompts/i)
+      await expect(_page).toHaveTitle(/Fix Your Prompts/i)
       
       // Check for essential meta tags for SEO and social sharing
-      const metaDescription = page.locator('meta[name="description"]')
+      const metaDescription = _page.locator('meta[name="description"]')
       await expect(metaDescription).toHaveAttribute('content', /improve.*prompts/i)
       
       // Verify main heading is present and accessible
-      const mainHeading = page.locator('h1')
+      const mainHeading = _page.locator('h1')
       await expect(mainHeading).toBeVisible()
       await expect(mainHeading).toContainText(/improve.*prompts/i)
     })
 
-    test('should have accessible and functional prompt input interface', async ({ page }) => {
+    test('should have accessible and functional prompt input interface', async ({ page: _page }) => {
       // Verify prompt input is properly labeled and accessible
       await expect(promptPage.promptInput).toBeVisible()
       await expect(promptPage.promptInput).toHaveAttribute('placeholder', /enter.*prompt/i)
@@ -119,7 +119,7 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.submitButton).toBeDisabled()
     })
 
-    test('should enable submit button when user types valid input', async ({ page }) => {
+    test('should enable submit button when user types valid input', async ({ page: _page }) => {
       // Button should be disabled initially
       await expect(promptPage.submitButton).toBeDisabled()
       
@@ -134,7 +134,7 @@ test.describe('Prompt Refinement Journey', () => {
   })
 
   test.describe('Prompt Submission and Analysis', () => {
-    test('should successfully analyze a well-structured prompt', async ({ page }) => {
+    test('should successfully analyze a well-structured prompt', async ({ page: _page }) => {
       // Submit a good prompt
       await promptPage.submitPrompt(testPrompts.detailed)
       
@@ -160,7 +160,7 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.educationalTips).toContainText(/tip|advice|improve/i)
     })
 
-    test('should provide helpful feedback for poorly structured prompts', async ({ page }) => {
+    test('should provide helpful feedback for poorly structured prompts', async ({ page: _page }) => {
       // Submit a poor prompt
       await promptPage.submitPrompt(testPrompts.poor)
       
@@ -180,7 +180,7 @@ test.describe('Prompt Refinement Journey', () => {
       expect(optionText?.length).toBeGreaterThan(testPrompts.poor.length * 3)
     })
 
-    test('should handle empty prompt submission gracefully', async ({ page }) => {
+    test('should handle empty prompt submission gracefully', async ({ page: _page }) => {
       // Try to submit empty prompt
       await promptPage.promptInput.fill('')
       
@@ -192,12 +192,12 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.errorMessage).toContainText(/required|empty/i)
     })
 
-    test('should validate prompt length limits', async ({ page }) => {
+    test('should validate prompt length limits', async ({ page: _page }) => {
       // Test maximum length
       await promptPage.promptInput.fill(testPrompts.long)
       
       // Should show character counter
-      const charCounter = page.locator('[data-testid="character-counter"]')
+      const charCounter = _page.locator('[data-testid="character-counter"]')
       await expect(charCounter).toContainText(/2000/)
       
       // Should indicate if over limit
@@ -206,7 +206,7 @@ test.describe('Prompt Refinement Journey', () => {
       }
     })
 
-    test('should handle special characters and formatting correctly', async ({ page }) => {
+    test('should handle special characters and formatting correctly', async ({ page: _page }) => {
       await promptPage.submitPrompt(testPrompts.withSpecialChars)
       
       await promptPage.waitForAnalysisComplete()
@@ -220,26 +220,26 @@ test.describe('Prompt Refinement Journey', () => {
   })
 
   test.describe('Analysis Results Display', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await promptPage.submitPrompt(testPrompts.detailed)
       await promptPage.waitForAnalysisComplete()
     })
 
-    test('should display comprehensive analysis breakdown', async ({ page }) => {
+    test('should display comprehensive analysis breakdown', async ({ page: _page }) => {
       // Should show analysis score or rating
-      const analysisScore = page.locator('[data-testid="analysis-score"]')
+      const analysisScore = _page.locator('[data-testid="analysis-score"]')
       await expect(analysisScore).toBeVisible()
       
       // Should show specific improvement areas
-      const improvementAreas = page.locator('[data-testid="improvement-areas"]')
+      const improvementAreas = _page.locator('[data-testid="improvement-areas"]')
       await expect(improvementAreas).toBeVisible()
       
       // Should categorize feedback (e.g., clarity, specificity, context)
-      const feedbackCategories = page.locator('[data-testid="feedback-category"]')
+      const feedbackCategories = _page.locator('[data-testid="feedback-category"]')
       await expect(feedbackCategories).toHaveCount.greaterThanOrEqual(3)
     })
 
-    test('should provide multiple refined prompt variations', async ({ page }) => {
+    test('should provide multiple refined prompt variations', async ({ page: _page }) => {
       // Should show at least 2-3 refined variations
       const variations = promptPage.refinedPrompts.locator('[data-testid="prompt-variation"]')
       await expect(variations).toHaveCount.greaterThanOrEqual(2)
@@ -254,7 +254,7 @@ test.describe('Prompt Refinement Journey', () => {
       }
     })
 
-    test('should display educational tips relevant to the prompt', async ({ page }) => {
+    test('should display educational tips relevant to the prompt', async ({ page: _page }) => {
       // Tips should be contextually relevant
       await expect(promptPage.educationalTips).toBeVisible()
       
@@ -268,7 +268,7 @@ test.describe('Prompt Refinement Journey', () => {
   })
 
   test.describe('User Interactions with Results', () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page: _page }) => {
       await promptPage.submitPrompt(testPrompts.detailed)
       await promptPage.waitForAnalysisComplete()
     })
@@ -281,20 +281,20 @@ test.describe('Prompt Refinement Journey', () => {
       await promptPage.copyButton.click()
       
       // Should show success feedback
-      const successMessage = page.locator('[data-testid="copy-success"]')
+      const successMessage = _page.locator('[data-testid="copy-success"]')
       await expect(successMessage).toBeVisible()
       await expect(successMessage).toContainText(/copied/i)
       
       // Verify clipboard content (if accessible)
-      const clipboardText = await page.evaluate(() => navigator.clipboard.readText())
+      const clipboardText = await _page.evaluate(() => navigator.clipboard.readText())
       expect(clipboardText.length).toBeGreaterThan(10) // Should contain meaningful content
     })
 
-    test('should provide side-by-side comparison of original and refined prompts', async ({ page }) => {
+    test('should provide side-by-side comparison of original and refined prompts', async ({ page: _page }) => {
       await promptPage.compareButton.click()
       
       // Should open comparison view
-      const comparisonModal = page.locator('[data-testid="comparison-modal"]')
+      const comparisonModal = _page.locator('[data-testid="comparison-modal"]')
       await expect(comparisonModal).toBeVisible()
       
       // Should show original prompt
@@ -310,7 +310,7 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(improvements).toHaveCount.greaterThanOrEqual(1)
     })
 
-    test('should allow users to start a new refinement session', async ({ page }) => {
+    test('should allow users to start a new refinement session', async ({ page: _page }) => {
       await promptPage.startNewSession()
       
       // Should clear previous results
@@ -328,9 +328,9 @@ test.describe('Prompt Refinement Journey', () => {
   })
 
   test.describe('Error Handling and Edge Cases', () => {
-    test('should handle network failures gracefully', async ({ page }) => {
+    test('should handle network failures gracefully', async ({ page: _page }) => {
       // Simulate network failure
-      await page.route('**/api/analyze', route => route.abort())
+      await _page.route('**/api/analyze', route => route.abort())
       
       await promptPage.submitPrompt(testPrompts.basic)
       
@@ -339,13 +339,13 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.errorMessage).toContainText(/network|error|try again/i)
       
       // Should provide retry option
-      const retryButton = page.locator('[data-testid="retry-button"]')
+      const retryButton = _page.locator('[data-testid="retry-button"]')
       await expect(retryButton).toBeVisible()
     })
 
-    test('should handle server errors with user-friendly messages', async ({ page }) => {
+    test('should handle server errors with user-friendly messages', async ({ page: _page }) => {
       // Simulate server error
-      await page.route('**/api/analyze', route => 
+      await _page.route('**/api/analyze', route => 
         route.fulfill({ status: 500, body: 'Internal Server Error' })
       )
       
@@ -356,9 +356,9 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.errorMessage).toContainText(/server|unavailable|later/i)
     })
 
-    test('should handle timeout scenarios', async ({ page }) => {
+    test('should handle timeout scenarios', async ({ page: _page }) => {
       // Simulate slow response
-      await page.route('**/api/analyze', route => 
+      await _page.route('**/api/analyze', route => 
         new Promise(resolve => setTimeout(() => resolve(route.continue()), 15000))
       )
       
@@ -369,19 +369,19 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.errorMessage).toContainText(/timeout|taking longer/i)
     })
 
-    test('should validate and sanitize user input', async ({ page }) => {
+    test('should validate and sanitize user input', async ({ page: _page }) => {
       const maliciousInput = '<script>alert("xss")</script>Analyze this prompt'
       
       await promptPage.submitPrompt(maliciousInput)
       
       // Should not execute scripts
       const alerts = []
-      page.on('dialog', dialog => {
+      _page.on('dialog', dialog => {
         alerts.push(dialog.message())
         dialog.dismiss()
       })
       
-      await page.waitForTimeout(1000)
+      await _page.waitForTimeout(1000)
       expect(alerts).toHaveLength(0)
       
       // Should still process the legitimate part of the input
@@ -391,8 +391,8 @@ test.describe('Prompt Refinement Journey', () => {
   })
 
   test.describe('Responsive Design and Mobile Experience', () => {
-    test('should work correctly on mobile devices', async ({ page }) => {
-      await page.setViewportSize({ width: 375, height: 667 }) // iPhone SE
+    test('should work correctly on mobile devices', async ({ page: _page }) => {
+      await _page.setViewportSize({ width: 375, height: 667 }) // iPhone SE
       
       // All key elements should be visible and accessible
       await expect(promptPage.promptInput).toBeVisible()
@@ -411,8 +411,8 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.refinedPrompts).toBeVisible()
     })
 
-    test('should work correctly on tablet devices', async ({ page }) => {
-      await page.setViewportSize({ width: 768, height: 1024 }) // iPad
+    test('should work correctly on tablet devices', async ({ page: _page }) => {
+      await _page.setViewportSize({ width: 768, height: 1024 }) // iPad
       
       await promptPage.submitPrompt(testPrompts.detailed)
       await promptPage.waitForAnalysisComplete()
@@ -422,7 +422,7 @@ test.describe('Prompt Refinement Journey', () => {
       expect(resultsBox?.width).toBeGreaterThan(400)
     })
 
-    test('should adapt layout for different screen sizes', async ({ page }) => {
+    test('should adapt layout for different screen sizes', async ({ page: _page }) => {
       const viewports = [
         { width: 1920, height: 1080 }, // Desktop
         { width: 1366, height: 768 },  // Laptop
@@ -431,42 +431,42 @@ test.describe('Prompt Refinement Journey', () => {
       ]
       
       for (const viewport of viewports) {
-        await page.setViewportSize(viewport)
+        await _page.setViewportSize(viewport)
         
         // Key elements should always be accessible
         await expect(promptPage.promptInput).toBeVisible()
         await expect(promptPage.submitButton).toBeVisible()
         
         // No horizontal scrolling should be needed
-        const bodyWidth = await page.evaluate(() => document.body.scrollWidth)
+        const bodyWidth = await _page.evaluate(() => document.body.scrollWidth)
         expect(bodyWidth).toBeLessThanOrEqual(viewport.width + 20) // Small tolerance
       }
     })
   })
 
   test.describe('Accessibility and Keyboard Navigation', () => {
-    test('should be fully navigable with keyboard only', async ({ page }) => {
+    test('should be fully navigable with keyboard only', async ({ page: _page }) => {
       // Tab through all interactive elements
-      await page.keyboard.press('Tab')
+      await _page.keyboard.press('Tab')
       await expect(promptPage.promptInput).toBeFocused()
       
-      await page.keyboard.press('Tab')
+      await _page.keyboard.press('Tab')
       await expect(promptPage.submitButton).toBeFocused()
       
       // Should be able to submit with Enter
       await promptPage.promptInput.focus()
-      await page.keyboard.type(testPrompts.basic)
-      await page.keyboard.press('Enter')
+      await _page.keyboard.type(testPrompts.basic)
+      await _page.keyboard.press('Enter')
       
       await promptPage.waitForAnalysisComplete()
       
       // Should be able to navigate results with keyboard
-      await page.keyboard.press('Tab')
-      const focusedElement = page.locator(':focus')
+      await _page.keyboard.press('Tab')
+      const focusedElement = _page.locator(':focus')
       await expect(focusedElement).toBeVisible()
     })
 
-    test('should have proper ARIA labels and roles', async ({ page }) => {
+    test('should have proper ARIA labels and roles', async ({ page: _page }) => {
       // Check main interactive elements have proper labels
       await expect(promptPage.promptInput).toHaveAttribute('aria-label')
       await expect(promptPage.submitButton).toHaveAttribute('aria-label')
@@ -476,14 +476,14 @@ test.describe('Prompt Refinement Journey', () => {
       await promptPage.waitForAnalysisComplete()
       
       // Results should have proper heading structure
-      const headings = page.locator('h1, h2, h3, h4, h5, h6')
+      const headings = _page.locator('h1, h2, h3, h4, h5, h6')
       await expect(headings).toHaveCount.greaterThanOrEqual(2)
       
       // Interactive elements should have proper roles
       await expect(promptPage.copyButton).toHaveAttribute('role', 'button')
     })
 
-    test('should support screen readers with proper announcements', async ({ page }) => {
+    test('should support screen readers with proper announcements', async ({ page: _page }) => {
       // Submit prompt
       await promptPage.submitPrompt(testPrompts.basic)
       
@@ -495,7 +495,7 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.analysisResults).toHaveAttribute('aria-live')
       
       // Success messages should be announced
-      await page.evaluate(() => {
+      await _page.evaluate(() => {
         // Simulate clipboard permissions for this test
         Object.assign(navigator, {
           clipboard: {
@@ -505,13 +505,13 @@ test.describe('Prompt Refinement Journey', () => {
       })
       
       await promptPage.copyButton.click()
-      const successMessage = page.locator('[data-testid="copy-success"]')
+      const successMessage = _page.locator('[data-testid="copy-success"]')
       await expect(successMessage).toHaveAttribute('aria-live', 'assertive')
     })
   })
 
   test.describe('Performance and Loading States', () => {
-    test('should load homepage within performance budget', async ({ page }) => {
+    test('should load homepage within performance budget', async ({ page: _page }) => {
       const startTime = Date.now()
       await promptPage.navigateToHome()
       const loadTime = Date.now() - startTime
@@ -520,7 +520,7 @@ test.describe('Prompt Refinement Journey', () => {
       expect(loadTime).toBeLessThan(3000)
       
       // Core Web Vitals - LCP should be reasonable
-      const lcp = await page.evaluate(() => {
+      const lcp = await _page.evaluate(() => {
         return new Promise(resolve => {
           new PerformanceObserver((list) => {
             const entries = list.getEntries()
@@ -533,7 +533,7 @@ test.describe('Prompt Refinement Journey', () => {
       expect(lcp).toBeLessThan(2500) // 2.5s LCP threshold
     })
 
-    test('should provide immediate feedback for user interactions', async ({ page }) => {
+    test('should provide immediate feedback for user interactions', async ({ page: _page }) => {
       // Click submit should show loading state immediately
       await promptPage.promptInput.fill(testPrompts.basic)
       
@@ -572,7 +572,7 @@ test.describe('Prompt Refinement Journey', () => {
   })
 
   test.describe('Session Persistence and Data Management', () => {
-    test('should persist analysis results across page refreshes', async ({ page }) => {
+    test('should persist analysis results across page refreshes', async ({ page: _page }) => {
       await promptPage.submitPrompt(testPrompts.detailed)
       await promptPage.waitForAnalysisComplete()
       
@@ -580,16 +580,16 @@ test.describe('Prompt Refinement Journey', () => {
       const originalAnalysis = await promptPage.analysisResults.textContent()
       
       // Refresh page
-      await page.reload()
+      await _page.reload()
       
       // Results should be restored from local storage
       await expect(promptPage.analysisResults).toBeVisible()
       await expect(promptPage.analysisResults).toContainText(originalAnalysis?.substring(0, 50) || '')
     })
 
-    test('should handle session storage limits gracefully', async ({ page }) => {
+    test('should handle session storage limits gracefully', async ({ page: _page }) => {
       // Fill up local storage with large analysis results
-      await page.evaluate(() => {
+      await _page.evaluate(() => {
         for (let i = 0; i < 50; i++) {
           localStorage.setItem(`test_${i}`, 'x'.repeat(10000))
         }
@@ -603,7 +603,7 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.analysisResults).toBeVisible()
     })
 
-    test('should clear sensitive data appropriately', async ({ page }) => {
+    test('should clear sensitive data appropriately', async ({ page: _page }) => {
       await promptPage.submitPrompt(testPrompts.detailed)
       await promptPage.waitForAnalysisComplete()
       
@@ -614,7 +614,7 @@ test.describe('Prompt Refinement Journey', () => {
       await expect(promptPage.analysisResults).not.toBeVisible()
       
       // But should maintain user preferences/settings
-      const theme = await page.evaluate(() => localStorage.getItem('theme'))
+      const _theme = localStorage.getItem('theme')
       // Theme or other preferences should persist if they were set
     })
   })

@@ -1,0 +1,92 @@
+name: CI/CD Pipeline Failure
+description: Report a CI/CD pipeline failure
+title: "[CI/CD] Pipeline Failure - "
+labels: ["ci/cd", "bug", "high-priority"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a CI/CD pipeline failure. Please provide the following information to help us investigate.
+
+  - type: input
+    id: workflow
+    attributes:
+      label: Workflow Name
+      description: Which workflow failed?
+      placeholder: e.g., Frontend CI/CD Pipeline
+    validations:
+      required: true
+
+  - type: input
+    id: branch
+    attributes:
+      label: Branch
+      description: Which branch was the failure on?
+      placeholder: e.g., main, develop, feature/xyz
+    validations:
+      required: true
+
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA
+      description: The commit hash that triggered the failure
+      placeholder: e.g., abc123def456
+    validations:
+      required: true
+
+  - type: input
+    id: run-url
+    attributes:
+      label: GitHub Actions Run URL
+      description: Link to the failed GitHub Actions run
+      placeholder: https://github.com/owner/repo/actions/runs/123456789
+    validations:
+      required: true
+
+  - type: dropdown
+    id: job
+    attributes:
+      label: Failed Job
+      description: Which job failed?
+      options:
+        - Code Quality & Linting
+        - Security Scanning
+        - Unit & Integration Tests
+        - End-to-End Tests
+        - Build & Optimization
+        - Performance Testing
+        - Deploy to Staging
+        - Deploy to Production
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-message
+    attributes:
+      label: Error Message
+      description: Copy and paste the error message from the failed job
+      placeholder: Paste the error message here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional context about the failure
+      placeholder: What were you trying to do when this happened?
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-failure Checklist
+      description: Please check all that apply
+      options:
+        - label: The failure is reproducible
+        - label: This is not a flaky test failure
+        - label: I have checked the logs for obvious issues
+        - label: This affects the main branch
