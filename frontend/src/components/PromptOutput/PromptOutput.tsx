@@ -11,6 +11,7 @@
 import React, { useState, useCallback, useMemo, memo } from 'react';
 import { PromptOutputProps } from '../../types/components';
 import { PromptRefinementSession } from '../../types/core';
+import './PromptOutput.css';
 
 interface CopyState {
   copied: boolean;

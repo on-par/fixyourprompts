@@ -11,6 +11,7 @@
  */
 
 import React from 'react';
+import './Footer.css';
 
 export interface FooterProps {
   /** Optional className for custom styling */

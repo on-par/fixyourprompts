@@ -16,6 +16,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { AnalysisPanelProps } from '../../types/components';
 import { PromptAnalysis } from '../../types/core';
+import './AnalysisPanel.css';
 
 // Type mapping for display names
 const ANALYSIS_TYPE_NAMES: Record<string, string> = {

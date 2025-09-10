@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { EducationPanelProps } from '../../types/components';
 import { EducationTip, EducationCategory } from '../../types/core';
+import './EducationPanel.css';
 
 const EducationPanel: React.FC<EducationPanelProps> = ({
   tips,

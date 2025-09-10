@@ -10,6 +10,7 @@
  */
 
 import React, { useState } from 'react';
+import './Header.css';
 
 export interface HeaderProps {
   /** Optional className for custom styling */

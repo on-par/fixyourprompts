@@ -1,5 +1,6 @@
 import React, { useId } from 'react';
 import type { PromptInputProps } from '../../types/components';
+import './PromptInput.css';
 
 /**
  * PromptInput component for entering and submitting prompts for analysis

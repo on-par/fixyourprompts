@@ -9,6 +9,7 @@
 
 import React, { Component, ReactNode } from 'react';
 import type { ErrorBoundaryProps } from '../../types/components';
+import './ErrorBoundary.css';
 
 interface ErrorBoundaryState {
   hasError: boolean;

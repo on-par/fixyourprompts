@@ -1,0 +1,751 @@
+/* PromptOutput Component Styles */
+
+.prompt-output {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin: var(--space-4) 0;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease;
+}
+
+.prompt-output:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Session Metadata */
+.prompt-output .session-metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.prompt-output .session-metadata > div {
+  font-weight: var(--font-weight-medium);
+}
+
+/* Status Indicator */
+.prompt-output .status-indicator {
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.prompt-output .status-indicator[role="status"] {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.prompt-output .status-indicator[role="progressbar"] {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.prompt-output .error-message {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.prompt-output .retry-button {
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
+  border: none;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: var(--space-3);
+}
+
+.prompt-output .retry-button:hover {
+  background-color: var(--color-error);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.prompt-output .retry-button:focus-visible {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}
+
+/* Prompt Display */
+.prompt-output .diff-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin: var(--space-6) 0;
+}
+
+.prompt-output .comparison-side {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.prompt-output .comparison-side h3 {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.prompt-output .prompt-text {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  word-wrap: break-word;
+}
+
+.prompt-output .prompt-line {
+  margin-bottom: var(--space-2);
+}
+
+.prompt-output .bullet-point {
+  padding-left: var(--space-2);
+  position: relative;
+}
+
+.prompt-output .formatted-text {
+  margin: var(--space-1) 0;
+}
+
+.prompt-output .formatted-text strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.prompt-output .diff-addition {
+  background-color: var(--color-success-light);
+  padding: 0.125rem 0.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-success);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-success);
+}
+
+.prompt-output .single-prompt-view {
+  margin: var(--space-6) 0;
+}
+
+.prompt-output .single-prompt-view h3 {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.prompt-output .no-refinement {
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: var(--space-4);
+  text-align: center;
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border);
+}
+
+/* Action Buttons */
+.prompt-output .action-buttons {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: center;
+  margin: var(--space-6) 0 var(--space-4) 0;
+  flex-wrap: wrap;
+}
+
+.prompt-output .copy-button,
+.prompt-output .new-session-button {
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+}
+
+.prompt-output .copy-button {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.prompt-output .copy-button:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.prompt-output .copy-button:disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.prompt-output .new-session-button {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
+}
+
+.prompt-output .new-session-button:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.prompt-output .copy-button:focus-visible,
+.prompt-output .new-session-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Copy Status Messages */
+.prompt-output .copy-error {
+  color: var(--color-error);
+  background-color: var(--color-error-light);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-error);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  margin: var(--space-3) 0;
+}
+
+/* Analysis Section */
+.prompt-output .analysis-section {
+  margin: var(--space-6) 0;
+}
+
+.prompt-output .analysis-section h3 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.prompt-output .analysis-results {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.prompt-output .analysis-item {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  border-left: 4px solid var(--color-primary);
+}
+
+.prompt-output .analysis-type {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-bottom: var(--space-1);
+}
+
+.prompt-output .analysis-severity {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
+}
+
+.prompt-output .analysis-severity:has-text("High"),
+.prompt-output .analysis-item[data-severity="high"] .analysis-severity {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.prompt-output .analysis-severity:has-text("Medium"),
+.prompt-output .analysis-item[data-severity="medium"] .analysis-severity {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.prompt-output .analysis-severity:has-text("Low"),
+.prompt-output .analysis-item[data-severity="low"] .analysis-severity {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.prompt-output .analysis-issue {
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  line-height: var(--line-height-relaxed);
+}
+
+.prompt-output .analysis-suggestion {
+  color: var(--color-text-secondary);
+  font-style: italic;
+  line-height: var(--line-height-relaxed);
+}
+
+/* Improvements Section */
+.prompt-output .improvements-section {
+  margin: var(--space-6) 0;
+}
+
+.prompt-output .improvements-section h3 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.prompt-output .improvements-list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.prompt-output .improvement-item {
+  background-color: var(--color-success-light);
+  border: 1px solid var(--color-success);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.prompt-output .improvement-description {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+  margin-bottom: var(--space-2);
+}
+
+.prompt-output .improvement-rationale {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  line-height: var(--line-height-relaxed);
+}
+
+.prompt-output .improvement-before-after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  background-color: var(--color-background);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+}
+
+.prompt-output .improvement-before-after > div {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.prompt-output .improvement-before-after > div:first-child {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.prompt-output .improvement-before-after > div:last-child {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+/* Education Section */
+.prompt-output .education-section {
+  margin: var(--space-6) 0;
+}
+
+.prompt-output .education-section h3 {
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-2);
+}
+
+.prompt-output .education-tips {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.prompt-output .education-tip {
+  background-color: var(--color-secondary-light);
+  border: 1px solid var(--color-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+}
+
+.prompt-output .tip-title {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-base);
+}
+
+.prompt-output .tip-description {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-3);
+  line-height: var(--line-height-relaxed);
+}
+
+.prompt-output .tip-example {
+  background-color: var(--color-background);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+}
+
+/* Dialog/Modal Styles */
+.prompt-output .dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  backdrop-filter: blur(4px);
+}
+
+.prompt-output .dialog-content {
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-border);
+}
+
+.prompt-output .dialog-content h3 {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.prompt-output .dialog-content p {
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-6) 0;
+  line-height: var(--line-height-relaxed);
+}
+
+.prompt-output .dialog-buttons {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}
+
+.prompt-output .confirm-button,
+.prompt-output .cancel-button {
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.prompt-output .confirm-button {
+  background-color: var(--color-error);
+  color: var(--color-text-inverse);
+}
+
+.prompt-output .confirm-button:hover {
+  background-color: var(--color-error);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.prompt-output .cancel-button {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border);
+}
+
+.prompt-output .cancel-button:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.prompt-output .confirm-button:focus-visible,
+.prompt-output .cancel-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.prompt-output.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.prompt-output.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+}
+
+/* Error States */
+.prompt-output.error {
+  border-color: var(--color-error);
+}
+
+.prompt-output.error .session-metadata {
+  border-bottom-color: var(--color-error);
+}
+
+/* Dark Theme Support */
+[data-theme="dark"] .prompt-output {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .prompt-output .comparison-side {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .prompt-output .analysis-item,
+[data-theme="dark"] .prompt-output .improvement-item,
+[data-theme="dark"] .prompt-output .education-tip {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .prompt-output .dialog-content {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .prompt-output {
+    padding: var(--space-4);
+    margin: var(--space-3) 0;
+  }
+
+  .prompt-output .session-metadata {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .prompt-output .diff-comparison {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .prompt-output .comparison-side {
+    padding: var(--space-3);
+  }
+
+  .prompt-output .action-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .prompt-output .copy-button,
+  .prompt-output .new-session-button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .prompt-output .improvement-before-after {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+
+  .prompt-output .dialog-content {
+    margin: var(--space-4);
+    width: calc(100% - 2rem);
+  }
+
+  .prompt-output .dialog-buttons {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .prompt-output .confirm-button,
+  .prompt-output .cancel-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .prompt-output {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+  }
+
+  .prompt-output .comparison-side {
+    padding: var(--space-2);
+  }
+
+  .prompt-output .comparison-side h3,
+  .prompt-output .analysis-section h3,
+  .prompt-output .improvements-section h3,
+  .prompt-output .education-section h3 {
+    font-size: var(--font-size-base);
+  }
+
+  .prompt-output .analysis-item,
+  .prompt-output .improvement-item,
+  .prompt-output .education-tip {
+    padding: var(--space-3);
+  }
+
+  .prompt-output .dialog-content {
+    padding: var(--space-4);
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  .prompt-output {
+    border-width: 2px;
+  }
+  
+  .prompt-output .copy-button:focus-visible,
+  .prompt-output .new-session-button:focus-visible,
+  .prompt-output .confirm-button:focus-visible,
+  .prompt-output .cancel-button:focus-visible {
+    outline-width: 3px;
+  }
+
+  .prompt-output .diff-addition {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .prompt-output,
+  .prompt-output .copy-button,
+  .prompt-output .new-session-button,
+  .prompt-output .confirm-button,
+  .prompt-output .cancel-button,
+  .prompt-output .retry-button {
+    transition: none;
+  }
+  
+  .prompt-output .copy-button:hover,
+  .prompt-output .new-session-button:hover,
+  .prompt-output .confirm-button:hover,
+  .prompt-output .retry-button:hover {
+    transform: none;
+  }
+
+  .prompt-output.loading::after {
+    animation: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .prompt-output .action-buttons,
+  .prompt-output .dialog-overlay {
+    display: none;
+  }
+  
+  .prompt-output {
+    background: white;
+    border: 1px solid #000;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .prompt-output .diff-comparison {
+    grid-template-columns: 1fr;
+    page-break-inside: avoid;
+  }
+
+  .prompt-output .comparison-side,
+  .prompt-output .analysis-item,
+  .prompt-output .improvement-item,
+  .prompt-output .education-tip {
+    background: white;
+    border: 1px solid #000;
+  }
+}
+
+/* Animations */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prompt-output {
+  animation: fadeIn 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prompt-output {
+    animation: none;
+  }
+}

@@ -1,0 +1,304 @@
+/* PromptInput Component Styles */
+
+.prompt-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.prompt-input-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.prompt-input-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.prompt-input-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  resize: vertical;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.prompt-input-textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.prompt-input-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.prompt-input-textarea:hover:not(:disabled):not(:focus) {
+  border-color: var(--color-primary);
+}
+
+.prompt-input-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: var(--color-surface);
+}
+
+/* Error state */
+.prompt-input-textarea.error {
+  border-color: var(--color-error);
+}
+
+.prompt-input-textarea.error:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 3px var(--color-error-light);
+}
+
+.prompt-input-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.prompt-input-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.character-count {
+  font-weight: var(--font-weight-medium);
+}
+
+.character-count.near-limit {
+  color: var(--color-warning);
+}
+
+.character-count.over-limit {
+  color: var(--color-error);
+}
+
+.keyboard-hint {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.keyboard-hint kbd {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--font-size-xs);
+  font-family: var(--font-family-mono);
+}
+
+.prompt-input-actions {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.prompt-submit-button {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  border: none;
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.prompt-submit-button:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.prompt-submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.prompt-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.prompt-clear-button {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.prompt-clear-button:hover:not(:disabled) {
+  color: var(--color-text-secondary);
+  border-color: var(--color-text-muted);
+  background-color: var(--color-surface);
+}
+
+.prompt-input-error {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.prompt-input-error::before {
+  content: "⚠";
+  font-size: var(--font-size-base);
+}
+
+/* Loading state */
+.prompt-input-container.loading .prompt-submit-button {
+  position: relative;
+  color: transparent;
+}
+
+.prompt-input-container.loading .prompt-submit-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid transparent;
+  border-top-color: var(--color-text-inverse);
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .prompt-input-textarea {
+    min-height: 100px;
+    padding: var(--space-3);
+    font-size: var(--font-size-base);
+  }
+
+  .prompt-input-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .prompt-input-meta {
+    justify-content: space-between;
+  }
+
+  .prompt-input-actions {
+    justify-content: center;
+    order: -1;
+  }
+
+  .prompt-submit-button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .keyboard-hint {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .prompt-input-container {
+    gap: var(--space-2);
+  }
+
+  .prompt-input-textarea {
+    min-height: 80px;
+    padding: var(--space-3);
+  }
+
+  .prompt-input-actions {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .prompt-submit-button,
+  .prompt-clear-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .character-count {
+    text-align: center;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .prompt-input-textarea {
+    border-width: 3px;
+  }
+  
+  .prompt-input-textarea:focus {
+    box-shadow: 0 0 0 4px var(--color-primary);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .prompt-input-textarea,
+  .prompt-submit-button,
+  .prompt-clear-button {
+    transition: none;
+  }
+  
+  .prompt-submit-button:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+/* Focus visible for better accessibility */
+.prompt-submit-button:focus-visible,
+.prompt-clear-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .prompt-input-actions,
+  .keyboard-hint {
+    display: none;
+  }
+  
+  .prompt-input-textarea {
+    border: 1px solid #000;
+    background: white;
+    color: black;
+  }
+}
