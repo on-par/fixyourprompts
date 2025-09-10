@@ -47,7 +47,7 @@ const DefaultErrorFallback: React.FC<{ error: Error; resetError: () => void }> =
         borderRadius: '0.25rem'
       }}>
         {error.message}
-        {error.stack && '\n\n' + error.stack}
+        {error.stack && `\n\n${  error.stack}`}
       </pre>
     </details>
     <button
@@ -81,6 +81,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     // Log the error to an error reporting service or console
+    // eslint-disable-next-line no-console
     console.error('ErrorBoundary caught an error:', error, errorInfo);
 
     // Call the onError callback if provided

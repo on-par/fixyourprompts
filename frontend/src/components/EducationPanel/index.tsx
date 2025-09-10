@@ -1,1 +1,1 @@
-export { default } from './EducationPanel';
+export { default as EducationPanel, default } from './EducationPanel';

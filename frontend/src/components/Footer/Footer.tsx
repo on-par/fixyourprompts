@@ -43,7 +43,7 @@ export const Footer: React.FC<FooterProps> = ({
   copyrightYear = new Date().getFullYear(),
   tagline = "Enhance your AI prompts with intelligent analysis and refinement."
 }) => {
-  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string, external?: boolean) => {
+  const handleLinkClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string, external?: boolean): void => {
     if (!external && onNavigate) {
       event.preventDefault();
       onNavigate(href);

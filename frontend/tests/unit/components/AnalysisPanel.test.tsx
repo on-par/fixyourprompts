@@ -16,7 +16,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 // Import the component and types
@@ -487,7 +487,7 @@ describe('AnalysisPanel Component', () => {
       expect(listItems).toHaveLength(6);
 
       // Each analysis item should have proper labeling
-      listItems.forEach((item, index) => {
+      listItems.forEach(item => {
         expect(item).toHaveAttribute('aria-label', expect.stringContaining('analysis'));
       });
     });

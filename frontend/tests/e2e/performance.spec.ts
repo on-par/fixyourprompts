@@ -111,14 +111,14 @@ class PerformanceTracker {
   }
 
   getMemoryTrend(): { trend: 'increasing' | 'stable' | 'decreasing', percentage: number } {
-    if (this.memorySnapshots.length < 2) return { trend: 'stable', percentage: 0 }
+    if (this.memorySnapshots.length < 2) {return { trend: 'stable', percentage: 0 }}
     
     const first = this.memorySnapshots[0]
     const last = this.memorySnapshots[this.memorySnapshots.length - 1]
     const percentage = ((last - first) / first) * 100
     
-    if (percentage > 10) return { trend: 'increasing', percentage }
-    if (percentage < -10) return { trend: 'decreasing', percentage }
+    if (percentage > 10) {return { trend: 'increasing', percentage }}
+    if (percentage < -10) {return { trend: 'decreasing', percentage }}
     return { trend: 'stable', percentage }
   }
 

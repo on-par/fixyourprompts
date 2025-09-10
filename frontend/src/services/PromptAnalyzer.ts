@@ -10,9 +10,9 @@ import { PromptAnalysis, PromptIssue } from '../types/core';
 import { validatePromptInput } from '../utils/validation';
 
 export class PromptAnalyzer implements PromptAnalyzerContract {
-  constructor() {
+  constructor(...args: unknown[]) {
     // Basic validation for constructor
-    if (arguments.length > 0 && arguments[0] === null) {
+    if (args.length > 0 && args[0] === null) {
       throw new Error('PromptAnalyzer cannot be initialized with null');
     }
   }
@@ -372,7 +372,7 @@ export class PromptAnalyzer implements PromptAnalyzerContract {
       prompt.toLowerCase().includes(trigger)
     );
     
-    const hasActualExamples = /\(.*\)|".*"|'.*'|\d+\.|\-\s+/.test(prompt);
+    const hasActualExamples = /\(.*\)|".*"|'.*'|\d+\.|[-]\s+/.test(prompt);
     
     // Needs examples if it mentions types/kinds but doesn't provide examples
     return hasExampleTriggers && !hasActualExamples;

@@ -88,31 +88,31 @@ interface AppProviderProps {
   initialState?: Partial<AppState>;
 }
 
-export function AppProvider({ children, initialState: overrideState }: AppProviderProps) {
+export function AppProvider({ children, initialState: overrideState }: AppProviderProps): JSX.Element {
   const mergedInitialState = overrideState ? { ...initialState, ...overrideState } : initialState;
   const [state, dispatch] = useReducer(appReducer, mergedInitialState);
 
-  const setCurrentSession = useCallback((session: PromptRefinementSession) => {
+  const setCurrentSession = useCallback((session: PromptRefinementSession): void => {
     dispatch({ type: 'SET_CURRENT_SESSION', payload: session });
   }, []);
 
-  const clearCurrentSession = useCallback(() => {
+  const clearCurrentSession = useCallback((): void => {
     dispatch({ type: 'CLEAR_CURRENT_SESSION' });
   }, []);
 
-  const addToHistory = useCallback((session: PromptRefinementSession) => {
+  const addToHistory = useCallback((session: PromptRefinementSession): void => {
     dispatch({ type: 'ADD_TO_HISTORY', payload: session });
   }, []);
 
-  const updatePreferences = useCallback((preferences: Partial<UserPreferences>) => {
+  const updatePreferences = useCallback((preferences: Partial<UserPreferences>): void => {
     dispatch({ type: 'UPDATE_PREFERENCES', payload: preferences });
   }, []);
 
-  const setEducationContent = useCallback((content: EducationTip[]) => {
+  const setEducationContent = useCallback((content: EducationTip[]): void => {
     dispatch({ type: 'SET_EDUCATION_CONTENT', payload: content });
   }, []);
 
-  const resetState = useCallback(() => {
+  const resetState = useCallback((): void => {
     dispatch({ type: 'RESET_STATE' });
   }, []);
 

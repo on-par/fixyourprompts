@@ -10,7 +10,7 @@ import { EducationPanel } from './components/EducationPanel';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import './styles/global.css';
 
-function AppContent() {
+function AppContent(): JSX.Element {
   const {
     currentPrompt,
     setCurrentPrompt,
@@ -24,19 +24,19 @@ function AppContent() {
     clearError
   } = useWorkflow();
 
-  const handlePromptSubmit = async (prompt: string) => {
+  const handlePromptSubmit = async (prompt: string): Promise<void> => {
     await startNewRefinement(prompt);
   };
 
-  const handleRefinePrompt = async () => {
+  const handleRefinePrompt = async (): Promise<void> => {
     await completeRefinement();
   };
 
-  const handleRetry = () => {
+  const handleRetry = (): void => {
     retryOnError();
   };
 
-  const handleNewSession = () => {
+  const handleNewSession = (): void => {
     setCurrentPrompt('');
   };
 
@@ -185,7 +185,7 @@ function AppContent() {
   );
 }
 
-function App() {
+function App(): JSX.Element {
   return (
     <ErrorBoundary>
       <AppProvider>

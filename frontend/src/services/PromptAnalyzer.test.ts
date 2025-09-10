@@ -7,13 +7,8 @@
  * Tests validate the PromptAnalyzerContract interface from types/services.ts
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { PromptAnalyzerContract } from '../types/services';
-import { 
-  PromptAnalysis, 
-  PromptIssue, 
-  AnalysisType 
-} from '../types/core';
 
 // Import the service implementation (this will fail initially - that's intentional!)
 import { PromptAnalyzer } from './PromptAnalyzer';

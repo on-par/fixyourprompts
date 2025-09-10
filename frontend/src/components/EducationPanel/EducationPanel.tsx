@@ -1,19 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import { EducationPanelProps } from '../../types/components';
-import { EducationTip, EducationCategory } from '../../types/core';
+import { EducationTip } from '../../types/core';
 import './EducationPanel.css';
 
 const EducationPanel: React.FC<EducationPanelProps> = ({
   tips,
   category,
   onTipExpand,
-  userLevel
+  userLevel: _userLevel
 }) => {
   const [expandedTips, setExpandedTips] = useState<Set<string>>(new Set());
 
   // Filter tips based on category
   const filteredTips = tips.filter(tip => {
-    if (!category) return true;
+    if (!category) {
+      return true;
+    }
     
     // Handle string comparison for category filtering
     if (typeof category === 'string') {
@@ -29,7 +31,7 @@ const EducationPanel: React.FC<EducationPanelProps> = ({
   });
 
   // Handle tip expansion toggle
-  const handleTipClick = useCallback((tip: EducationTip) => {
+  const handleTipClick = useCallback((tip: EducationTip): void => {
     setExpandedTips(prev => {
       const newSet = new Set(prev);
       if (newSet.has(tip.id)) {
@@ -46,7 +48,7 @@ const EducationPanel: React.FC<EducationPanelProps> = ({
   }, [onTipExpand]);
 
   // Handle keyboard interaction
-  const handleKeyDown = useCallback((event: React.KeyboardEvent, tip: EducationTip) => {
+  const handleKeyDown = useCallback((event: React.KeyboardEvent, tip: EducationTip): void => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleTipClick(tip);

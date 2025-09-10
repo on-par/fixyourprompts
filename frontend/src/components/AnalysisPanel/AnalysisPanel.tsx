@@ -55,14 +55,14 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   }, [analyses]);
 
   // Handle analysis selection
-  const handleAnalysisSelect = useCallback((analysis: PromptAnalysis) => {
+  const handleAnalysisSelect = useCallback((analysis: PromptAnalysis): void => {
     setSelectedAnalysisId(analysis.id);
     setAnnounceMessage(`Selected analysis: ${ANALYSIS_TYPE_NAMES[analysis.type] || 'Unknown Type'} issue`);
     onAnalysisSelect?.(analysis);
   }, [onAnalysisSelect]);
 
   // Handle keyboard navigation
-  const handleKeyDown = useCallback((event: React.KeyboardEvent, analysis: PromptAnalysis) => {
+  const handleKeyDown = useCallback((event: React.KeyboardEvent, analysis: PromptAnalysis): void => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       handleAnalysisSelect(analysis);
@@ -70,7 +70,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   }, [handleAnalysisSelect]);
 
   // Handle suggestion expansion
-  const handleExpandSuggestion = useCallback((analysisId: string) => {
+  const handleExpandSuggestion = useCallback((analysisId: string): void => {
     setExpandedSuggestions(prev => {
       const newSet = new Set(prev);
       if (newSet.has(analysisId)) {
@@ -83,7 +83,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   }, []);
 
   // Render analysis type with icon
-  const renderAnalysisType = (type: string) => {
+  const renderAnalysisType = (type: string): JSX.Element => {
     const displayName = ANALYSIS_TYPE_NAMES[type] || 'Unknown Type';
     const cssClass = `analysis-type-${type}`;
     
@@ -111,7 +111,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   };
 
   // Render severity indicator
-  const renderSeverityIndicator = (severity: string) => {
+  const renderSeverityIndicator = (severity: string): JSX.Element => {
     const severityClass = `severity-${severity}`;
     const testId = `${severity}-severity-indicator`;
     
@@ -127,7 +127,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   };
 
   // Render highlighted text if position is provided
-  const renderHighlightedText = (analysis: PromptAnalysis) => {
+  const renderHighlightedText = (analysis: PromptAnalysis): JSX.Element | null => {
     if (!analysis.originalText || !analysis.position) {
       return null;
     }
@@ -144,7 +144,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   };
 
   // Render suggestion with expand capability
-  const renderSuggestion = (analysis: PromptAnalysis) => {
+  const renderSuggestion = (analysis: PromptAnalysis): JSX.Element => {
     const isExpanded = expandedSuggestions.has(analysis.id);
     const suggestion = analysis.suggestion || 'No suggestion available';
 
@@ -178,7 +178,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   };
 
   // Render single analysis item
-  const renderAnalysisItem = (analysis: PromptAnalysis) => {
+  const renderAnalysisItem = (analysis: PromptAnalysis): JSX.Element | null => {
     // Handle malformed analyses first
     if (!analysis || !analysis.id) {
       return null;
@@ -281,7 +281,7 @@ export const AnalysisPanel: React.FC<AnalysisPanelProps> = ({
   };
 
   // Render empty state
-  const renderEmptyState = () => (
+  const renderEmptyState = (): JSX.Element => (
     <div 
       className="empty-state" 
       data-testid="empty-state"

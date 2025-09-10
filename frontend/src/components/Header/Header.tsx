@@ -40,11 +40,11 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(mobileMenuOpen);
 
-  const toggleMobileMenu = () => {
+  const toggleMobileMenu = (): void => {
     setIsMobileMenuOpen(prev => !prev);
   };
 
-  const handleNavigationClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavigationClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string): void => {
     if (onNavigate) {
       event.preventDefault();
       onNavigate(href);

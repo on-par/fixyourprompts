@@ -23,48 +23,43 @@ import {
   RefinementResult,
   EducationTip,
   PerformanceReport,
-  RefinementError,
   UserPreferences,
 } from '/Users/probinson/Repos/on-par/saas/fixyourprompts/frontend/src/types/core';
 import {
-  createMockSession,
-  createMockAnalysis,
-  createMockEducationTip,
-  mockSessionScenarios,
 } from '/Users/probinson/Repos/on-par/saas/fixyourprompts/frontend/src/test/mocks/sessionData';
 
 // Mock service implementations for testing service interactions
 // These will be injected with actual services during real workflows
 class MockPromptAnalyzer implements PromptAnalyzerContract {
-  async analyzePrompt(prompt: string): Promise<PromptAnalysis[]> {
+  async analyzePrompt(_prompt: string): Promise<PromptAnalysis[]> {
     throw new Error('PromptAnalyzer service not implemented yet');
   }
 
-  identifyIssues(prompt: string) {
+  identifyIssues(_prompt: string) {
     throw new Error('PromptAnalyzer.identifyIssues not implemented yet');
   }
 
-  calculateComplexityScore(prompt: string): number {
+  calculateComplexityScore(_prompt: string): number {
     throw new Error('PromptAnalyzer.calculateComplexityScore not implemented yet');
   }
 }
 
 class MockPromptRefiner implements PromptRefinerContract {
-  async refinePrompt(originalPrompt: string, analyses: PromptAnalysis[]): Promise<RefinementResult> {
+  async refinePrompt(_originalPrompt: string, _analyses: PromptAnalysis[]): Promise<RefinementResult> {
     throw new Error('PromptRefiner service not implemented yet');
   }
 
-  generateImprovements(prompt: string, issues: any[]) {
+  generateImprovements(_prompt: string, _issues: any[]) {
     throw new Error('PromptRefiner.generateImprovements not implemented yet');
   }
 
-  applyRefinements(originalPrompt: string, improvements: any[]): string {
+  applyRefinements(_originalPrompt: string, _improvements: any[]): string {
     throw new Error('PromptRefiner.applyRefinements not implemented yet');
   }
 }
 
 class MockEducationContent implements EducationContentContract {
-  getRelevantTips(prompt: string, analyses: PromptAnalysis[]): EducationTip[] {
+  getRelevantTips(_prompt: string, _analyses: PromptAnalysis[]): EducationTip[] {
     throw new Error('EducationContent service not implemented yet');
   }
 
@@ -72,13 +67,13 @@ class MockEducationContent implements EducationContentContract {
     throw new Error('EducationContent.getAllCategories not implemented yet');
   }
 
-  getTipsByCategory(category: any) {
+  getTipsByCategory(_category: any) {
     throw new Error('EducationContent.getTipsByCategory not implemented yet');
   }
 }
 
 class MockStorage implements StorageContract {
-  saveSession(session: PromptRefinementSession): void {
+  saveSession(_session: PromptRefinementSession): void {
     throw new Error('Storage service not implemented yet');
   }
 
@@ -90,7 +85,7 @@ class MockStorage implements StorageContract {
     throw new Error('Storage.clearSessions not implemented yet');
   }
 
-  savePreferences(prefs: UserPreferences): void {
+  savePreferences(_prefs: UserPreferences): void {
     throw new Error('Storage.savePreferences not implemented yet');
   }
 
@@ -100,15 +95,15 @@ class MockStorage implements StorageContract {
 }
 
 class MockPerformanceTracker implements PerformanceContract {
-  trackAnalysisTime(startTime: number, endTime: number): void {
+  trackAnalysisTime(_startTime: number, _endTime: number): void {
     throw new Error('Performance tracking not implemented yet');
   }
 
-  trackRefinementTime(startTime: number, endTime: number): void {
+  trackRefinementTime(_startTime: number, _endTime: number): void {
     throw new Error('Performance.trackRefinementTime not implemented yet');
   }
 
-  trackComponentRender(componentName: string, renderTime: number): void {
+  trackComponentRender(_componentName: string, _renderTime: number): void {
     throw new Error('Performance.trackComponentRender not implemented yet');
   }
 
@@ -137,7 +132,7 @@ class RefinementWorkflowOrchestrator {
    */
   async executeCompleteWorkflow(originalPrompt: string): Promise<PromptRefinementSession> {
     const sessionId = `session-${Date.now()}`;
-    const startTime = performance.now();
+    const _startTime = performance.now();
 
     try {
       // Step 1: Analyze the prompt

@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# ================================================================================
+# Post-Deploy Hook Example
+# ================================================================================
+# 
+# This is an example post-deployment hook script.
+# Rename this file to post-deploy.sh to activate it.
+# 
+# This script runs after successful deployment but before health checks.
+# Use it for custom post-deployment tasks like:
+# - Cache warming
+# - External service notifications
+# - Database migrations
+# - CDN invalidation
+#
+# ================================================================================
+
+set -euo pipefail
+
+# Get deployment information from environment variables
+ENVIRONMENT="${DEPLOY_ENVIRONMENT:-dev}"
+DEPLOY_PATH="${DEPLOY_PATH:-}"
+DEPLOY_URL="${DEPLOY_URL:-}"
+
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] [POST-DEPLOY] $*"
+}
+
+main() {
+    log "Running post-deployment tasks for $ENVIRONMENT environment..."
+    
+    # Example: Cache warming
+    if [[ "$ENVIRONMENT" == "prod" ]]; then
+        log "Warming up production cache..."
+        # curl -s "$DEPLOY_URL/api/warmup" > /dev/null || true
+    fi
+    
+    # Example: Send deployment notification
+    if [[ -n "${SLACK_WEBHOOK_URL:-}" ]]; then
+        log "Sending deployment notification..."
+        # curl -X POST -H 'Content-type: application/json' \
+        #   --data "{\"text\":\"✅ $ENVIRONMENT deployment completed successfully\"}" \
+        #   "$SLACK_WEBHOOK_URL" > /dev/null || true
+    fi
+    
+    # Example: Clear CDN cache
+    if [[ "$ENVIRONMENT" == "prod" ]] && [[ -n "${CDN_CACHE_CLEAR_URL:-}" ]]; then
+        log "Clearing CDN cache..."
+        # curl -X POST "$CDN_CACHE_CLEAR_URL" > /dev/null || true
+    fi
+    
+    log "Post-deployment tasks completed successfully"
+}
+
+# Only run if executed directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi

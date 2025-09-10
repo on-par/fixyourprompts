@@ -10,7 +10,6 @@
 
 import React, { useState, useCallback, useMemo, memo } from 'react';
 import { PromptOutputProps } from '../../types/components';
-import { PromptRefinementSession } from '../../types/core';
 import './PromptOutput.css';
 
 interface CopyState {
@@ -33,8 +32,8 @@ const PromptOutput = memo<PromptOutputProps>(({
     setRenderCount(prev => prev + 1);
   }, [session, showComparison]);
 
-  const handleCopyRefined = useCallback(async () => {
-    if (!session.refinedPrompt) return;
+  const handleCopyRefined = useCallback(async (): Promise<void> => {
+    if (!session.refinedPrompt) {return;}
 
     try {
       await navigator.clipboard.writeText(session.refinedPrompt);
@@ -45,7 +44,7 @@ const PromptOutput = memo<PromptOutputProps>(({
       setTimeout(() => {
         setCopyState({ copied: false, error: null });
       }, 2000);
-    } catch (error) {
+    } catch {
       setCopyState({ copied: false, error: 'Failed to copy' });
       setTimeout(() => {
         setCopyState({ copied: false, error: null });
@@ -53,20 +52,20 @@ const PromptOutput = memo<PromptOutputProps>(({
     }
   }, [session.refinedPrompt, onCopyRefined]);
 
-  const handleNewSessionClick = useCallback(() => {
+  const handleNewSessionClick = useCallback((): void => {
     setShowNewSessionDialog(true);
   }, []);
 
-  const handleConfirmNewSession = useCallback(() => {
+  const handleConfirmNewSession = useCallback((): void => {
     setShowNewSessionDialog(false);
     onStartNewSession();
   }, [onStartNewSession]);
 
-  const handleCancelNewSession = useCallback(() => {
+  const handleCancelNewSession = useCallback((): void => {
     setShowNewSessionDialog(false);
   }, []);
 
-  const formatDate = useCallback((date: Date) => {
+  const formatDate = useCallback((date: Date): string => {
     return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -74,7 +73,7 @@ const PromptOutput = memo<PromptOutputProps>(({
     });
   }, []);
 
-  const renderPromptText = useCallback((text: string, testId: string) => {
+  const renderPromptText = useCallback((text: string, testId: string): JSX.Element => {
     const lines = text.split('\n');
     return (
       <div data-testid={testId} className="prompt-text">
@@ -98,8 +97,8 @@ const PromptOutput = memo<PromptOutputProps>(({
     );
   }, []);
 
-  const renderDiffComparison = useCallback(() => {
-    if (!session.refinedPrompt || !showComparison) return null;
+  const renderDiffComparison = useCallback((): JSX.Element | null => {
+    if (!session.refinedPrompt || !showComparison) {return null;}
 
     const originalWords = session.originalPrompt.split(' ');
     const refinedWords = session.refinedPrompt.split(' ');
@@ -135,7 +134,7 @@ const PromptOutput = memo<PromptOutputProps>(({
     );
   }, [session.originalPrompt, session.refinedPrompt, showComparison, renderPromptText]);
 
-  const renderStatusIndicator = useCallback(() => {
+  const renderStatusIndicator = useCallback((): JSX.Element => {
     const status = session.status;
     
     return (

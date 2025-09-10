@@ -26,7 +26,7 @@ export const PromptInput: React.FC<PromptInputProps> = ({
   const errorId = useId();
 
   // Handle textarea change events
-  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     let newValue = event.target.value;
     
     // Respect maxLength constraint if provided
@@ -38,14 +38,14 @@ export const PromptInput: React.FC<PromptInputProps> = ({
   };
 
   // Handle form submission via button click
-  const handleSubmitClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmitClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     const trimmedValue = value.trim();
     onSubmit(trimmedValue);
   };
 
   // Handle keyboard shortcuts (Ctrl+Enter for submission)
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (event.key === 'Enter' && event.ctrlKey) {
       event.preventDefault();
       const trimmedValue = value.trim();

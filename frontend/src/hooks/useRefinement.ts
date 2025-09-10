@@ -51,11 +51,11 @@ export function useRefinement(): UseRefinementResult {
   const [isRefining, setIsRefining] = useState(false);
   const [error, setError] = useState<RefinementError | null>(null);
 
-  const clearError = useCallback(() => {
+  const clearError = useCallback((): void => {
     setError(null);
   }, []);
 
-  const analyzePrompt = useCallback(async () => {
+  const analyzePrompt = useCallback(async (): Promise<void> => {
     if (!currentPrompt.trim()) {
       setError({
         type: 'validation',
@@ -97,7 +97,7 @@ export function useRefinement(): UseRefinementResult {
       const updatedSession: PromptRefinementSession = {
         ...newSession,
         analysisResults: analyses,
-        educationTips: educationTips,
+        educationTips,
         status: analyses.length > 0 ? 'draft' : 'refined'
       };
 
@@ -117,7 +117,7 @@ export function useRefinement(): UseRefinementResult {
     }
   }, [currentPrompt, setCurrentSession, clearCurrentSession, state.userPreferences.preferredComplexityLevel]);
 
-  const refinePrompt = useCallback(async () => {
+  const refinePrompt = useCallback(async (): Promise<void> => {
     if (!state.currentSession || state.currentSession.analysisResults.length === 0) {
       setError({
         type: 'refinement',
@@ -160,7 +160,7 @@ export function useRefinement(): UseRefinementResult {
     }
   }, [state.currentSession, setCurrentSession]);
 
-  const resetSession = useCallback(() => {
+  const resetSession = useCallback((): void => {
     setCurrentPrompt('');
     clearCurrentSession();
     setError(null);
@@ -169,7 +169,7 @@ export function useRefinement(): UseRefinementResult {
   }, [clearCurrentSession]);
 
   const getEducationTips = useCallback((): EducationTip[] => {
-    if (!state.currentSession) return [];
+    if (!state.currentSession) {return [];}
     return state.currentSession.educationTips;
   }, [state.currentSession]);
 
@@ -205,7 +205,7 @@ export function useSessionHistory(): UseSessionHistoryResult {
     }
   }, []);
 
-  const saveCurrentSession = useCallback(() => {
+  const saveCurrentSession = useCallback((): void => {
     if (!state.currentSession) {
       return;
     }
@@ -227,7 +227,7 @@ export function useSessionHistory(): UseSessionHistoryResult {
     }
   }, [state.currentSession, addToHistory]);
 
-  const loadSession = useCallback((sessionId: string) => {
+  const loadSession = useCallback((sessionId: string): void => {
     try {
       const session = storageService.getSessionById(sessionId);
       if (session) {
@@ -238,7 +238,7 @@ export function useSessionHistory(): UseSessionHistoryResult {
     }
   }, [setCurrentSession]);
 
-  const deleteSession = useCallback((sessionId: string) => {
+  const deleteSession = useCallback((sessionId: string): void => {
     try {
       storageService.deleteSession(sessionId);
       setSessionHistory(prev => prev.filter(s => s.id !== sessionId));
@@ -247,7 +247,7 @@ export function useSessionHistory(): UseSessionHistoryResult {
     }
   }, []);
 
-  const clearHistory = useCallback(() => {
+  const clearHistory = useCallback((): void => {
     try {
       storageService.clearSessions();
       setSessionHistory([]);
@@ -271,15 +271,15 @@ export function useSessionHistory(): UseSessionHistoryResult {
 export function usePreferences() {
   const { state, updatePreferences } = useAppContext();
 
-  const toggleDarkMode = useCallback(() => {
+  const toggleDarkMode = useCallback((): void => {
     updatePreferences({ darkMode: !state.userPreferences.darkMode });
   }, [state.userPreferences.darkMode, updatePreferences]);
 
-  const toggleEducationTips = useCallback(() => {
+  const toggleEducationTips = useCallback((): void => {
     updatePreferences({ showEducationTips: !state.userPreferences.showEducationTips });
   }, [state.userPreferences.showEducationTips, updatePreferences]);
 
-  const setComplexityLevel = useCallback((level: 'beginner' | 'intermediate' | 'advanced') => {
+  const setComplexityLevel = useCallback((level: 'beginner' | 'intermediate' | 'advanced'): void => {
     updatePreferences({ preferredComplexityLevel: level });
   }, [updatePreferences]);
 
@@ -299,20 +299,20 @@ export function useWorkflow() {
   const refinement = useRefinement();
   const sessionHistory = useSessionHistory();
 
-  const startNewRefinement = useCallback(async (prompt: string) => {
+  const startNewRefinement = useCallback(async (prompt: string): Promise<void> => {
     refinement.resetSession();
     refinement.setCurrentPrompt(prompt);
     await refinement.analyzePrompt();
   }, [refinement]);
 
-  const completeRefinement = useCallback(async () => {
+  const completeRefinement = useCallback(async (): Promise<void> => {
     if (refinement.currentSession?.analysisResults.length) {
       await refinement.refinePrompt();
       sessionHistory.saveCurrentSession();
     }
   }, [refinement, sessionHistory]);
 
-  const retryOnError = useCallback(async () => {
+  const retryOnError = useCallback(async (): Promise<void> => {
     if (refinement.error?.type === 'analysis') {
       refinement.clearError();
       await refinement.analyzePrompt();

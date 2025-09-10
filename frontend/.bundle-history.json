@@ -1,0 +1,267 @@
+{
+  "snapshots": [
+    {
+      "timestamp": "2025-09-10T02:19:13.071Z",
+      "git": {
+        "branch": "unknown",
+        "commit": "unknown",
+        "message": "No git info available"
+      },
+      "files": [
+        {
+          "name": "react-vendor-CFJApZgf.js.map",
+          "path": "js/react-vendor-CFJApZgf.js.map",
+          "size": 850454,
+          "gzipSize": 197326,
+          "type": "other"
+        },
+        {
+          "name": "react-vendor-CFJApZgf.js.gz",
+          "path": "js/react-vendor-CFJApZgf.js.gz",
+          "size": 56045,
+          "gzipSize": 56083,
+          "type": "other"
+        },
+        {
+          "name": "react-vendor-CFJApZgf.js",
+          "path": "js/react-vendor-CFJApZgf.js",
+          "size": 178076,
+          "gzipSize": 56045,
+          "type": "javascript"
+        },
+        {
+          "name": "react-vendor-CFJApZgf.js.br",
+          "path": "js/react-vendor-CFJApZgf.js.br",
+          "size": 48332,
+          "gzipSize": 48365,
+          "type": "other"
+        },
+        {
+          "name": "example-prompts.json.gz",
+          "path": "data/example-prompts.json.gz",
+          "size": 6382,
+          "gzipSize": 6405,
+          "type": "other"
+        },
+        {
+          "name": "example-prompts.json",
+          "path": "data/example-prompts.json",
+          "size": 20708,
+          "gzipSize": 6382,
+          "type": "other"
+        },
+        {
+          "name": "vendor-CT7Sf4Tf.js.map",
+          "path": "js/vendor-CT7Sf4Tf.js.map",
+          "size": 17323,
+          "gzipSize": 5137,
+          "type": "other"
+        },
+        {
+          "name": "example-prompts.json.br",
+          "path": "data/example-prompts.json.br",
+          "size": 4943,
+          "gzipSize": 4966,
+          "type": "other"
+        },
+        {
+          "name": "education-tips.json.gz",
+          "path": "data/education-tips.json.gz",
+          "size": 4473,
+          "gzipSize": 4496,
+          "type": "other"
+        },
+        {
+          "name": "education-tips.json",
+          "path": "data/education-tips.json",
+          "size": 14506,
+          "gzipSize": 4473,
+          "type": "other"
+        },
+        {
+          "name": "education-tips.json.br",
+          "path": "data/education-tips.json.br",
+          "size": 3410,
+          "gzipSize": 3433,
+          "type": "other"
+        },
+        {
+          "name": "bundle-stats.json",
+          "path": "bundle-stats.json",
+          "size": 19056,
+          "gzipSize": 1971,
+          "type": "other"
+        },
+        {
+          "name": "vendor-CT7Sf4Tf.js.gz",
+          "path": "js/vendor-CT7Sf4Tf.js.gz",
+          "size": 1469,
+          "gzipSize": 1492,
+          "type": "other"
+        },
+        {
+          "name": "vendor-CT7Sf4Tf.js",
+          "path": "js/vendor-CT7Sf4Tf.js",
+          "size": 3454,
+          "gzipSize": 1469,
+          "type": "javascript"
+        },
+        {
+          "name": "icon-512x512.svg",
+          "path": "icon-512x512.svg",
+          "size": 4791,
+          "gzipSize": 1357,
+          "type": "image"
+        },
+        {
+          "name": "vendor-CT7Sf4Tf.js.br",
+          "path": "js/vendor-CT7Sf4Tf.js.br",
+          "size": 1329,
+          "gzipSize": 1352,
+          "type": "other"
+        },
+        {
+          "name": "ICONS_README.md",
+          "path": "ICONS_README.md",
+          "size": 2186,
+          "gzipSize": 1014,
+          "type": "other"
+        },
+        {
+          "name": "index-Djp4_dBk.js.map",
+          "path": "js/index-Djp4_dBk.js.map",
+          "size": 1963,
+          "gzipSize": 852,
+          "type": "other"
+        },
+        {
+          "name": "icon-192x192.svg",
+          "path": "icon-192x192.svg",
+          "size": 2083,
+          "gzipSize": 845,
+          "type": "image"
+        },
+        {
+          "name": "index-Djp4_dBk.js.gz",
+          "path": "js/index-Djp4_dBk.js.gz",
+          "size": 799,
+          "gzipSize": 822,
+          "type": "other"
+        },
+        {
+          "name": "index-Djp4_dBk.js",
+          "path": "js/index-Djp4_dBk.js",
+          "size": 1741,
+          "gzipSize": 799,
+          "type": "javascript"
+        },
+        {
+          "name": "vite.svg",
+          "path": "vite.svg",
+          "size": 1497,
+          "gzipSize": 775,
+          "type": "image"
+        },
+        {
+          "name": "icon-512x512.png.svg",
+          "path": "icon-512x512.png.svg",
+          "size": 2470,
+          "gzipSize": 742,
+          "type": "image"
+        },
+        {
+          "name": "index-Djp4_dBk.js.br",
+          "path": "js/index-Djp4_dBk.js.br",
+          "size": 660,
+          "gzipSize": 683,
+          "type": "other"
+        },
+        {
+          "name": "apple-touch-icon.svg",
+          "path": "apple-touch-icon.svg",
+          "size": 1764,
+          "gzipSize": 682,
+          "type": "image"
+        },
+        {
+          "name": "icon-192x192.png.svg",
+          "path": "icon-192x192.png.svg",
+          "size": 1384,
+          "gzipSize": 573,
+          "type": "image"
+        },
+        {
+          "name": "size-check-report.json",
+          "path": "size-check-report.json",
+          "size": 2111,
+          "gzipSize": 554,
+          "type": "other"
+        },
+        {
+          "name": "index.html.gz",
+          "path": "index.html.gz",
+          "size": 530,
+          "gzipSize": 553,
+          "type": "other"
+        },
+        {
+          "name": "index.html",
+          "path": "index.html",
+          "size": 1260,
+          "gzipSize": 530,
+          "type": "other"
+        },
+        {
+          "name": "favicon-32x32.svg",
+          "path": "favicon-32x32.svg",
+          "size": 823,
+          "gzipSize": 467,
+          "type": "image"
+        },
+        {
+          "name": "favicon.svg",
+          "path": "favicon.svg",
+          "size": 774,
+          "gzipSize": 415,
+          "type": "image"
+        },
+        {
+          "name": "manifest.json",
+          "path": "manifest.json",
+          "size": 967,
+          "gzipSize": 400,
+          "type": "other"
+        },
+        {
+          "name": "index.html.br",
+          "path": "index.html.br",
+          "size": 368,
+          "gzipSize": 391,
+          "type": "other"
+        },
+        {
+          "name": "favicon-16x16.svg",
+          "path": "favicon-16x16.svg",
+          "size": 492,
+          "gzipSize": 332,
+          "type": "image"
+        }
+      ],
+      "summary": {
+        "totalSize": 1258623,
+        "totalGzipSize": 412181,
+        "jsSize": 183271,
+        "jsGzipSize": 58313,
+        "cssSize": 0,
+        "cssGzipSize": 0,
+        "assetSize": 1075352,
+        "assetGzipSize": 353868,
+        "fileCount": 34
+      }
+    }
+  ],
+  "settings": {
+    "maxSnapshots": 50,
+    "regressionThreshold": 0.1
+  }
+}

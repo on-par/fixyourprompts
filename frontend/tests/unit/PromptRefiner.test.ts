@@ -14,10 +14,8 @@ import type {
   PromptRefinerContract,
   PromptAnalysis,
   PromptImprovement,
-  RefinementResult,
   PromptIssue,
-  AnalysisType,
-  ImprovementType
+  AnalysisType
 } from '../../src/types/services';
 
 // This import will FAIL until the PromptRefiner service is implemented
@@ -518,7 +516,7 @@ Requirements: 10 pages`;
         "Deploy app"
       ];
       
-      const analyses = prompts.map(p => [{
+      const analyses = prompts.map(_p => [{
         id: 'test-analysis',
         type: 'vagueness' as AnalysisType,
         issue: 'Vague prompt',

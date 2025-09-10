@@ -89,7 +89,7 @@ export interface RouterProviderProps {
 export function RouterProvider({ children, initialRoute }: RouterProviderProps) {
   // Initialize route from URL or provided initial route
   const [currentRoute, setCurrentRoute] = useState<Route>(() => {
-    if (initialRoute) return initialRoute;
+    if (initialRoute) {return initialRoute;}
     if (typeof window !== 'undefined') {
       return getRouteFromPath(window.location.pathname);
     }
@@ -106,7 +106,7 @@ export function RouterProvider({ children, initialRoute }: RouterProviderProps) 
 
   // Handle browser navigation
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {return;}
 
     const handlePopState = () => {
       const newRoute = getRouteFromPath(window.location.pathname);
@@ -118,7 +118,7 @@ export function RouterProvider({ children, initialRoute }: RouterProviderProps) 
   }, []);
 
   const navigate = useCallback((route: Route) => {
-    if (route === currentRoute) return;
+    if (route === currentRoute) {return;}
 
     setCurrentRoute(route);
     

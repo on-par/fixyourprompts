@@ -11,10 +11,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import type { EducationContentContract } from '../../types/services';
 import type { 
-  EducationTip, 
   EducationCategory, 
-  PromptAnalysis, 
-  AnalysisType 
+  PromptAnalysis 
 } from '../../types/core';
 
 // This import will fail initially - that's expected in RED phase
