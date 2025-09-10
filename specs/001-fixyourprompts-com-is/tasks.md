@@ -74,10 +74,10 @@ Based on TypeScript + React + Vite + Vitest + Playwright architecture:
 - [x] T042 [P] Create application manifest.json for PWA features
 
 ## Phase 3.8: Advanced E2E Testing
-- [ ] T043 [P] E2E test for mobile responsive design in frontend/tests/e2e/responsive.spec.ts
-- [ ] T044 [P] E2E test for keyboard navigation accessibility in frontend/tests/e2e/accessibility.spec.ts
-- [ ] T045 [P] E2E test for error handling scenarios in frontend/tests/e2e/error-handling.spec.ts
-- [ ] T046 [P] E2E performance testing in frontend/tests/e2e/performance.spec.ts
+- [x] T043 [P] E2E test for mobile responsive design in frontend/tests/e2e/responsive.spec.ts
+- [x] T044 [P] E2E test for keyboard navigation accessibility in frontend/tests/e2e/accessibility.spec.ts
+- [x] T045 [P] E2E test for error handling scenarios in frontend/tests/e2e/error-handling.spec.ts
+- [x] T046 [P] E2E performance testing in frontend/tests/e2e/performance.spec.ts
 
 ## Phase 3.9: Build & Deployment
 - [ ] T047 [P] Production build optimization in frontend/vite.config.ts
