@@ -46,12 +46,12 @@ export function basicUsageExamples(): void {
  */
 export function apiConfigurationExamples(): void {
   // Get API configuration
-  const { api } = env;
+  const { api: _api } = env;
   
   // Build API URLs
-  const baseApiUrl = getApiUrl(); // e.g., "http://localhost:3000/v1"
-  const usersEndpoint = getApiUrl('users'); // e.g., "http://localhost:3000/v1/users"
-  const promptsEndpoint = getApiUrl('prompts'); // e.g., "http://localhost:3000/v1/prompts"
+  const _baseApiUrl = getApiUrl(); // e.g., "http://localhost:3000/v1"
+  const _usersEndpoint = getApiUrl('users'); // e.g., "http://localhost:3000/v1/users"
+  const _promptsEndpoint = getApiUrl('prompts'); // e.g., "http://localhost:3000/v1/prompts"
   
   // console.log('API Base URL:', baseApiUrl);
   // console.log('Users endpoint:', usersEndpoint);
@@ -84,7 +84,7 @@ export function featureFlagsExamples(): void {
   }
   
   // Access all feature flags
-  const { features } = env;
+  const { features: _features } = env;
   // console.log('All enabled features:', 
   //   Object.entries(features)
   //     .filter(([, enabled]) => enabled)
@@ -117,25 +117,25 @@ export function debugConfigurationExamples(): void {
   }
   
   // Conditional logging based on log level
-  function logDebug(message: string): void {
+  function logDebug(_message: string): void {
     if (debug.logLevel === 'debug') {
   // console.debug(message);
     }
   }
   
-  function logInfo(message: string): void {
+  function logInfo(_message: string): void {
     if (['debug', 'info'].includes(debug.logLevel)) {
   // console.info(message);
     }
   }
   
-  function logWarn(message: string): void {
+  function logWarn(_message: string): void {
     if (['debug', 'info', 'warn'].includes(debug.logLevel)) {
   // console.warn(message);
     }
   }
   
-  function logError(message: string): void {
+  function logError(_message: string): void {
   // console.error(message); // Always log errors
   }
   
@@ -252,7 +252,7 @@ export function serviceConfigurationExample(): { analyticsConfig: { enabled: boo
   
   // Analytics service configuration
   if (features.enableAnalytics) {
-    const analyticsConfig = {
+    const _analyticsConfig = {
       enabled: true,
       debugMode: debug.enabled,
       apiEndpoint: getApiUrl('analytics'),
@@ -291,7 +291,7 @@ export function serviceConfigurationExample(): { analyticsConfig: { enabled: boo
 export function errorHandlingExample(): { handleError: (error: Error, context?: string) => string; } {
   const { debug, environment } = env;
   
-  function handleError(error: Error, context?: string): string {
+  function handleError(error: Error, _context?: string): string {
     // Always log to console in development
     if (debug.enabled) {
   // console.error('Error occurred:', {

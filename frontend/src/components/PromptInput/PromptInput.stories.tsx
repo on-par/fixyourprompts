@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 // import { action } from '@storybook/addon-actions';
 // // import { fn } from '@storybook/test';
 import { PromptInput } from './PromptInput';
-import type { PromptInputProps } from '../../types/components';
+// import type { PromptInputProps } from '../../types/components';
 
 /**
  * PromptInput is the main input component for entering prompts to be analyzed.
@@ -212,7 +212,7 @@ export const Interactive: Story = {
     placeholder: 'Type here to test the interactive features...',
     maxLength: 300,
   },
-  play: async ({ canvasElement, args }) => {
+  play: async () => {
     // This play function can be used for interaction testing
     // For now, it's just a placeholder showing how to set up interactions
   },

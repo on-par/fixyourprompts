@@ -1,0 +1,224 @@
+openapi: 3.0.0
+info:
+  title: User API Keys Service
+  version: 1.0.0
+  description: API for managing user-provided AI provider API keys
+
+paths:
+  /api/keys:
+    post:
+      summary: Store a new API key
+      operationId: storeApiKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - provider
+                - key
+              properties:
+                provider:
+                  type: string
+                  enum: [openai, anthropic, openrouter]
+                  description: AI provider name
+                key:
+                  type: string
+                  description: Raw API key to be encrypted and stored
+      responses:
+        '201':
+          description: Key stored successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyMetadata'
+        '400':
+          description: Invalid request or validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Key already exists for this provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      summary: List user's API keys (metadata only)
+      operationId: listApiKeys
+      responses:
+        '200':
+          description: List of user's API key metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ApiKeyMetadata'
+
+  /api/keys/{provider}:
+    put:
+      summary: Update an existing API key
+      operationId: updateApiKey
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [openai, anthropic, openrouter]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - key
+              properties:
+                key:
+                  type: string
+                  description: New API key to replace existing one
+      responses:
+        '200':
+          description: Key updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeyMetadata'
+        '400':
+          description: Invalid request or validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: No existing key for this provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Remove an API key
+      operationId: deleteApiKey
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [openai, anthropic, openrouter]
+      responses:
+        '204':
+          description: Key deleted successfully
+        '404':
+          description: No key found for this provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/keys/validate:
+    post:
+      summary: Validate an API key
+      operationId: validateApiKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - provider
+                - key
+              properties:
+                provider:
+                  type: string
+                  enum: [openai, anthropic, openrouter]
+                key:
+                  type: string
+                  description: API key to validate
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
+                    description: Whether the key is valid
+                  message:
+                    type: string
+                    description: Validation message
+                  provider:
+                    type: string
+                    enum: [openai, anthropic, openrouter]
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    ApiKeyMetadata:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum: [openai, anthropic, openrouter]
+        maskedKey:
+          type: string
+          description: Masked version showing last 4 characters
+          example: "****-****-****-abc123"
+        isActive:
+          type: boolean
+          description: Whether the key is active
+        validatedAt:
+          type: string
+          format: date-time
+          description: Last successful validation timestamp
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Error message
+        code:
+          type: string
+          description: Error code
+        details:
+          type: object
+          description: Additional error details
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

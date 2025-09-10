@@ -11,10 +11,10 @@ import {
   PromptAnalysis,
   PromptImprovement,
   EducationTip,
-  RefinementStatus,
-  AnalysisType,
-  ImprovementType,
-  EducationCategory
+  RefinementStatus as _RefinementStatus,
+  AnalysisType as _AnalysisType,
+  ImprovementType as _ImprovementType,
+  EducationCategory as _EducationCategory
 } from '../../types/core';
 
 /**
@@ -246,7 +246,7 @@ export const createMockSessionHistory = (count: number): PromptRefinementSession
  * Mock clipboard for testing copy functionality
  * Note: vi must be imported in the test file where this is used
  */
-export const createMockClipboard = (vi: any) => ({
+export const createMockClipboard = (vi: { fn: () => { mockResolvedValue: (value: unknown) => void } }) => ({
   writeText: vi.fn().mockResolvedValue(undefined),
   readText: vi.fn().mockResolvedValue(''),
 });
@@ -255,7 +255,7 @@ export const createMockClipboard = (vi: any) => ({
  * Sets up clipboard mocking for tests
  * @param mockClipboard - The mock clipboard object created with vi
  */
-export const setupClipboardMock = (mockClipboard: any) => {
+export const setupClipboardMock = (mockClipboard: { writeText: { mockClear: () => void }; readText: { mockClear: () => void } }) => {
   Object.assign(navigator, {
     clipboard: mockClipboard
   });

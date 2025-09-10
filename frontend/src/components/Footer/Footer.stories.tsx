@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from '@storybook/addon-actions';
 // import { fn } from '@storybook/test';
 import { Footer } from './Footer';
-import type { FooterProps } from '../../types/components';
+// import type { FooterProps } from '../../types/components';
 
 /**
  * Footer provides essential links and information for the FixYourPrompts application.
@@ -247,7 +247,7 @@ export const DesktopView: Story = {
 export const InPageContext: Story = {
   args: {},
   decorators: [
-    (Story) => (
+    (Story): JSX.Element => (
       <div style={{ 
         minHeight: '100vh', 
         display: 'flex', 
@@ -340,7 +340,7 @@ export const DarkModePreview: Story = {
     }
   },
   decorators: [
-    (Story) => (
+    (Story): JSX.Element => (
       <div style={{ 
         backgroundColor: '#1a1a1a',
         minHeight: '100vh',
@@ -358,7 +358,7 @@ export const DarkModePreview: Story = {
  */
 export const Interactive: Story = {
   args: {},
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement: _canvasElement, args: _args }) => {
     // This could include interaction tests for:
     // - Clicking on footer links
     // - Keyboard navigation testing

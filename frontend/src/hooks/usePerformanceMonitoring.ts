@@ -238,9 +238,9 @@ export function useProfiler(id: string, onRender?: (id: string, phase: string, a
     id: string,
     phase: 'mount' | 'update',
     actualDuration: number,
-    baseDuration: number,
-    startTime: number,
-    commitTime: number
+    _baseDuration: number,
+    _startTime: number,
+    _commitTime: number
   ) => {
     // Record the profiling data
     performanceMonitor.recordComponentMetric(id, actualDuration);
@@ -271,13 +271,13 @@ export function useMemoryMonitoring() {
   } | null>(null);
 
   useEffect(() => {
-    if (!(performance as any).memory) {
+    if (!(performance as Performance & { memory?: { usedJSHeapSize: number; jsHeapSizeLimit: number; totalJSHeapSize: number } }).memory) {
       console.warn('Memory monitoring not available in this browser');
       return;
     }
 
     const updateMemoryInfo = () => {
-      const memory = (performance as any).memory;
+      const memory = (performance as Performance & { memory: { usedJSHeapSize: number; jsHeapSizeLimit: number; totalJSHeapSize: number } }).memory;
       const usage = (memory.usedJSHeapSize / memory.jsHeapSizeLimit) * 100;
       
       setMemoryInfo({

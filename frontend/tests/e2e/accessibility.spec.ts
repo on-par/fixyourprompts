@@ -128,12 +128,10 @@ test.describe('Accessibility Tests', () => {
 
       // Start from first focusable element
       await page.keyboard.press('Tab')
-      let currentIndex = 0
 
       // Navigate through all elements
       for (let i = 0; i < visibleElements.length - 1; i++) {
         await page.keyboard.press('Tab')
-        currentIndex++
         
         // Verify focus moved to next element
         const focusedElement = page.locator(':focus')
@@ -330,7 +328,7 @@ test.describe('Accessibility Tests', () => {
         const element = formElements.nth(i)
         const ariaLabel = await element.getAttribute('aria-label')
         const ariaLabelledBy = await element.getAttribute('aria-labelledby')
-        const ariaDescribedBy = await element.getAttribute('aria-describedby')
+        const _ariaDescribedBy = await element.getAttribute('aria-describedby')
         const id = await element.getAttribute('id')
         
         // Check if there's a label element associated
@@ -492,7 +490,7 @@ test.describe('Accessibility Tests', () => {
             for (let i = 0; i < count; i++) {
               const region = liveRegions.nth(i)
               if (await region.isVisible()) {
-                const content = await region.textContent()
+                const _content = await region.textContent()
                 // Should have some content for screen readers
                 // (This is a basic check - in practice, you'd verify specific messages)
               }

@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from '@storybook/addon-actions';
 // import { fn } from '@storybook/test';
 import React from 'react';
 import { ErrorBoundary } from './ErrorBoundary';
-import type { ErrorBoundaryProps } from '../../types/components';
+// import type { ErrorBoundaryProps } from '../../types/components';
 
 // Mock components for testing error scenarios
 const ThrowError: React.FC<{ message?: string; shouldThrow?: boolean }> = ({ 
@@ -445,8 +445,8 @@ export const PerformanceTest: Story = {
  * Real-world usage example wrapping a complex component.
  */
 export const RealWorldExample: Story = {
-  render: (args) => {
-    const MockComplexComponent = () => (
+  render: (args): JSX.Element => {
+    const MockComplexComponent = (): JSX.Element => (
       <div style={{
         padding: '2rem',
         border: '1px solid #e5e7eb',

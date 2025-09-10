@@ -5,7 +5,7 @@
  * Core Web Vitals, component render times, and network performance.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   usePerformanceMetrics,
   useWebVitals,
@@ -29,7 +29,7 @@ const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'vitals' | 'components' | 'network' | 'budgets' | 'alerts'>('vitals');
   const { vitals, getVitalStatus } = useWebVitals();
-  const { metrics, componentMetrics, clearMetrics } = usePerformanceMetrics();
+  const { componentMetrics, clearMetrics } = usePerformanceMetrics();
   const { networkMetrics, averageResponseTime, slowRequests, failedRequests } = useNetworkPerformance();
   const { budgets, violations, hasBudgetViolations } = usePerformanceBudgets();
   const memoryInfo = useMemoryMonitoring();

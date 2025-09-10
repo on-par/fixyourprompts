@@ -267,6 +267,102 @@ export interface ComponentTestContract {
 }
 
 // ============================================
+// API Key Management Types
+// ============================================
+
+/**
+ * Supported AI providers for API keys
+ */
+export type ProviderType = 'openai' | 'anthropic' | 'openrouter';
+
+/**
+ * API key record structure
+ */
+export interface ApiKeyRecord {
+  id: number;
+  userId: string;
+  provider: ProviderType;
+  maskedKey: string;
+  isValid: boolean;
+  lastValidatedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * API key validation result
+ */
+export interface ValidationResult {
+  valid: boolean;
+  message: string;
+}
+
+/**
+ * Request types for API key operations
+ */
+export interface StoreApiKeyRequest {
+  provider: ProviderType;
+  key: string;
+}
+
+export interface UpdateApiKeyRequest {
+  key: string;
+}
+
+export interface ValidateApiKeyRequest {
+  provider: ProviderType;
+  key: string;
+}
+
+/**
+ * Contract for the API Key service
+ * Handles user-provided API keys for AI providers
+ */
+export interface ApiKeyServiceContract {
+  /**
+   * Stores a new API key for a provider
+   * @param request - Store request containing provider and key
+   * @returns Promise resolving to the stored key record
+   */
+  storeApiKey(request: StoreApiKeyRequest): Promise<ApiKeyRecord>;
+
+  /**
+   * Lists all API keys for the current user
+   * @returns Promise resolving to array of key records
+   */
+  listApiKeys(): Promise<ApiKeyRecord[]>;
+
+  /**
+   * Updates an existing API key for a provider
+   * @param provider - The provider to update
+   * @param request - Update request containing new key
+   * @returns Promise resolving to the updated key record
+   */
+  updateApiKey(provider: ProviderType, request: UpdateApiKeyRequest): Promise<ApiKeyRecord>;
+
+  /**
+   * Deletes an API key for a provider
+   * @param provider - The provider to delete
+   * @returns Promise resolving when deletion is complete
+   */
+  deleteApiKey(provider: ProviderType): Promise<void>;
+
+  /**
+   * Validates an API key without storing it
+   * @param request - Validation request containing provider and key
+   * @returns Promise resolving to validation result
+   */
+  validateApiKey(request: ValidateApiKeyRequest): Promise<ValidationResult>;
+
+  /**
+   * Gets the decrypted API key for a provider (used internally by prompt service)
+   * @param provider - The provider to get key for
+   * @returns Promise resolving to the decrypted key or null
+   */
+  getDecryptedKey(provider: ProviderType): Promise<string | null>;
+}
+
+// ============================================
 // Re-export Core Types for Convenience
 // ============================================
 

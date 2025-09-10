@@ -99,7 +99,7 @@ class ErrorHandlingPage {
       // Force a React error by corrupting the component state
       const element = document.querySelector('[data-testid="prompt-input"]')
       if (element) {
-        // @ts-ignore - Intentionally trigger error
+        // @ts-expect-error - Intentionally trigger error
         element._reactInternalFiber = null
       }
     })

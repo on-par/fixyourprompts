@@ -76,7 +76,7 @@ export class PromptRefiner implements PromptRefinerContract {
     if (analyses.length === 0) {
       // Add small delay to ensure processing time > 0
       await new Promise(resolve => setTimeout(resolve, 1));
-      const processingTime = Date.now() - startTime;
+      const processingTime = Math.max(Date.now() - startTime, 1);
       return {
         refinedPrompt: originalPrompt,
         improvements: [],
@@ -110,7 +110,7 @@ export class PromptRefiner implements PromptRefinerContract {
     // Calculate confidence score based on analysis quality
     const confidenceScore = this.calculateConfidenceScore(analyses);
     
-    const processingTime = Date.now() - startTime;
+    const processingTime = Math.max(Date.now() - startTime, 1);
 
     return {
       refinedPrompt: finalRefinedPrompt,

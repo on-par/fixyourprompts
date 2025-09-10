@@ -1,0 +1,202 @@
+/**
+ * API Key Settings Component Styles
+ * 
+ * Styles for the API key management interface with:
+ * - Responsive design
+ * - Dark mode support
+ * - Focus and hover states
+ * - Accessibility features
+ */
+
+.api-key-settings {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  line-height: 1.5;
+}
+
+/* Form elements focus states */
+.api-key-settings select:focus,
+.api-key-settings input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Button hover and focus states */
+.api-key-settings button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.api-key-settings button:focus:not(:disabled) {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.api-key-settings button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Primary button styles */
+.api-key-settings button[style*="background-color: rgb(59, 130, 246)"]:hover:not(:disabled) {
+  background-color: #2563eb !important;
+}
+
+/* Secondary button styles */
+.api-key-settings button[style*="background-color: rgb(243, 244, 246)"]:hover:not(:disabled) {
+  background-color: #e5e7eb !important;
+}
+
+/* Delete button styles */
+.api-key-settings button[style*="color: rgb(220, 38, 38)"]:hover:not(:disabled) {
+  background-color: #fee2e2 !important;
+  border-color: #fca5a5 !important;
+}
+
+/* Key item hover effect */
+.api-key-settings div[style*="background-color: rgb(249, 250, 251)"] {
+  transition: all 0.2s ease;
+}
+
+.api-key-settings div[style*="background-color: rgb(249, 250, 251)"]:hover {
+  background-color: #f3f4f6 !important;
+  border-color: #d1d5db !important;
+}
+
+/* Close button hover */
+.api-key-settings button[aria-label="Close settings"]:hover {
+  background-color: #f3f4f6;
+  color: #374151 !important;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .api-key-settings {
+    padding: 1rem !important;
+    border-radius: 8px !important;
+  }
+
+  .api-key-settings div[style*="display: flex"][style*="gap: 0.75rem"] {
+    flex-direction: column !important;
+  }
+
+  .api-key-settings div[style*="justify-content: space-between"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+
+  .api-key-settings div[style*="display: flex"][style*="gap: 0.5rem"]:last-child {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .api-key-settings {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+  }
+
+  .api-key-settings h2,
+  .api-key-settings h3 {
+    color: #f9fafb !important;
+  }
+
+  .api-key-settings select,
+  .api-key-settings input {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+    color: #f9fafb !important;
+  }
+
+  .api-key-settings select:focus,
+  .api-key-settings input:focus {
+    border-color: #60a5fa !important;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1) !important;
+  }
+
+  .api-key-settings div[style*="background-color: rgb(249, 250, 251)"] {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+  }
+
+  .api-key-settings div[style*="background-color: rgb(249, 250, 251)"]:hover {
+    background-color: #4b5563 !important;
+    border-color: #6b7280 !important;
+  }
+
+  .api-key-settings button[style*="background-color: rgb(243, 244, 246)"] {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+    border-color: #4b5563 !important;
+  }
+
+  .api-key-settings button[style*="background-color: rgb(243, 244, 246)"]:hover:not(:disabled) {
+    background-color: #4b5563 !important;
+  }
+
+  .api-key-settings button[aria-label="Close settings"]:hover {
+    background-color: #374151 !important;
+    color: #f9fafb !important;
+  }
+
+  .api-key-settings div[style*="border-bottom: 1px solid rgb(229, 231, 235)"] {
+    border-bottom-color: #4b5563 !important;
+  }
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.api-key-settings button:disabled {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Accessibility improvements */
+.api-key-settings [role="alert"] {
+  border-radius: 6px;
+  padding: 0.75rem;
+  border-left: 4px solid;
+}
+
+.api-key-settings [role="alert"][style*="color: rgb(220, 38, 38)"] {
+  background-color: #fef2f2;
+  border-left-color: #dc2626;
+}
+
+.api-key-settings [role="alert"][style*="color: rgb(5, 150, 105)"] {
+  background-color: #f0fdf4;
+  border-left-color: #059669;
+}
+
+@media (prefers-color-scheme: dark) {
+  .api-key-settings [role="alert"][style*="color: rgb(220, 38, 38)"] {
+    background-color: #7f1d1d !important;
+    color: #fca5a5 !important;
+  }
+
+  .api-key-settings [role="alert"][style*="color: rgb(5, 150, 105)"] {
+    background-color: #064e3b !important;
+    color: #6ee7b7 !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .api-key-settings button {
+    display: none;
+  }
+  
+  .api-key-settings input[type="password"] {
+    display: none;
+  }
+}

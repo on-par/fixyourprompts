@@ -295,7 +295,7 @@ export function usePreferences(): { toggleDarkMode: () => void; toggleEducationT
 /**
  * Hook for handling workflow orchestration and error recovery
  */
-export function useWorkflow(): { startNewRefinement: (prompt: string) => Promise<void>; retryWithOptions: (options: any) => Promise<void>; canRetry: boolean; workflowState: string } {
+export function useWorkflow(): { startNewRefinement: (prompt: string) => Promise<void>; retryWithOptions: (options: Record<string, unknown>) => Promise<void>; canRetry: boolean; workflowState: string } {
   const refinement = useRefinement();
   const sessionHistory = useSessionHistory();
 

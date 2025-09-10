@@ -25,11 +25,6 @@ const PerformanceWidget: React.FC<PerformanceWidgetProps> = ({
   const { alerts } = usePerformanceAlerts();
   const memoryInfo = useMemoryMonitoring();
 
-  // Hide widget in production unless explicitly enabled
-  if (process.env.NODE_ENV === 'production' && !showInProduction) {
-    return null;
-  }
-
   const handleToggleExpanded = useCallback(() => {
     setIsExpanded(!isExpanded);
   }, [isExpanded]);
@@ -42,6 +37,11 @@ const PerformanceWidget: React.FC<PerformanceWidgetProps> = ({
   const handleCloseFullMonitor = useCallback(() => {
     setShowFullMonitor(false);
   }, []);
+
+  // Hide widget in production unless explicitly enabled
+  if (process.env.NODE_ENV === 'production' && !showInProduction) {
+    return null;
+  }
 
   const formatTime = (time: number): string => {
     if (time < 1000) {return `${time.toFixed(0)}ms`;}

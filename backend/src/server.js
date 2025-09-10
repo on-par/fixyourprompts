@@ -2,10 +2,12 @@
 import fastify from 'fastify';
 
 import refineRoutes from './routes/refine.js';
+import apiKeysRoutes from './routes/api-keys.routes.js';
 
 const server = fastify({ logger: true });
 
 server.register(refineRoutes);
+server.register(apiKeysRoutes);
 
 server.get('/', async (request, reply) => {
   return { hello: 'world' };

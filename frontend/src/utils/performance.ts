@@ -5,7 +5,7 @@
  * and performance budgets in the React application.
  */
 
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
+import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 
 // Performance metric types
 export interface PerformanceMetric {
@@ -68,7 +68,13 @@ class PerformanceMonitor {
   private initializeWebVitals(): void {
     if (!this.isEnabled) {return;}
 
-    const onMetric = (metric: any) => {
+    const onMetric = (metric: {
+      name: string;
+      value: number;
+      delta?: number;
+      id: string;
+      navigationType?: string;
+    }) => {
       const perfMetric: PerformanceMetric = {
         name: metric.name,
         value: metric.value,
@@ -82,11 +88,11 @@ class PerformanceMonitor {
     };
 
     // Core Web Vitals
-    getCLS(onMetric);
-    getFID(onMetric);
-    getFCP(onMetric);
-    getLCP(onMetric);
-    getTTFB(onMetric);
+    onCLS(onMetric);
+    onINP(onMetric);
+    onFCP(onMetric);
+    onLCP(onMetric);
+    onTTFB(onMetric);
   }
 
   /**
@@ -227,21 +233,21 @@ class PerformanceMonitor {
     const originalXHROpen = XMLHttpRequest.prototype.open;
     const originalXHRSend = XMLHttpRequest.prototype.send;
 
-    XMLHttpRequest.prototype.open = function(method: string, url: string | URL, ...args: any[]) {
-      (this as any)._startTime = performance.now();
-      (this as any)._method = method;
-      (this as any)._url = typeof url === 'string' ? url : url.toString();
+    XMLHttpRequest.prototype.open = function(method: string, url: string | URL, ...args: unknown[]) {
+      (this as XMLHttpRequest & { _startTime: number; _method: string; _url: string })._startTime = performance.now();
+      (this as XMLHttpRequest & { _startTime: number; _method: string; _url: string })._method = method;
+      (this as XMLHttpRequest & { _startTime: number; _method: string; _url: string })._url = typeof url === 'string' ? url : url.toString();
       return originalXHROpen.apply(this, [method, url, ...args]);
     };
 
-    XMLHttpRequest.prototype.send = function(...args: any[]) {
+    XMLHttpRequest.prototype.send = function(...args: unknown[]) {
       this.addEventListener('readystatechange', () => {
         if (this.readyState === 4) {
-          const duration = performance.now() - (this as any)._startTime;
+          const duration = performance.now() - (this as XMLHttpRequest & { _startTime: number; _method: string; _url: string })._startTime;
           
           performanceMonitor.recordNetworkMetric({
-            url: (this as any)._url,
-            method: (this as any)._method,
+            url: (this as XMLHttpRequest & { _startTime: number; _method: string; _url: string })._url,
+            method: (this as XMLHttpRequest & { _startTime: number; _method: string; _url: string })._method,
             duration,
             status: this.status,
             timestamp: Date.now(),

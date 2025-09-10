@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from '@storybook/addon-actions';
 // import { fn } from '@storybook/test';
 import EducationPanel from './EducationPanel';
-import type { EducationPanelProps, EducationTip, EducationCategory } from '../../types/components';
+import type { EducationTip, EducationCategory } from '../../types/components';
 
 // Helper function to create mock education categories
 const createMockCategory = (overrides: Partial<EducationCategory> = {}): EducationCategory => ({
@@ -343,7 +343,7 @@ export const ManyTips: Story = {
         title: `Tip #${index + 1}: ${['Clarity', 'Context', 'Structure', 'Examples', 'Constraints'][index % 5]}`,
         content: `This is educational tip number ${index + 1}. It provides valuable guidance on effective prompt writing techniques and best practices. The content is designed to be helpful and actionable for users at different skill levels.`,
         category: Object.values(mockCategories)[index % 4],
-        level: ['beginner', 'intermediate', 'advanced'][index % 3] as any,
+        level: (['beginner', 'intermediate', 'advanced'] as const)[index % 3],
         examples: [
           `Example ${index + 1}A: This shows a good approach to the technique`,
           `Example ${index + 1}B: This shows what to avoid`
@@ -369,7 +369,7 @@ export const Interactive: Story = {
     tips: mockTips,
     userLevel: 'intermediate',
   },
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement: _canvasElement, args: _args }) => {
     // This could include interaction tests for:
     // - Clicking on tips to expand them
     // - Keyboard navigation through tips

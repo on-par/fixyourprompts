@@ -128,7 +128,7 @@ export function validateRelevanceScore(score: number): boolean {
 export function validateSession(session: unknown): session is PromptRefinementSession {
   if (!session || typeof session !== 'object') {return false;}
   
-  const s = session as any;
+  const s = session as Record<string, unknown>;
 
   // Validate required string fields
   if (!validateUUID(s.id)) {return false;}
@@ -162,7 +162,7 @@ export function validateSession(session: unknown): session is PromptRefinementSe
 export function isPromptAnalysis(value: unknown): value is PromptAnalysis {
   if (!value || typeof value !== 'object') {return false;}
   
-  const analysis = value as any;
+  const analysis = value as Record<string, unknown>;
   
   return (
     validateUUID(analysis.id) &&
@@ -183,7 +183,7 @@ export function isPromptAnalysis(value: unknown): value is PromptAnalysis {
 export function isPromptImprovement(value: unknown): value is PromptImprovement {
   if (!value || typeof value !== 'object') {return false;}
   
-  const improvement = value as any;
+  const improvement = value as Record<string, unknown>;
   
   return (
     validateUUID(improvement.id) &&
@@ -203,7 +203,7 @@ export function isPromptImprovement(value: unknown): value is PromptImprovement 
 export function isEducationTip(value: unknown): value is EducationTip {
   if (!value || typeof value !== 'object') {return false;}
   
-  const tip = value as any;
+  const tip = value as Record<string, unknown>;
   
   return (
     validateUUID(tip.id) &&
@@ -244,7 +244,7 @@ function isValidSeverity(value: unknown): value is 'low' | 'medium' | 'high' {
 
 function isValidPosition(value: unknown): value is { start: number; end: number } {
   if (!value || typeof value !== 'object') {return false;}
-  const pos = value as any;
+  const pos = value as Record<string, unknown>;
   return typeof pos.start === 'number' && 
          typeof pos.end === 'number' && 
          pos.start >= 0 && 

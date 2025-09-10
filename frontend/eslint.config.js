@@ -10,7 +10,7 @@ import tseslint from 'typescript-eslint'
 export default tseslint.config([
   // Global ignores
   {
-    ignores: ['dist', 'node_modules', 'coverage', 'build', 'playwright-report', 'test-results'],
+    ignores: ['dist', 'node_modules', 'coverage', 'build', 'playwright-report', 'test-results', 'storybook-static'],
   },
   
   // Main configuration for TypeScript and React files

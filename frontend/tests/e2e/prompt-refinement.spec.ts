@@ -273,7 +273,7 @@ test.describe('Prompt Refinement Journey', () => {
       await promptPage.waitForAnalysisComplete()
     })
 
-    test('should allow users to copy refined prompts to clipboard', async ({ page, context }) => {
+    test('should allow users to copy refined prompts to clipboard', async ({ page: _page, context }) => {
       // Grant clipboard permissions
       await context.grantPermissions(['clipboard-write', 'clipboard-read'])
       
@@ -546,7 +546,7 @@ test.describe('Prompt Refinement Journey', () => {
       expect(feedbackTime).toBeLessThan(100)
     })
 
-    test('should handle concurrent requests properly', async ({ page, context }) => {
+    test('should handle concurrent requests properly', async ({ page: _page, context }) => {
       // Open multiple tabs with same analysis
       const page2 = await context.newPage()
       const promptPage2 = new PromptRefinementPage(page2)

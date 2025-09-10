@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from '@storybook/addon-actions';
 // import { fn } from '@storybook/test';
 import PromptOutput from './PromptOutput';
-import type { PromptOutputProps, PromptRefinementSession } from '../../types/components';
+import type { PromptRefinementSession } from '../../types/components';
 
 // Helper function to create mock session data
 const createMockSession = (overrides: Partial<PromptRefinementSession> = {}): PromptRefinementSession => ({
@@ -350,7 +350,7 @@ export const Interactive: Story = {
   args: {
     session: createMockSession(),
   },
-  play: async ({ canvasElement, args }) => {
+  play: async () => {
     // This could include interaction tests for copy button, new session dialog, etc.
     // For now, it's a placeholder showing the structure
   },

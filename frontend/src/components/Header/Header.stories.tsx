@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from '@storybook/addon-actions';
 // import { fn } from '@storybook/test';
 import { Header } from './Header';
-import type { HeaderProps } from '../../types/components';
+// import type { HeaderProps } from '../../types/components';
 
 /**
  * Header provides the main navigation for the FixYourPrompts application.
@@ -223,7 +223,7 @@ export const DarkModePreview: Story = {
     }
   },
   decorators: [
-    (Story) => (
+    (Story): JSX.Element => (
       <div style={{ 
         backgroundColor: '#1a1a1a',
         minHeight: '100vh',
@@ -244,7 +244,7 @@ export const DarkModePreview: Story = {
  */
 export const Interactive: Story = {
   args: {},
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement: _canvasElement, args: _args }) => {
     // This could include interaction tests for:
     // - Clicking on navigation links
     // - Opening/closing mobile menu
@@ -311,7 +311,7 @@ This story tests accessibility features including:
 export const WithContentBelow: Story = {
   args: {},
   decorators: [
-    (Story) => (
+    (Story): JSX.Element => (
       <div>
         <Story />
         <div style={{ 

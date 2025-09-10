@@ -162,7 +162,7 @@ export class StorageService implements StorageContract {
    * @param value - Object value
    * @returns Serialized value
    */
-  private dateReplacer(key: string, value: any): any {
+  private dateReplacer(_key: string, value: unknown): unknown {
     if (value instanceof Date) {
       return { __date: value.toISOString() };
     }
@@ -175,9 +175,9 @@ export class StorageService implements StorageContract {
    * @param value - Object value
    * @returns Deserialized value
    */
-  private dateReviver(key: string, value: any): any {
-    if (value && typeof value === 'object' && value.__date) {
-      return new Date(value.__date);
+  private dateReviver(_key: string, value: unknown): unknown {
+    if (value && typeof value === 'object' && (value as { __date?: string }).__date) {
+      return new Date((value as { __date: string }).__date);
     }
     return value;
   }
@@ -192,7 +192,7 @@ export class StorageService implements StorageContract {
       return false;
     }
 
-    const p = prefs as any;
+    const p = prefs as Record<string, unknown>;
 
     return (
       typeof p.showEducationTips === 'boolean' &&

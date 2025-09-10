@@ -194,7 +194,7 @@ export function createMonitoredLazyComponent<P extends object>(
           fallback={React.createElement(fallbackComponent, { 
             message: `Loading ${componentName}...`,
             size: 'medium' 
-          } as any)}
+          } as { message: string; size: string })}
         >
           <LazyComponent {...props} />
         </Suspense>
@@ -207,11 +207,11 @@ export function createMonitoredLazyComponent<P extends object>(
 }
 
 // Utility to measure async operations
-export function withAsyncPerformanceTracking<T extends (...args: any[]) => Promise<any>>(
+export function withAsyncPerformanceTracking<T extends (...args: unknown[]) => Promise<unknown>>(
   asyncFn: T,
   operationName: string
 ): T {
-  return (async (...args: any[]) => {
+  return (async (...args: unknown[]) => {
     const startTime = performance.now();
     
     try {
@@ -254,7 +254,7 @@ export function withAsyncPerformanceTracking<T extends (...args: any[]) => Promi
 
 // Performance monitoring decorator for class components
 export function performanceMonitoringDecorator(componentName: string) {
-  return function<T extends { new(...args: any[]): React.Component }>(constructor: T) {
+  return function<T extends { new(...args: unknown[]): React.Component }>(constructor: T) {
     return class extends constructor {
       private startTime: number = 0;
 
@@ -299,9 +299,9 @@ export const DevToolsProfiler: React.FC<{
     id: string,
     phase: 'mount' | 'update',
     actualDuration: number,
-    baseDuration: number,
-    startTime: number,
-    commitTime: number
+    _baseDuration: number,
+    _startTime: number,
+    _commitTime: number
   ) => {
     // Import performance monitor dynamically to avoid circular dependencies
     import('./performance').then(({ performanceMonitor }) => {

@@ -1,8 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { action } from '@storybook/addon-actions';
 // import { fn } from '@storybook/test';
 import { AnalysisPanel } from './AnalysisPanel';
-import type { AnalysisPanelProps, PromptAnalysis } from '../../types/components';
+import type { PromptAnalysis } from '../../types/components';
 
 // Helper function to create mock analysis data
 const createMockAnalysis = (overrides: Partial<PromptAnalysis> = {}): PromptAnalysis => ({
@@ -325,7 +325,7 @@ export const Interactive: Story = {
   args: {
     analyses: mockAnalyses,
   },
-  play: async ({ canvasElement, args }) => {
+  play: async ({ canvasElement: _canvasElement, args: _args }) => {
     // This could include interaction tests for:
     // - Clicking on analysis items to select them
     // - Expanding/collapsing suggestions
@@ -384,8 +384,8 @@ export const ManyAnalyses: Story = {
     analyses: Array.from({ length: 20 }, (_, index) => 
       createMockAnalysis({
         id: `analysis-${index}`,
-        type: ['vagueness', 'missing_context', 'unclear_constraints', 'poor_structure', 'tone_inconsistency', 'missing_examples'][index % 6] as any,
-        severity: ['high', 'medium', 'low'][index % 3] as any,
+        type: ['vagueness', 'missing_context', 'unclear_constraints', 'poor_structure', 'tone_inconsistency', 'missing_examples'][index % 6] as string,
+        severity: (['high', 'medium', 'low'] as const)[index % 3],
         message: `Analysis result #${index + 1}: This is a test analysis to verify performance with many items.`,
         suggestions: [`Suggestion ${index + 1}A: First recommendation`, `Suggestion ${index + 1}B: Second recommendation`]
       })

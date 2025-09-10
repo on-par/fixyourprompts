@@ -10,6 +10,9 @@
  */
 
 import React, { useState } from 'react';
+import { ApiKeysProvider } from '../../context/ApiKeysContext';
+import ProviderSelector from '../ProviderSelector';
+import ApiKeySettings from '../ApiKeySettings';
 import './Header.css';
 
 export interface HeaderProps {
@@ -39,9 +42,18 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(mobileMenuOpen);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const toggleMobileMenu = (): void => {
     setIsMobileMenuOpen(prev => !prev);
+  };
+
+  const openSettings = (): void => {
+    setIsSettingsOpen(true);
+  };
+
+  const closeSettings = (): void => {
+    setIsSettingsOpen(false);
   };
 
   const handleNavigationClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string): void => {
@@ -189,7 +201,7 @@ export const Header: React.FC<HeaderProps> = ({
   `;
 
   return (
-    <>
+    <ApiKeysProvider>
       <style>{mediaQueryStyles}</style>
       <header 
         className={`header ${className}`}
@@ -236,6 +248,43 @@ export const Header: React.FC<HeaderProps> = ({
                   </a>
                 </li>
               ))}
+              {/* Provider Selector */}
+              <li>
+                <ProviderSelector 
+                  size="small"
+                  showSettingsLink={false}
+                />
+              </li>
+              {/* Settings Button */}
+              <li>
+                <button
+                  style={{
+                    ...navLinkStyles,
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    borderRadius: '0.5rem',
+                    padding: '0.5rem 1rem'
+                  }}
+                  onClick={openSettings}
+                  aria-label="Open API key settings"
+                  onMouseEnter={(e) => {
+                    Object.assign(e.currentTarget.style, navLinkHoverStyles);
+                  }}
+                  onMouseLeave={(e) => {
+                    Object.assign(e.currentTarget.style, {
+                      ...navLinkStyles,
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      borderRadius: '0.5rem',
+                      padding: '0.5rem 1rem'
+                    });
+                  }}
+                >
+                  ⚙️ Settings
+                </button>
+              </li>
             </ul>
           </nav>
 
@@ -284,7 +333,34 @@ export const Header: React.FC<HeaderProps> = ({
           </ul>
         </nav>
       </header>
-    </>
+
+      {/* Settings Modal */}
+      {isSettingsOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2000,
+            padding: '1rem'
+          }}
+          onClick={closeSettings}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <ApiKeySettings
+              isModal={true}
+              onClose={closeSettings}
+            />
+          </div>
+        </div>
+      )}
+    </ApiKeysProvider>
   );
 };
 

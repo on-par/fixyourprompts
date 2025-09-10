@@ -22,7 +22,7 @@ export interface ErrorInfo {
   context?: ErrorContext;
   userId?: string;
   sessionId?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export type ErrorType = 
@@ -43,8 +43,8 @@ export interface ErrorContext {
   action?: string;
   userInput?: string;
   route?: string;
-  props?: Record<string, any>;
-  state?: Record<string, any>;
+  props?: Record<string, unknown>;
+  state?: Record<string, unknown>;
   previousErrors?: string[];
   performanceMetrics?: {
     renderTime?: number;
@@ -147,7 +147,7 @@ class ErrorTracker {
       if (target && target !== window) {
         const errorInfo: ErrorInfo = {
           id: this.generateErrorId(),
-          message: `Failed to load resource: ${(target as any).src || (target as any).href || 'unknown'}`,
+          message: `Failed to load resource: ${(target as HTMLImageElement | HTMLLinkElement | HTMLScriptElement).src || (target as HTMLLinkElement).href || 'unknown'}`,
           timestamp: Date.now(),
           url: window.location.href,
           userAgent: navigator.userAgent,
@@ -159,7 +159,7 @@ class ErrorTracker {
           },
           metadata: {
             resourceType: target.tagName,
-            resourceUrl: (target as any).src || (target as any).href,
+            resourceUrl: (target as HTMLImageElement | HTMLLinkElement | HTMLScriptElement).src || (target as HTMLLinkElement).href,
           }
         };
 
@@ -334,7 +334,7 @@ class ErrorTracker {
   trackUserActionError(
     action: string,
     error: Error,
-    context?: Record<string, any>
+    context?: Record<string, unknown>
   ): void {
     const errorInfo: ErrorInfo = {
       id: this.generateErrorId(),
@@ -473,11 +473,11 @@ class ErrorTracker {
   /**
    * Determine error severity based on error object
    */
-  private determineSeverity(error: any): ErrorSeverity {
+  private determineSeverity(error: unknown): ErrorSeverity {
     if (!error) {return 'low';}
 
-    const message = error.message?.toLowerCase() || '';
-    const stack = error.stack?.toLowerCase() || '';
+    const message = (error as Error)?.message?.toLowerCase() || '';
+    const stack = (error as Error)?.stack?.toLowerCase() || '';
 
     // Critical errors
     if (
@@ -527,11 +527,11 @@ export const createErrorBoundary = (componentName: string) => ({
 /**
  * Async error wrapper
  */
-export const withErrorTracking = <T extends (...args: any[]) => Promise<any>>(
+export const withErrorTracking = <T extends (...args: unknown[]) => Promise<unknown>>(
   fn: T,
   context?: string
 ): T => {
-  return (async (...args: any[]) => {
+  return (async (...args: unknown[]) => {
     try {
       return await fn(...args);
     } catch (error) {
