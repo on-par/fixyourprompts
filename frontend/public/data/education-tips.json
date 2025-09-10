@@ -1,0 +1,290 @@
+{
+  "categories": [
+    {
+      "id": "clarity",
+      "name": "Clarity & Precision",
+      "description": "Learn how to write clear, precise prompts that eliminate ambiguity",
+      "tips": [
+        {
+          "id": "tip-1",
+          "title": "Be Specific and Direct",
+          "description": "Use precise language and avoid vague terms. Specify exactly what you want the AI to do.",
+          "example": "Instead of 'Write about dogs', use 'Write a 300-word article about Golden Retrievers as family pets, focusing on their temperament and care requirements.'",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-2",
+          "title": "Define Key Terms",
+          "description": "When using specialized or potentially ambiguous terms, provide clear definitions to ensure the AI understands your intent.",
+          "example": "When asking about 'organic growth' in business, specify: 'By organic growth, I mean increasing revenue through existing operations rather than acquisitions.'",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-3",
+          "title": "Use Active Voice",
+          "description": "Active voice makes your prompts clearer and more direct, reducing ambiguity about who should perform the action.",
+          "example": "Instead of 'The report should be analyzed', use 'Analyze the sales report and identify the top three trends.'",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-4",
+          "title": "Eliminate Redundancy",
+          "description": "Remove unnecessary words and repetitive phrases to make your prompt more focused and easier to process.",
+          "example": "Instead of 'Please help me to understand and comprehend the basic fundamental concepts', use 'Explain the basic concepts of quantum physics.'",
+          "level": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "specificity",
+      "name": "Specificity & Detail",
+      "description": "Master the art of providing the right amount of detail for optimal results",
+      "tips": [
+        {
+          "id": "tip-5",
+          "title": "Specify Output Format",
+          "description": "Clearly state the desired format for the response (bullet points, numbered list, paragraph, table, etc.).",
+          "example": "Create a comparison table with columns for Feature, Product A, and Product B, comparing the top 5 features of these project management tools.",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-6",
+          "title": "Set Length Requirements",
+          "description": "Specify the desired length of the response to get appropriately sized content.",
+          "example": "Write a 150-word summary of climate change causes, suitable for a high school presentation.",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-7",
+          "title": "Define Target Audience",
+          "description": "Specify who the content is for to ensure appropriate tone, complexity, and language level.",
+          "example": "Explain machine learning algorithms to a business executive with no technical background, focusing on practical applications and ROI.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-8",
+          "title": "Include Success Criteria",
+          "description": "Define what a successful response looks like by specifying key elements that must be included.",
+          "example": "Create a marketing email that includes: a compelling subject line, personalized greeting, clear value proposition, and strong call-to-action button.",
+          "level": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "name": "Context & Background",
+      "description": "Provide the right context to help AI understand your situation and goals",
+      "tips": [
+        {
+          "id": "tip-9",
+          "title": "Set the Scene",
+          "description": "Provide relevant background information that helps the AI understand the context of your request.",
+          "example": "I'm a startup founder preparing for Series A funding. Help me create a pitch deck outline that addresses typical investor concerns about SaaS businesses.",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-10",
+          "title": "Specify Your Role",
+          "description": "Tell the AI what role or perspective you're coming from to get more tailored advice.",
+          "example": "As a small business owner with 10 employees, what are the most cost-effective employee benefits I should consider offering?",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-11",
+          "title": "Provide Relevant Constraints",
+          "description": "Share important limitations or constraints that should influence the response.",
+          "example": "Suggest team-building activities for a remote team of 15 people across 4 time zones, with a budget of $50 per person.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-12",
+          "title": "Share Previous Attempts",
+          "description": "If you've tried something before, mention what worked or didn't work to get better suggestions.",
+          "example": "I've tried email marketing and social media ads for my bakery, but had low engagement. What other marketing strategies might work better for local food businesses?",
+          "level": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "name": "Structure & Organization",
+      "description": "Organize your prompts for maximum clarity and effectiveness",
+      "tips": [
+        {
+          "id": "tip-13",
+          "title": "Use Numbered Steps",
+          "description": "Break complex requests into numbered steps to ensure all parts are addressed systematically.",
+          "example": "1. Analyze this customer feedback, 2. Identify the top 3 pain points, 3. Suggest specific improvements for each issue.",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-14",
+          "title": "Separate Instructions from Content",
+          "description": "Clearly distinguish between what you want the AI to do and the content it should work with.",
+          "example": "Task: Summarize the key points from this meeting transcript. Transcript: [paste transcript here]",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-15",
+          "title": "Use Headers and Sections",
+          "description": "Organize complex prompts with clear headers to make them easier to follow.",
+          "example": "## Background: [context] ## Task: [what to do] ## Requirements: [specific needs] ## Output Format: [how to present results]",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-16",
+          "title": "Prioritize Information",
+          "description": "Put the most important information first, followed by supporting details and nice-to-have elements.",
+          "example": "PRIMARY GOAL: Create a content calendar for Q1. MUST INCLUDE: 12 blog posts, 4 case studies. NICE TO HAVE: Social media tie-ins.",
+          "level": "intermediate"
+        }
+      ]
+    },
+    {
+      "id": "examples",
+      "name": "Examples & Templates",
+      "description": "Use examples effectively to guide AI toward your desired output",
+      "tips": [
+        {
+          "id": "tip-17",
+          "title": "Provide Good Examples",
+          "description": "Show the AI exactly what you want by providing high-quality examples of the desired output.",
+          "example": "Write product descriptions like this example: 'Revolutionary wireless headphones that deliver studio-quality sound. Features: 30-hour battery, noise cancellation, comfortable over-ear design. Perfect for audiophiles and commuters.'",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-18",
+          "title": "Show Both Good and Bad Examples",
+          "description": "Contrast examples help the AI understand what to avoid as well as what to emulate.",
+          "example": "Write professional emails. GOOD: 'I hope this email finds you well. I wanted to follow up...' BAD: 'Hey! Just wondering if you got my last message???'",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-19",
+          "title": "Use Template Formats",
+          "description": "Provide a template structure that the AI can fill in with relevant content.",
+          "example": "Use this format for each product review: **Product Name:** [name] **Rating:** [1-5 stars] **Pros:** [bullet points] **Cons:** [bullet points] **Bottom Line:** [summary]",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-20",
+          "title": "Reference Style Guides",
+          "description": "When you want content in a specific style, reference well-known style guides or publications.",
+          "example": "Write this article in the style of Harvard Business Review - analytical, data-driven, with clear subheadings and practical takeaways.",
+          "level": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "constraints",
+      "name": "Constraints & Limitations",
+      "description": "Set appropriate boundaries and limitations for better results",
+      "tips": [
+        {
+          "id": "tip-21",
+          "title": "Set Clear Boundaries",
+          "description": "Define what should and shouldn't be included in the response to keep it focused.",
+          "example": "Explain renewable energy options for homeowners. Focus only on solar and wind. Do not include hydroelectric or geothermal options.",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-22",
+          "title": "Specify Tone and Style",
+          "description": "Guide the AI's writing style by specifying the desired tone, formality level, and voice.",
+          "example": "Write in a friendly, conversational tone suitable for a company blog. Avoid jargon and keep sentences under 20 words.",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-23",
+          "title": "Include Time Constraints",
+          "description": "When relevant, specify time periods or deadlines that should influence the recommendations.",
+          "example": "Suggest a workout routine that can be completed in 30 minutes or less, 3 times per week, suitable for busy professionals.",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-24",
+          "title": "Set Quality Standards",
+          "description": "Define the level of quality, accuracy, or detail you expect in the response.",
+          "example": "Provide a research summary with at least 5 credible sources. Include publication dates and ensure all statistics are from the last 3 years.",
+          "level": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "iteration",
+      "name": "Iteration & Refinement",
+      "description": "Learn how to improve prompts through testing and refinement",
+      "tips": [
+        {
+          "id": "tip-25",
+          "title": "Start Simple, Then Add Detail",
+          "description": "Begin with a basic prompt and gradually add more specific requirements based on the initial results.",
+          "example": "Start with 'Explain blockchain' then refine to 'Explain blockchain technology for small business owners, focusing on practical applications and avoiding technical jargon.'",
+          "level": "beginner"
+        },
+        {
+          "id": "tip-26",
+          "title": "Test Different Approaches",
+          "description": "Try multiple variations of your prompt to see which approach yields the best results.",
+          "example": "Test both 'List the benefits of exercise' and 'You're a fitness coach. Convince someone to start exercising by explaining the benefits.'",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-27",
+          "title": "Use Follow-up Questions",
+          "description": "Build on previous responses with specific follow-up questions to dive deeper or clarify points.",
+          "example": "After getting a general explanation, ask: 'Can you expand on point #3 with a specific real-world example?'",
+          "level": "intermediate"
+        },
+        {
+          "id": "tip-28",
+          "title": "Refine Based on Output",
+          "description": "Analyze the AI's response and adjust your prompt to address any gaps or unwanted elements.",
+          "example": "If the response is too technical, add: 'Explain this in simple terms that a 12-year-old could understand.'",
+          "level": "advanced"
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced Techniques",
+      "description": "Master sophisticated prompting strategies for complex tasks",
+      "tips": [
+        {
+          "id": "tip-29",
+          "title": "Use Role-Playing",
+          "description": "Ask the AI to take on a specific role or persona to get more targeted responses.",
+          "example": "You are a senior marketing director at a Fortune 500 company. How would you approach launching a new product in a saturated market?",
+          "level": "advanced"
+        },
+        {
+          "id": "tip-30",
+          "title": "Chain of Thought Prompting",
+          "description": "Ask the AI to show its reasoning process step-by-step for complex problems.",
+          "example": "Solve this step-by-step, showing your reasoning: A company's revenue increased 25% but profits decreased 10%. What might explain this?",
+          "level": "advanced"
+        },
+        {
+          "id": "tip-31",
+          "title": "Multi-Perspective Analysis",
+          "description": "Request analysis from multiple viewpoints to get comprehensive insights.",
+          "example": "Analyze this business decision from three perspectives: financial impact, employee morale, and customer satisfaction.",
+          "level": "advanced"
+        },
+        {
+          "id": "tip-32",
+          "title": "Metacognitive Prompting",
+          "description": "Ask the AI to think about its own thinking process and potential limitations.",
+          "example": "What assumptions are you making in this analysis? What additional information would improve the accuracy of your recommendations?",
+          "level": "advanced"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-09-10",
+    "totalTips": 32,
+    "totalCategories": 7
+  }
+}

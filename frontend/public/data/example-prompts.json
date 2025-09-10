@@ -1,0 +1,336 @@
+{
+  "examples": [
+    {
+      "id": "example-1",
+      "category": "coding",
+      "level": "beginner",
+      "original": "Write code to sort an array",
+      "improved": "Write a Python function that sorts an array of integers in ascending order using the quicksort algorithm. Include comments explaining the logic and handle edge cases like empty arrays and single-element arrays.",
+      "improvements": [
+        "Added language specification",
+        "Specified algorithm requirement",
+        "Requested code comments",
+        "Mentioned edge cases",
+        "Clarified data type and sort order"
+      ],
+      "explanation": "The improved prompt provides clear requirements including programming language, specific algorithm, documentation needs, and edge case handling. This eliminates ambiguity and ensures the response meets exact needs."
+    },
+    {
+      "id": "example-2",
+      "category": "writing",
+      "level": "intermediate",
+      "original": "Write about climate change",
+      "improved": "Write a 1000-word persuasive essay about the economic impacts of climate change on developing nations, targeting a college-educated audience. Include specific examples from at least three countries and cite credible sources. Use a formal academic tone and structure with clear introduction, body paragraphs, and conclusion.",
+      "improvements": [
+        "Specified word count and format",
+        "Defined target audience",
+        "Narrowed topic focus",
+        "Required specific examples",
+        "Requested citations",
+        "Clarified tone and structure"
+      ],
+      "explanation": "The improved prompt transforms a vague topic into a specific assignment with clear parameters. It defines scope, audience, length, evidence requirements, and formatting expectations."
+    },
+    {
+      "id": "example-3",
+      "category": "analysis",
+      "level": "advanced",
+      "original": "Analyze this data",
+      "improved": "Analyze the quarterly sales data in the attached spreadsheet using statistical methods. Identify trends, seasonal patterns, and anomalies. Create visualizations showing year-over-year growth and provide actionable insights for the marketing team. Format your analysis as a business report with executive summary, methodology, findings, and recommendations.",
+      "improvements": [
+        "Specified data source",
+        "Defined analysis methods",
+        "Listed specific objectives",
+        "Requested visualizations",
+        "Identified target audience",
+        "Specified output format"
+      ],
+      "explanation": "The improved prompt provides context about the data, specifies analytical approaches, defines deliverables, and identifies the intended audience. This ensures comprehensive and relevant analysis."
+    },
+    {
+      "id": "example-4",
+      "category": "creative",
+      "level": "beginner",
+      "original": "Write a story",
+      "improved": "Write a 500-word short story about a time traveler who accidentally changes a small detail in the past. Set the story in 1950s America, use first-person narration, and include themes of unintended consequences. The story should have a clear beginning, middle, and end with a twist ending.",
+      "improvements": [
+        "Set specific word count",
+        "Defined plot premise",
+        "Specified setting and time period",
+        "Chose narrative perspective",
+        "Included thematic elements",
+        "Required story structure"
+      ],
+      "explanation": "The improved prompt provides creative constraints that guide the writing process while still allowing for creativity. Constraints often enhance rather than limit creative output."
+    },
+    {
+      "id": "example-5",
+      "category": "research",
+      "level": "intermediate",
+      "original": "Research artificial intelligence",
+      "improved": "Research the current applications of artificial intelligence in healthcare diagnostics. Focus on image recognition technologies used in radiology and pathology. Compile findings from peer-reviewed journals published in the last 3 years. Create a summary including current capabilities, limitations, accuracy rates, and regulatory approval status. Include at least 10 credible sources.",
+      "improvements": [
+        "Narrowed research scope",
+        "Specified application domain",
+        "Defined technology focus",
+        "Set publication timeframe",
+        "Listed required information",
+        "Specified source requirements"
+      ],
+      "explanation": "The improved prompt transforms a broad research topic into a focused investigation with clear parameters for scope, sources, timeframe, and deliverables."
+    },
+    {
+      "id": "example-6",
+      "category": "coding",
+      "level": "advanced",
+      "original": "Fix this bug",
+      "improved": "Debug the JavaScript function below that's supposed to calculate compound interest but returns incorrect values. The function should take principal amount, annual interest rate (as decimal), and number of years as parameters. Identify the error in the logic, explain why it's wrong, provide the corrected code, and include test cases to verify the fix.\n\n```javascript\nfunction calculateCompoundInterest(principal, rate, years) {\n  return principal * rate * years;\n}\n```",
+      "improvements": [
+        "Provided actual code to debug",
+        "Explained expected functionality",
+        "Specified parameter details",
+        "Requested error explanation",
+        "Asked for corrected code",
+        "Required test cases"
+      ],
+      "explanation": "The improved prompt includes the problematic code, clearly describes expected behavior, and requests both diagnosis and solution with verification. This enables targeted debugging assistance."
+    },
+    {
+      "id": "example-7",
+      "category": "business",
+      "level": "intermediate",
+      "original": "Help me with marketing",
+      "improved": "Develop a digital marketing strategy for a new fitness app targeting busy professionals aged 25-40. The app offers 15-minute workout routines and costs $9.99/month. Create a 6-month launch plan including target channels (social media, content marketing, partnerships), budget allocation recommendations, key performance indicators, and content calendar for the first month.",
+      "improvements": [
+        "Defined specific product",
+        "Identified target demographic",
+        "Specified pricing model",
+        "Set timeline parameters",
+        "Listed required components",
+        "Requested metrics framework"
+      ],
+      "explanation": "The improved prompt provides essential context about the product, market, and business model while specifying exactly what deliverables are needed for a comprehensive marketing strategy."
+    },
+    {
+      "id": "example-8",
+      "category": "education",
+      "level": "beginner",
+      "original": "Explain photosynthesis",
+      "improved": "Explain photosynthesis to a 10-year-old student using simple language and analogies. Include the basic inputs (sunlight, water, carbon dioxide) and outputs (glucose, oxygen). Use everyday comparisons like cooking or building to make the process relatable. Keep the explanation under 200 words and suggest a simple experiment they could do at home.",
+      "improvements": [
+        "Defined target audience age",
+        "Specified language complexity",
+        "Required use of analogies",
+        "Listed key concepts to cover",
+        "Set word limit",
+        "Requested practical application"
+      ],
+      "explanation": "The improved prompt ensures age-appropriate content by specifying the audience, communication style, key points, and practical elements. This results in more effective educational content."
+    },
+    {
+      "id": "example-9",
+      "category": "creative",
+      "level": "advanced",
+      "original": "Design a character",
+      "improved": "Design a complex antagonist for a cyberpunk novel set in 2087. The character should be a former AI researcher turned corporate executive who believes AI consciousness is humanity's next evolutionary step. Develop their backstory, motivation, moral philosophy, distinctive appearance, speech patterns, and character arc. Include how they justify their actions and what makes them sympathetic despite being the antagonist.",
+      "improvements": [
+        "Specified genre and setting",
+        "Defined character role",
+        "Provided background concept",
+        "Listed character development areas",
+        "Required moral complexity",
+        "Asked for sympathetic elements"
+      ],
+      "explanation": "The improved prompt provides genre context and specific requirements for character depth. It ensures the character will be multi-dimensional and suitable for the story's themes."
+    },
+    {
+      "id": "example-10",
+      "category": "analysis",
+      "level": "beginner",
+      "original": "Compare two products",
+      "improved": "Compare the iPhone 15 and Samsung Galaxy S24 for a college student with a $800 budget. Focus on camera quality, battery life, app ecosystem, durability, and value for money. Present findings in a comparison table and provide a recommendation with reasoning. Consider typical student use cases like photography, studying, social media, and entertainment.",
+      "improvements": [
+        "Specified exact products",
+        "Defined target user",
+        "Set budget constraint",
+        "Listed comparison criteria",
+        "Requested specific format",
+        "Included use case context"
+      ],
+      "explanation": "The improved prompt provides context about the user and their needs while specifying what aspects to compare and how to present the results. This ensures relevant and actionable analysis."
+    },
+    {
+      "id": "example-11",
+      "category": "writing",
+      "level": "advanced",
+      "original": "Write professional email",
+      "improved": "Write a professional email to decline a job offer from TechCorp Inc. for a Software Engineer position. Express gratitude for the opportunity, briefly mention that you've accepted another position, maintain positive relationships for future opportunities, and keep the tone respectful and concise. The email should be under 150 words.",
+      "improvements": [
+        "Specified email purpose",
+        "Provided context details",
+        "Listed required elements",
+        "Defined tone requirements",
+        "Set length constraint",
+        "Considered relationship impact"
+      ],
+      "explanation": "The improved prompt provides specific context and requirements for a sensitive professional communication. It ensures the response maintains professionalism while achieving the necessary objective."
+    },
+    {
+      "id": "example-12",
+      "category": "research",
+      "level": "advanced",
+      "original": "Study renewable energy",
+      "improved": "Conduct a comparative analysis of solar and wind energy efficiency in Northern European countries (Sweden, Norway, Denmark, Finland) over the past 5 years. Include capacity factors, cost per MWh, government incentives, and grid integration challenges. Use data from official energy agencies and create charts showing trends. Conclude with recommendations for optimal renewable mix by 2030.",
+      "improvements": [
+        "Specified energy types to compare",
+        "Defined geographical scope",
+        "Set temporal parameters",
+        "Listed specific metrics",
+        "Required official data sources",
+        "Requested data visualization",
+        "Asked for forward-looking analysis"
+      ],
+      "explanation": "The improved prompt creates a focused research scope with specific parameters, metrics, and deliverables. This ensures comprehensive analysis that's both detailed and actionable."
+    },
+    {
+      "id": "example-13",
+      "category": "coding",
+      "level": "intermediate",
+      "original": "Create a website",
+      "improved": "Create a responsive landing page for a local bakery using HTML, CSS, and vanilla JavaScript. Include a hero section with the bakery's name and tagline, a menu section with at least 6 items and prices, an about section with the baker's story, and a contact section with hours and location. Implement a simple image carousel for the menu items and ensure mobile-first design. Use semantic HTML and include proper alt text for accessibility.",
+      "improvements": [
+        "Specified technology stack",
+        "Defined business context",
+        "Listed required sections",
+        "Specified functionality needs",
+        "Required responsive design",
+        "Mentioned accessibility requirements",
+        "Set content parameters"
+      ],
+      "explanation": "The improved prompt provides clear scope, technical requirements, and functional specifications. It considers user experience, accessibility, and modern web development practices."
+    },
+    {
+      "id": "example-14",
+      "category": "problem-solving",
+      "level": "intermediate",
+      "original": "Solve this problem",
+      "improved": "A small restaurant is losing customers due to long wait times during lunch rush (11:30 AM - 1:30 PM). They have 4 tables, 2 cooks, and 1 server. Average meal prep time is 15 minutes, and tables turn over every 45 minutes. Analyze the bottlenecks and propose 3 practical solutions that don't require major capital investment. Consider staffing, process optimization, and customer experience improvements.",
+      "improvements": [
+        "Provided specific problem context",
+        "Included relevant constraints",
+        "Specified current resources",
+        "Added timing information",
+        "Requested specific number of solutions",
+        "Set budget constraints",
+        "Suggested solution categories"
+      ],
+      "explanation": "The improved prompt gives enough detail to analyze the situation while constraining the scope to practical solutions. It provides context and parameters for focused problem-solving."
+    },
+    {
+      "id": "example-15",
+      "category": "education",
+      "level": "advanced",
+      "original": "Teach me calculus",
+      "improved": "Create a 30-minute lesson plan introducing the concept of derivatives to high school students who understand basic algebra and graphing. Start with an intuitive explanation using real-world examples (like speed and distance), then introduce the formal definition, and end with practicing the power rule on simple polynomials. Include 3 practice problems with solutions and suggest visual aids or demonstrations.",
+      "improvements": [
+        "Set specific time constraint",
+        "Defined target concept",
+        "Specified student background",
+        "Outlined lesson structure",
+        "Required practical examples",
+        "Asked for practice problems",
+        "Requested teaching aids"
+      ],
+      "explanation": "The improved prompt structures the teaching request with clear parameters for scope, audience, methodology, and deliverables. This ensures an effective and appropriately targeted lesson."
+    },
+    {
+      "id": "example-16",
+      "category": "creative",
+      "level": "intermediate",
+      "original": "Design a logo",
+      "improved": "Design a logo for 'EcoClean,' an environmentally-friendly cleaning product company. The logo should appeal to health-conscious families, convey cleanliness and sustainability, and work well on product packaging, websites, and business cards. Provide 2-3 concept variations using a green and blue color palette. Include both text and symbol elements, and ensure it's readable at small sizes. Explain the design rationale for each concept.",
+      "improvements": [
+        "Specified company name and industry",
+        "Defined target audience",
+        "Listed key brand attributes",
+        "Specified usage contexts",
+        "Set color palette",
+        "Required multiple concepts",
+        "Asked for design explanation",
+        "Considered scalability"
+      ],
+      "explanation": "The improved prompt provides brand context, target audience, visual requirements, and practical constraints. This ensures the logo design will be both aesthetically appropriate and functionally effective."
+    },
+    {
+      "id": "example-17",
+      "category": "business",
+      "level": "advanced",
+      "original": "Write a business plan",
+      "improved": "Write an executive summary for a business plan for a food truck specializing in gourmet grilled cheese sandwiches in downtown Portland. Target office workers and tourists with $8-12 price point. Include market opportunity, competitive advantage (artisanal ingredients, local partnerships), financial projections for year one (revenue, costs, profit), funding requirements ($75,000 startup), and growth strategy. Keep it to 2 pages maximum.",
+      "improvements": [
+        "Specified section type",
+        "Defined business concept",
+        "Set geographic location",
+        "Identified target customers",
+        "Established pricing strategy",
+        "Listed required components",
+        "Set financial parameters",
+        "Included length constraint"
+      ],
+      "explanation": "The improved prompt provides specific business details and scope while outlining exactly what components need to be included. This ensures a focused and complete executive summary."
+    },
+    {
+      "id": "example-18",
+      "category": "technical",
+      "level": "intermediate",
+      "original": "Explain blockchain",
+      "improved": "Explain blockchain technology to a small business owner considering accepting cryptocurrency payments. Focus on how transactions are verified, why it's secure, what the benefits and risks are for merchants, and what they need to know about volatility and regulation. Use analogies to familiar business concepts and avoid technical jargon. Include practical next steps for getting started.",
+      "improvements": [
+        "Defined specific audience",
+        "Set practical use case context",
+        "Listed key concepts to cover",
+        "Specified communication style",
+        "Required practical application",
+        "Asked for actionable advice",
+        "Considered business implications"
+      ],
+      "explanation": "The improved prompt tailors the explanation to a specific audience and use case, ensuring the information is relevant and actionable rather than purely theoretical."
+    },
+    {
+      "id": "example-19",
+      "category": "health",
+      "level": "beginner",
+      "original": "Give me a workout",
+      "improved": "Create a 20-minute beginner-friendly home workout routine for someone who has been sedentary for 6 months and wants to build basic fitness. Include a 3-minute warm-up, 14 minutes of exercises targeting major muscle groups (no equipment needed), and 3-minute cool-down. Provide exercise descriptions, rep counts, and modifications for different fitness levels. Focus on building confidence and establishing a routine.",
+      "improvements": [
+        "Set specific duration",
+        "Defined fitness level",
+        "Provided context/history",
+        "Specified equipment constraints",
+        "Outlined structure requirements",
+        "Requested exercise details",
+        "Included modification options",
+        "Focused on psychological aspects"
+      ],
+      "explanation": "The improved prompt considers the person's fitness background, practical constraints, and psychological needs. This ensures a safe, appropriate, and motivating workout plan."
+    },
+    {
+      "id": "example-20",
+      "category": "finance",
+      "level": "intermediate",
+      "original": "Help with investing",
+      "improved": "Create a beginner investment strategy for a 28-year-old software engineer earning $85,000 annually, with $10,000 to invest and a moderate risk tolerance. Goals include retirement savings and a house down payment in 5-7 years. Explain asset allocation between stocks, bonds, and other investments, recommend specific account types (401k, IRA, taxable), and suggest low-cost index funds or ETFs. Include tax considerations and a plan for ongoing contributions.",
+      "improvements": [
+        "Provided investor profile",
+        "Specified income and capital",
+        "Defined risk tolerance",
+        "Set clear goals and timeline",
+        "Requested specific strategies",
+        "Asked for account recommendations",
+        "Required product suggestions",
+        "Included tax planning"
+      ],
+      "explanation": "The improved prompt provides comprehensive context about the investor's situation and goals, enabling personalized advice that considers multiple financial factors and time horizons."
+    }
+  ]
+}

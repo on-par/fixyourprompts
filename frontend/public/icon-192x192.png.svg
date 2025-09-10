@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <!-- This SVG is optimized for PNG conversion -->
+  <!-- Background -->
+  <circle cx="96" cy="96" r="88" fill="#4F46E5"/>
+  
+  <!-- Document representation -->
+  <rect x="48" y="40" width="96" height="112" rx="8" fill="white" opacity="0.95"/>
+  
+  <!-- Text lines (before) -->
+  <rect x="60" y="56" width="72" height="4" rx="2" fill="#9CA3AF"/>
+  <rect x="60" y="68" width="60" height="4" rx="2" fill="#9CA3AF"/>
+  <rect x="60" y="80" width="66" height="4" rx="2" fill="#9CA3AF"/>
+  
+  <!-- Arrow -->
+  <polygon points="140,70 148,78 140,86 138,84 144,78 138,72" fill="#F59E0B"/>
+  <rect x="130" y="76" width="12" height="4" rx="2" fill="#F59E0B"/>
+  
+  <!-- Sparkles -->
+  <circle cx="158" cy="65" r="3" fill="#FCD34D"/>
+  <circle cx="165" cy="78" r="2" fill="#FCD34D"/>
+  <circle cx="152" cy="88" r="2.5" fill="#FCD34D"/>
+  
+  <!-- Text lines (after) -->
+  <rect x="60" y="108" width="75" height="4" rx="2" fill="#059669"/>
+  <rect x="60" y="120" width="68" height="4" rx="2" fill="#059669"/>
+  <rect x="60" y="132" width="72" height="4" rx="2" fill="#059669"/>
+  
+  <!-- FYP monogram -->
+  <circle cx="35" cy="35" r="20" fill="#1E293B" opacity="0.8"/>
+  <text x="35" y="42" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">FYP</text>
+</svg>

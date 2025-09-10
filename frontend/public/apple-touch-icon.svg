@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <!-- Apple touch icon optimized design -->
+  <!-- Background with iOS-style rounded corners -->
+  <rect x="0" y="0" width="180" height="180" rx="36" fill="#4F46E5"/>
+  
+  <!-- Main content area -->
+  <rect x="30" y="30" width="120" height="120" rx="12" fill="white" opacity="0.95"/>
+  
+  <!-- Text improvement visualization -->
+  <!-- Before text (messy) -->
+  <rect x="40" y="50" width="60" height="3" rx="1.5" fill="#9CA3AF"/>
+  <rect x="40" y="58" width="45" height="3" rx="1.5" fill="#9CA3AF"/>
+  <rect x="40" y="66" width="55" height="3" rx="1.5" fill="#9CA3AF"/>
+  
+  <!-- Transformation arrow -->
+  <polygon points="110,62 120,67 110,72 108,70 116,67 108,64" fill="#F59E0B"/>
+  <rect x="102" y="65" width="10" height="2" rx="1" fill="#F59E0B"/>
+  
+  <!-- After text (clean) -->
+  <rect x="40" y="90" width="70" height="3" rx="1.5" fill="#059669"/>
+  <rect x="40" y="98" width="65" height="3" rx="1.5" fill="#059669"/>
+  <rect x="40" y="106" width="68" height="3" rx="1.5" fill="#059669"/>
+  <rect x="40" y="114" width="60" height="3" rx="1.5" fill="#059669"/>
+  
+  <!-- FYP branding -->
+  <circle cx="140" cy="50" r="15" fill="#1E293B" opacity="0.9"/>
+  <text x="140" y="56" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">FYP</text>
+  
+  <!-- Sparkles for magic/improvement -->
+  <circle cx="130" cy="80" r="2" fill="#FCD34D"/>
+  <circle cx="120" cy="90" r="1.5" fill="#FCD34D"/>
+  <circle cx="135" cy="95" r="1.8" fill="#FCD34D"/>
+  
+  <!-- Quality indicator -->
+  <circle cx="130" cy="125" r="6" fill="#10B981"/>
+  <polygon points="127,125 129,127 133,123" fill="white" stroke="white" stroke-width="0.5"/>
+</svg>
