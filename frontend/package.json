@@ -59,7 +59,7 @@
     "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-actions": "^9.0.8",
     "@storybook/addon-docs": "^9.1.5",
-    "@storybook/addon-onboarding": "^9.1.5",
+    "@storybook/addon-onboarding": "^9.1.7",
     "@storybook/addon-vitest": "^9.1.5",
     "@storybook/react-vite": "^9.1.5",
     "@testing-library/jest-dom": "^6.8.0",
